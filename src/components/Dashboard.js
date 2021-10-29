@@ -23,6 +23,7 @@ import {
   Redirect,
   Link
 } from 'react-router-dom';
+import AccountMenu from './AccountMenu';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -162,6 +163,7 @@ export default function Dashboard({ routes }) {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
             Dashboard
           </Typography>
+          <AccountMenu/>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -171,8 +173,10 @@ export default function Dashboard({ routes }) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
+
         </Toolbar>
       </AppBar>
+      
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
