@@ -20,6 +20,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import RouteWithSubRoutes from './RouteWithSubRoutes';
 import {
   Switch,
+  Redirect,
   Link
 } from 'react-router-dom';
 const drawerWidth = 240;
@@ -197,6 +198,7 @@ export default function Dashboard({ routes }) {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Switch>
+        <Redirect exact from="/Dashboard" to="/Dashboard/page1" />
           {routes.map((route,i)=>(
             <RouteWithSubRoutes key={i} {...route}/>
           ))}
