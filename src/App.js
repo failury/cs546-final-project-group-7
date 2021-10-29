@@ -1,19 +1,19 @@
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import page1 from "./pages/page1";
-import Dashboard from "./components/Dashboard";
+import { Route,Redirect, Switch } from 'react-router-dom';
+import routes from './routes';
+import RouteWithSubRoutes from './components/RouteWithSubRoutes.js';
+import nofound from './pages/nofound';
 function App() {
   return (
-    <main>
+    <>
       <Switch>
-      <Route path="/" render={(props) => <Dashboard {...props} PageComponent={page1} />} />
-                <Route path="/signin" component={SignIn} />
-                <Route path="/signup" component={SignUp} />
-                <Route path="/page1" component={page1} />
+      <Redirect exact from="/" to="/Dashboard" />
+        {routes.map((route, i) => (
+            <RouteWithSubRoutes key={i} {...route} />
+        ))}
+        <Route component={nofound} />
       </Switch>
-    </main>
+    </>
 
   
   );
