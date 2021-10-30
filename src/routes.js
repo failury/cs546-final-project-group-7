@@ -1,31 +1,45 @@
 import Login from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./components/Dashboard";
-import Page1 from "./pages/page1";
-import Page2 from './pages/page2';
-
+import Transaction from "./pages/Transaction"
+import Wallets from "./pages/Wallets"
+import Reports from "./pages/Reports"
+import Budget from "./pages/Budget"
+import Home from './pages/home';
 const routes = [
     {
-    path: '/login',
-    component: Login,
+        path: '/login',
+        component: Login,
     },
     {
         path: '/signup',
         component: SignUp,
-        },
+    },
     {
-    path: '/Dashboard',
-    component: Dashboard,
-    routes: [              
-        {
-        path: '/Dashboard/page1',
-        component: Page1,
-        },
-        {
-        path: '/Dashboard/page2',
-        component: Page2,
-        },
-    ],
+        path: '/Dashboard',
+        component: Dashboard,
+        routes: [
+            {
+                path: '/Dashboard/Transaction',
+                component: Transaction,
+            },
+            {
+                path: '/Dashboard/Wallets',
+                component: Wallets,
+            },
+            {
+                path: '/Dashboard/Reports',
+                component: Reports,
+            },
+            {
+                path: '/Dashboard/Budget',
+                component: Budget,
+            },
+            {
+                path: '/Dashboard/home',
+                component: Home,
+            },
+        ],
     },
 ];
 

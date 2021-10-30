@@ -8,6 +8,7 @@ import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -21,9 +22,26 @@ import RouteWithSubRoutes from './RouteWithSubRoutes';
 import {
   Switch,
   Redirect,
-  Link
+  Link,
+  Route
 } from 'react-router-dom';
 import AccountMenu from './AccountMenu';
+import AlarmIcon from '@mui/icons-material/Alarm';
+import nofound from '../pages/nofound'
+import PaymentIcon from '@mui/icons-material/Payment';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import ArticleIcon from '@mui/icons-material/Article';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+
+
+
+
+
+
+
+
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -184,28 +202,46 @@ export default function Dashboard({ routes }) {
           </IconButton>
         </DrawerHeader>
         <List>
-          <ListItem button component={Link} to="/Dashboard/page1">
+          <ListItem button component={Link} to="/Dashboard/home">
             <ListItemIcon>
-              <InboxIcon />
+              <HomeIcon />
             </ListItemIcon>
-            <ListItemText primary="Page1" />
+            <ListItemText primary="Home" />
           </ListItem>
-          <ListItem button component={Link} to="/Dashboard/page2">
+          <ListItem button component={Link} to="/Dashboard/Transaction">
             <ListItemIcon>
-              <InboxIcon />
+              <PaymentIcon />
             </ListItemIcon>
-            <ListItemText primary="Page2" />
+            <ListItemText primary="Transaction" />
           </ListItem>
-
+          <ListItem button component={Link} to="/Dashboard/Wallets">
+            <ListItemIcon>
+              <MonetizationOnIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Wallets" />
+          </ListItem>
+          <ListItem button component={Link} to="/Dashboard/Reports">
+            <ListItemIcon>
+              <ArticleIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Reports" />
+          </ListItem>
+          <ListItem button component={Link} to="/Dashboard/Budget">
+            <ListItemIcon>
+              <LocalAtmIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Budget" />
+          </ListItem>
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Switch>
-        <Redirect exact from="/Dashboard" to="/Dashboard/page1" />
+        <Redirect exact from="/Dashboard" to="/Dashboard/home" />
           {routes.map((route,i)=>(
             <RouteWithSubRoutes key={i} {...route}/>
           ))}
+          <Route component={nofound} />
         </Switch>
       </Box>
     </Box>
