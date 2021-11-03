@@ -7,10 +7,8 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Chart from '../components/Chart';
-import Deposits from '../components/Deposits';
-function preventDefault(event) {
-    event.preventDefault();
-}
+import Budget from '../components/Budget';
+import Transaction from '../components/Transacation';
 
 export default function home() {
     return (
@@ -29,7 +27,6 @@ export default function home() {
                         overflow: 'auto',
                     }}
                 >
-                    <Toolbar />
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <Grid container spacing={3}>
                             {/* Chart */}
@@ -55,7 +52,12 @@ export default function home() {
                                         height: 240,
                                     }}
                                 >
-                                    <Deposits />
+                                    <Budget />
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                    <Transaction />
                                 </Paper>
                             </Grid>
                         </Grid>
