@@ -14,4 +14,4 @@ https://reactrouter.com/web/guides/quick-start
 
 ## Other files
 
-[DB proposal](https://github.com/failury/cs546-final-project-group-7/blob/main/DB%20proposal.md)
+[DB proposal](DB%20proposal.md)
