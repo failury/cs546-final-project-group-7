@@ -105,6 +105,7 @@ export default function Budgets() {
             </ListItemIcon>
             <ListItemText primary="Insurence" />
             <ListItemText primary="Rent" />
+            <ListItemText primary="Network" />
           </ListItemButton>
         </List>
       </Collapse>

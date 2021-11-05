@@ -26,8 +26,7 @@ export default function Reports() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-            Aliquam eget maximus est, id dignissim quam.
+            Expense for electronic devices is 3600
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -42,9 +41,7 @@ export default function Reports() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus,
-            varius pulvinar diam eros in elit. Pellentesque convallis laoreet
-            laoreet.
+          Expense for entertainment is 500
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -61,12 +58,11 @@ export default function Reports() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
+          Expense for food is 1300
           </Typography>
         </AccordionDetails>
       </Accordion>
-      
+
       <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -77,8 +73,7 @@ export default function Reports() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
+          Expense for daily usage is 1300
           </Typography>
         </AccordionDetails>
       </Accordion>

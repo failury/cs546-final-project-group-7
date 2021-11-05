@@ -35,7 +35,7 @@ export default function Budget() {
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        height: 360,
+                                        height: 500,
                                     }}
                                 >
                                     <Budgets />
