@@ -15,7 +15,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import RouteWithSubRoutes from './RouteWithSubRoutes';
@@ -26,10 +25,8 @@ import {
   Route
 } from 'react-router-dom';
 import AccountMenu from './AccountMenu';
-import AlarmIcon from '@mui/icons-material/Alarm';
 import nofound from '../pages/nofound'
 import PaymentIcon from '@mui/icons-material/Payment';
-import AssessmentIcon from '@mui/icons-material/Assessment';
 import ArticleIcon from '@mui/icons-material/Article';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
@@ -208,11 +205,11 @@ export default function Dashboard({ routes }) {
             </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem button component={Link} to="/Dashboard/Transaction">
+          <ListItem button component={Link} to="/Dashboard/Transactions">
             <ListItemIcon>
               <PaymentIcon />
             </ListItemIcon>
-            <ListItemText primary="Transaction" />
+            <ListItemText primary="Transactions" />
           </ListItem>
           <ListItem button component={Link} to="/Dashboard/Wallets">
             <ListItemIcon>

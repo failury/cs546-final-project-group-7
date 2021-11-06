@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Chart from '../components/Chart';
 import Budget from '../components/Budget';
 import Transaction from '../components/Transacation';
+import Link from '@mui/material/Link';
 
 export default function home() {
     return (
@@ -58,6 +57,9 @@ export default function home() {
                             <Grid item xs={12}>
                                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                                     <Transaction />
+                                    <Link color="primary" href="Transactions" sx={{ mt: 3 }}>
+                                        See more Transaction
+                                    </Link>
                                 </Paper>
                             </Grid>
                         </Grid>
