@@ -1,7 +1,7 @@
 import Login from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./components/Dashboard";
-import Transaction from "./pages/Transaction"
+import Transactions from "./pages/Transactions"
 import Wallets from "./pages/Wallets"
 import Reports from "./pages/Reports"
 import Budget from "./pages/Budget"
@@ -20,8 +20,8 @@ const routes = [
         component: Dashboard,
         routes: [
             {
-                path: '/Dashboard/Transaction',
-                component: Transaction,
+                path: '/Dashboard/Transactions',
+                component: Transactions,
             },
             {
                 path: '/Dashboard/Wallets',

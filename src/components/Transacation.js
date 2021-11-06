@@ -74,9 +74,6 @@ export default function Transaction() {
           ))}
         </TableBody>
       </Table>
-      <Link color="primary" href="Transaction" sx={{ mt: 3 }}>
-        See more Transaction
-      </Link>
     </React.Fragment>
   );
 }
