@@ -15,6 +15,7 @@ import Link from '@mui/material/Link';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import { Paper } from '@mui/material';
+import CreditCard from '../components/Card';
 
 
 
@@ -53,36 +54,7 @@ export default function Wallets() {
               md={8}
               lg={6}
             >
-              <Card >
-                <CardHeader
-                  title={cards.title}
-                  subheader={cards.wallettype}
-                  titleTypographyProps={{ align: 'center' }}
-                  action={cards.title === 'Pro' ? <StarIcon /> : null}
-                  subheaderTypographyProps={{
-                    align: 'center',
-                  }}
-                />
-                <CardContent>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'baseline',
-                      mb: 2,
-                    }}
-                  >
-                    <Typography component="h2" variant="h3" color="text.primary">
-                      ${cards.amount}
-                    </Typography>
-                  </Box>
-                </CardContent>
-                <CardActions>
-                  <Button fullWidth variant={'contained'}>
-                    Payments
-                  </Button>
-                </CardActions>
-              </Card>
+              <CreditCard/>
             </Grid>
           ))}
         </Grid>
