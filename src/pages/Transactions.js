@@ -7,6 +7,8 @@ import Paper from '@mui/material/Paper';
 import Transaction from '../components/Transacation';
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
+import Divider from '@mui/material/Divider';
+import { Stack } from '@mui/material';
 export default function Transactions() {
     return (
         <div>
@@ -25,23 +27,33 @@ export default function Transactions() {
                     }}
                 >
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <Grid container spacing={3}>
+                        <Fab color="primary" aria-label="add" sx={{
+                            position: "fixed", margin: 0,
+                            top: "auto",
+                            right: 40,
+                            bottom: 40,
+                            left: "auto"
+                        }}>
+                            <AddIcon />
+                        </Fab>
+                        <Stack direction="column" spacing={5} divider={<Divider flexItem />}>
                             <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <Transaction />
-                                    <Fab color="primary" aria-label="add" sx={{
-                                    position:"fixed",margin: 0,
-                                    top: "auto",
-                                    right: 40,
-                                    bottom: 40,
-                                    left: "auto"
-                                }}>
-                                    <AddIcon />
-                                </Fab>
-                                </Paper>
-                                
+                                <Grid item xs={12}>
+                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                        <Transaction title="Recent Transaction" />
+                                    </Paper>
+                                </Grid>
+                                <Grid item xs={2}>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                        <Transaction title="Schedule Transaction" />
+
+                                    </Paper>
+                                </Grid>
+
                             </Grid>
-                        </Grid>
+                        </Stack>
                     </Container>
 
                 </Box>

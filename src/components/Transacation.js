@@ -5,8 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-
-// Generate Order Data
+import Divider from '@mui/material/Divider';
 function createData(id, date, type, category, amount, memo) {
   return { id, date, type, category, amount, memo };
 }
@@ -47,10 +46,10 @@ const rows = [
   ),
 ];
 
-export default function Transaction() {
+export default function Transaction(props) {
   return (
     <React.Fragment>
-      <Title>Recent Transaction</Title>
+      <Title>{props.title}</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
