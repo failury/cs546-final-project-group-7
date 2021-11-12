@@ -5,7 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
-import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 function createData(id, date, type, category, amount, memo) {
   return { id, date, type, category, amount, memo };
 }
@@ -34,7 +34,7 @@ const rows = [
     'expense',
     'category',
     654.39,
-    'my fuking rent',
+    'my fuking rentmy fuking rentmy fuking rent',
   ),
   createData(
     4,
@@ -45,12 +45,15 @@ const rows = [
     'gift from bro',
   ),
 ];
+function deleteItem(i) {
 
+  //
+}
 export default function Transaction(props) {
   return (
     <React.Fragment>
       <Title>{props.title}</Title>
-      <Table size="small">
+      <Table size="medium">
         <TableHead>
           <TableRow>
             <TableCell>Payment Date</TableCell>
@@ -58,16 +61,26 @@ export default function Transaction(props) {
             <TableCell>Category</TableCell>
             <TableCell>Amount</TableCell>
             <TableCell align="right">Memo</TableCell>
+            <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, i) => (
             <TableRow key={row.id}>
               <TableCell>{row.date}</TableCell>
               <TableCell>{row.type}</TableCell>
               <TableCell>{row.category}</TableCell>
               <TableCell>{row.amount}</TableCell>
               <TableCell align="right">{`${row.memo}`}</TableCell>
+              <TableCell align="right">
+                    <Button 
+                    variant="contained"
+                      onClick={deleteItem(i)}
+                      color="error"
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
             </TableRow>
           ))}
         </TableBody>
