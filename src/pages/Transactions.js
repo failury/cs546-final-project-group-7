@@ -2,11 +2,11 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Transaction from '../components/Transacation';
-import AddIcon from '@mui/icons-material/Add';
-import Fab from '@mui/material/Fab';
+
+import { Stack } from '@mui/material';
+import AddTransaction from '../components/AddTransaction';
 export default function Transactions() {
     return (
         <div>
@@ -25,23 +25,15 @@ export default function Transactions() {
                     }}
                 >
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <Transaction />
-                                    <Fab color="primary" aria-label="add" sx={{
-                                    position:"fixed",margin: 0,
-                                    top: "auto",
-                                    right: 40,
-                                    bottom: 40,
-                                    left: "auto"
-                                }}>
-                                    <AddIcon />
-                                </Fab>
-                                </Paper>
-                                
-                            </Grid>
-                        </Grid>
+                        <AddTransaction/>
+                        <Stack component="Grid" spacing={5} noValidate xs={12} >
+                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                        <Transaction title="Recent Transaction" />
+                                    </Paper>
+                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                        <Transaction title="Schedule Transaction" />
+                                    </Paper>
+                        </Stack>
                     </Container>
 
                 </Box>
