@@ -16,7 +16,7 @@ const getCollectionFn = (collection) => {
 module.exports = {
   users: getCollectionFn('users'),
   wallet: getCollectionFn('wallet'),
-  schedule_payments: getCollectionFn('schedule_payments'),
+  schedulepayments: getCollectionFn('schedule_payments'),
   budget: getCollectionFn('budget'),
   transaction: getCollectionFn('transaction'),
   category: getCollectionFn('category'),

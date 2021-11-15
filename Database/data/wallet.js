@@ -7,16 +7,16 @@ async function create(name, inputAmt, balAmt, type){
 
     let newWallet = {
         name: name,
-        inputAmt: inputAmt,
+        inputAmt: inputAmt, 
         balAmt: balAmt,
-        tyoe : type
+        type : type
     }; 
     const insertinfo = await wallet_collection.insertOne(newWallet)
     const newId = insertinfo.insertedId;
     const new_wallet = await wallet_collection.findOne({ _id: newId });
-    const newObjId = ObjectId(new_wallet._id); //creates a new object ID
+    const newObjId = ObjectId(new_wallet._id); 
     let x = new_wallet._id
-    x = newObjId.toString(); // converts the Object ID to string
+    x = newObjId.toString(); 
     new_wallet._id=x;
 
     return(new_wallet)

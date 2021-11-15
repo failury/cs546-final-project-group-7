@@ -198,13 +198,13 @@ The schedule payment collection will store all the necessary information about u
 "categoryId": "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310",
 "Amount": 50,
 "currencyId": "7b7997a2-c0d2-4f8c-b27a-6a1d4b5b6310",
-"Memo": "for asdasdas",
+"Memo": "for asdasdas", 
 "lastPostDate": "10/24/2021"
 }
 ```
 
 
-
+ 
 ## Schedule Payments
 
 

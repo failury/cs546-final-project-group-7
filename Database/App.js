@@ -8,12 +8,13 @@ const wallet = require('./data/wallet')
 const schedule_payments = require('./data/schedule_payments')
 const budget = require('./data/budget')
 const transaction = require('./data/transaction')
+const category = require('./data/category')
 const currency = require('./data/currency')
 
 const closeConnection = require('./config/mongoConnection')
 console.log('database is working')
 
-app.use(express.json());
+app.use(express.json()); 
 
 configRoutes(app);
 
