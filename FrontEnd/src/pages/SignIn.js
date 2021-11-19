@@ -16,7 +16,6 @@ import PropTypes from 'prop-types';
 const theme = createTheme();
 
 async function loginUser(credentials) {
-  console.log(credentials);
   return fetch('http://localhost:2000/login', {
     method: 'POST',
     headers: {

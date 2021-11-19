@@ -7,7 +7,6 @@ const categoryRoutes = require('./category');
 const currencyRoutes = require('./currency');
 
 const constructorMethod = (app) => {
-<<<<<<< Updated upstream
     app.use('/users', usersRoutes);
     app.use('/wallet', walletRoutes);
     app.use('/schedule', scheduleRoutes);
@@ -15,11 +14,6 @@ const constructorMethod = (app) => {
     app.use('/transaction', transactionRoutes);
     app.use('/category', categoryRoutes);
     app.use('/currency', currencyRoutes);
-=======
-    
-//   app.use('/posts', postRoutes);
-//   app.use('/users', userRoutes);
->>>>>>> Stashed changes
 
     app.use('*', (req, res) => {
         res.status(404).json({ error: 'Not found' });

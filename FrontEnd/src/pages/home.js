@@ -34,7 +34,6 @@ export default function home() {
                     }}
                 >
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <Button onClick={test}>asdasdasd</Button>
                         <Grid container spacing={3}>
                             {/* Chart */}
                             <Grid item xs={12} md={8} lg={9}>

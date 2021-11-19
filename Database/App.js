@@ -14,10 +14,8 @@ const currency = require('./data/currency')
 const closeConnection = require('./config/mongoConnection')
 console.log('database is working')
 
-<<<<<<< Updated upstream
 app.use(express.json()); 
 
-=======
 var allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', "*");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -41,7 +39,24 @@ app.use('/login', (req, res) => {
   });
   return
 });
->>>>>>> Stashed changes
+
+app.use('/signup', (req, res) => {
+  let firstname = req.body.firstname;
+  let lastname = req.body.lastname;
+  let username = req.body.username;
+  let password = req.body.password;
+  console.log("username: " + username + " password: " + password + "firstname: " +firstname + " lastname: "+ lastname);
+  if(username == "admin" && password == "password"){
+    res.send({
+      token: 'allowed'
+    });
+    return;
+  }
+  res.send({
+    token: 'registerfailed'
+  });
+  return
+});
 configRoutes(app);
 
 app.listen(2000, () => {
