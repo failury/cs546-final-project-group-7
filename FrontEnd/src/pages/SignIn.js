@@ -12,17 +12,31 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 const theme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
+async function loginUser(credentials) {
+  console.log(credentials);
+  return fetch('http://localhost:2000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => data.json())
+ }
+export default function SignIn({ setToken }) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    let username = data.get('username');
+    let password = data.get('password');
+    const token = await loginUser({
+      username,
+      password
     });
+    setToken(token);
   };
 
   return (
@@ -48,10 +62,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="User Name"
+              name="username"
+              autoComplete="username"
               autoFocus
             />
             <TextField
@@ -64,10 +78,10 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -91,4 +105,8 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
+}
+
+SignIn.propTypes = {
+  setToken: PropTypes.func.isRequired
 }

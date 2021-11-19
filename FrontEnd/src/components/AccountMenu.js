@@ -13,6 +13,7 @@ import { useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import ChangeProfile from './ChangeProfile';
+import  { Redirect } from 'react-router-dom'
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -32,6 +33,11 @@ export default function AccountMenu() {
 
   const handleClickClose = () => {
     diasetOpen(false);
+  };
+  const handleLogout = async (event) => {
+    event.preventDefault();
+    localStorage.removeItem('token');
+    window.location.href='/login';
   };
   return (
     <React.Fragment>
@@ -79,7 +85,7 @@ export default function AccountMenu() {
         <MenuItem onClick={handleClickOpen} > 
           <Avatar /> Profile
         </MenuItem>
-        <MenuItem component={Link} to="/Login">
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
