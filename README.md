@@ -1,6 +1,6 @@
 # Database
 
-1. User validation 
+1. User validation {Ruifeng Zhang}
 2. Update user
 3. Update Wallet 
 4. Delete Wallet
