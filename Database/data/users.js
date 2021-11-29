@@ -3,6 +3,7 @@ const usersCollection = mongoCollections.users
 let { ObjectId } = require('mongodb');
 
 async function create(firstName, lastName, emailId, hashPassword){
+    console.log(firstName)
     const users_collection = await usersCollection();
 
     let newUsers = {
@@ -22,6 +23,29 @@ async function create(firstName, lastName, emailId, hashPassword){
     return(new_users)
 }
 
+
+async function getAll() {
+    // if(arguments.length >0){
+    //     throw 'Error: Parameters should not be passed'
+    // }
+    let list = [];
+    const users_Collection = await usersCollection();
+    const usersList = await users_Collection.find({}).toArray();
+
+    for(let i=0; i<usersList.length; i++){
+        let x = usersList[i]._id
+        let y=x.toString();
+        usersList[i]._id = y;
+    }
+
+    for(let i=0;i<usersList.length;i++){
+        let ls = {"firstName": usersList[i].firstName};
+        list.push(ls);
+    }
+    return list;
+}
+
 module.exports = {
-    create
+    create,
+    getAll
 }

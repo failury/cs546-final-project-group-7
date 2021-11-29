@@ -11,6 +11,7 @@ async function create(name, inputAmt, balAmt, type){
         balAmt: balAmt,
         type : type
     }; 
+    
     const insertinfo = await wallet_collection.insertOne(newWallet)
     const newId = insertinfo.insertedId;
     const new_wallet = await wallet_collection.findOne({ _id: newId });
@@ -22,6 +23,25 @@ async function create(name, inputAmt, balAmt, type){
     return(new_wallet)
 }
 
+async function getAll(){
+    let list = [];
+    const wallet_Collection = await walletCollection();
+    const walletList = await wallet_Collection.find({}).toArray();
+
+    for(let i=0; i<walletList.length; i++){
+        let x = walletList[i]._id
+        let y=x.toString();
+        walletList[i]._id = y;
+    }
+
+    for(let i=0;i<walletList.length;i++){
+        let ls = {"name": walletList[i].name, "inputAmt": walletList[i].inputAmt, "balAmt": walletList[i].balAmt};
+        list.push(ls);
+    }
+    return list;
+}
+
 module.exports = {
-    create
+    create,
+    getAll
 }

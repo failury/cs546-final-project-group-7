@@ -22,6 +22,25 @@ async function create(name, amt, budgetType){
     return(new_budget)
 }
 
+async function getAll(){
+    let list = [];
+    const budget_Collection = await budgetCollection();
+    const budgetList = await budget_Collection.find({}).toArray();
+
+    for(let i=0; i<budgetList.length; i++){
+        let x = budgetList[i]._id
+        let y=x.toString();
+        budgetList[i]._id = y;
+    }
+
+    for(let i=0;i<budgetList.length;i++){
+        let ls = {"budget name": budgetList[i].name, "Amt": budgetList[i].amt, "budget_Type": budgetList[i].budgetType};
+        list.push(ls);
+    }
+    return list;
+}
+
 module.exports = {
-    create
+    create,
+    getAll
 }

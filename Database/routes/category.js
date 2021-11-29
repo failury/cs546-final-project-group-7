@@ -3,14 +3,30 @@ const router = express.Router();
 const data = require('../data');
 const categorydata = data.category;
 
-router.get('/', async (req, res) => {
+router.get('/category', async (req, res) => {
     try {
-        console.log("i am from category")
-        const categoryCreate = await categorydata.create();
-        res.json(categoryCreate);
-    }catch (e) {
-        res.status(500).send();
-    }   
+        let categorylist = await categorydata.getAll();
+        res.json(categorylist);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.post('/category', async (req,res) => {
+    let categoryInfo = req.body;
+    try {
+        const newCategory = await categorydata.create(
+            categoryInfo.name,
+            categoryInfo.cPaymentType,
+            categoryInfo.categoryColor,
+            categoryInfo.icon
+        );
+        res.json(newCategory);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
 });
 
 module.exports = router;

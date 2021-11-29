@@ -3,13 +3,31 @@ const router = express.Router();
 const data = require('../data');
 const scheduledata = data.schedule;
 
-router.get('/', async (req, res) => {
+
+router.get('/schedulepayment', async (req, res) => {
     try {
-        console.log("i am from schedule payments")
-        const scheduleCreate = await scheduledata.create();
-        res.json(scheduleCreate);
-    }catch (e) {
-        res.status(500).send();
+        let schedulelist = await scheduledata.getAll();
+        res.json(schedulelist);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
+
+router.post('/schedulepayment', async (req,res) => {
+    let scheduleInfo = req.body;
+    try {
+        const newSchedule = await scheduledata.create(
+            scheduleInfo.spaymentDate,
+            scheduleInfo.spaymentType,
+            scheduleInfo.sAmt, 
+            scheduleInfo.sMemo,
+            scheduleInfo.sLastPostDate
+        );
+        res.json(newSchedule);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
     }
 });
 
