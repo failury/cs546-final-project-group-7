@@ -53,18 +53,18 @@ app.use('/signup', async (req, res) => {
   }
 });
 
-app.get('/user', async (req, res) => {
-  let token = req.headers.token;
-  try {
-    let id = await jwt.verify(token, "mySecretKey", (err, user) => {
-      res.json({'userid': user.id});
-    });
+// app.get('/user', async (req, res) => {
+//   let token = req.headers.token;
+//   try {
+//     let id = await jwt.verify(token, "mySecretKey", (err, result) => {
+//       res.json({'userid': result.id});
+//     });
     
-  } catch (error) {
-    res.send('no authenticated');
-  }
+//   } catch (error) {
+//     res.send('no authenticated');
+//   }
   
-});
+// });
 
 
 configRoutes(app);

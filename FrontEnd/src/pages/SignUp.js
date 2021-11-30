@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
-
+import {useState} from 'react';
 const theme = createTheme();
 
 async function signupUser(credentials) {
@@ -34,6 +34,7 @@ async function signupUser(credentials) {
  }
 
 export default function SignUp({ setToken }) {
+  const [error,seterror] = useState('');
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -54,6 +55,7 @@ export default function SignUp({ setToken }) {
       window.location.href='/login';
      } catch (error) {
       console.log(error);
+      seterror("User already existed, please use login instead");
      }
      
   };
@@ -129,6 +131,11 @@ export default function SignUp({ setToken }) {
             >
               Sign Up
             </Button>
+            <Grid item xs={12}>
+            <Typography variant="body1" component="div" gutterBottom color="error">
+               {error}
+              </Typography>
+              </Grid>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="login" variant="body2">

@@ -57,7 +57,7 @@ async function checklogin(username, password) {
     if(username.trim().length < 4){throw 'username length must be greater than 4'};
     if (!username.trim().match(/^[0-9a-z]+$/)){throw 'username contains non alphanumeric '}
     errorCheck(password);
-    if(password.trim().length < 6){throw 'username length must be greater than 4'};
+    if(password.trim().length < 6){throw 'password length must be greater than 6'};
     const users_collection = await usersCollection();
     const res = await users_collection.findOne({ username: username });
     if (res === null) throw 'Either the username or password is invalid';
@@ -91,9 +91,16 @@ async function getAll() {
     }
     return list;
 }
-
+async function getbyid(id) {
+    const users_Collection = await usersCollection();
+    let res = await users_Collection.findOne({_id:ObjectId(id)});
+    if (res === null) throw 'No user with that id';
+    res._id = res._id.toString();
+    return res;
+}
 module.exports = {
     create,
     getAll,
-    checklogin
+    checklogin,
+    getbyid,
 }

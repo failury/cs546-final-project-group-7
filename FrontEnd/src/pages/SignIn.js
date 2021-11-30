@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import {useState} from 'react';
 const theme = createTheme();
 
 async function loginUser(credentials) {
@@ -35,6 +36,7 @@ async function loginUser(credentials) {
 
  }
 export default function SignIn({ setToken }) {
+  const [error,seterror] = useState('');
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -49,7 +51,7 @@ export default function SignIn({ setToken }) {
         setToken(token);
       }
     } catch (error) {
-      console.log(error);
+      seterror(error.message.replace(/['"]+/g, ''));
     }
     
     
@@ -106,10 +108,12 @@ export default function SignIn({ setToken }) {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                {/* space for forgot password */}
+            <Grid item xs={12}>
+            <Typography variant="body1" component="div" gutterBottom color="error">
+               {error}
+              </Typography>
               </Grid>
+            <Grid container>
               <Grid item>
                 <Link href="signup" variant="body2">
                   {"Don't have an account? Sign Up"}
