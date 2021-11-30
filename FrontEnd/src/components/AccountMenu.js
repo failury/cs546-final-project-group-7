@@ -36,7 +36,7 @@ export default function AccountMenu() {
   };
   const handleLogout = async (event) => {
     event.preventDefault();
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     window.location.href='/login';
   };
   return (

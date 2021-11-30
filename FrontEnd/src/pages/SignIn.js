@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 const theme = createTheme();
 
 async function loginUser(credentials) {
@@ -22,8 +23,16 @@ async function loginUser(credentials) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(credentials)
-  })
-    .then(data => data.json())
+  }).catch(error => {
+    throw(error);
+}).then(data => {
+  if(!data.ok){
+    return data.text().then(text => { throw new Error(text) })
+  }else {
+    return data.json();
+  }   
+})
+
  }
 export default function SignIn({ setToken }) {
   const handleSubmit = async (event) => {
@@ -31,11 +40,19 @@ export default function SignIn({ setToken }) {
     const data = new FormData(event.currentTarget);
     let username = data.get('username');
     let password = data.get('password');
-    const token = await loginUser({
-      username,
-      password
-    });
-    setToken(token);
+    try {
+      const token = await loginUser({
+        username,
+        password
+      });
+      if(token!=null){
+        setToken(token);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    
+    
   };
 
   return (

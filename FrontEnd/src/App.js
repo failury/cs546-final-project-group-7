@@ -11,18 +11,19 @@ import SignUp from './pages/SignUp';
 
 function App() {
   const { token, setToken } = useToken();
-  if (!token || token == "wrongusername" ) {
-    
+  if (!token || token == "no authenticated" ) {
     return (
       <>
         <Switch>
         <Redirect exact from="/" to="/login" />
+        <Redirect exact from="/Dashboard" to="/login" />
           <Route exact path="/login">
             <SignIn setToken={setToken} />
           </Route>
           <Route exact path="/signup">
             <SignUp setToken={setToken}/>
           </Route>
+          <Route component={nofound} />
         </Switch>
       </>
     )

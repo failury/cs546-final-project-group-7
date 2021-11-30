@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 const theme = createTheme();
 
 async function signupUser(credentials) {
-  console.log(credentials);
   return fetch('http://localhost:2000/signup', {
     method: 'POST',
     headers: {
@@ -23,7 +22,15 @@ async function signupUser(credentials) {
     },
     body: JSON.stringify(credentials)
   })
-    .then(data => data.json())
+    .then(data => {
+      if(!data.ok){
+        return data.text().then(text => { throw new Error(text) })
+      }else {
+        return data.json();
+      }   
+    }).catch(error => {
+      throw(error);
+  })
  }
 
 export default function SignUp({ setToken }) {
@@ -36,13 +43,19 @@ export default function SignUp({ setToken }) {
      let lastname = data.get('lastName');
      let username = data.get('username');
      let password =  data.get('password');
-     const token = await signupUser({
-      firstname,
-      lastname,
-      username,
-      password
-    });
-    setToken(token);
+     try {
+      const res = await signupUser({
+        firstname,
+        lastname,
+        username,
+        password
+      });
+      console.log(res);
+      window.location.href='/login';
+     } catch (error) {
+      console.log(error);
+     }
+     
   };
 
   return (
