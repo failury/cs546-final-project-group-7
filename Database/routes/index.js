@@ -7,13 +7,13 @@ const categoryRoutes = require('./category');
 const currencyRoutes = require('./currency');
 
 const constructorMethod = (app) => {
-    app.use('/users', usersRoutes);
-    app.use('/wallet', walletRoutes);
-    app.use('/schedule', scheduleRoutes);
-    app.use('/budget', budgetRoutes);
-    app.use('/transaction', transactionRoutes);
-    app.use('/category', categoryRoutes);
-    app.use('/currency', currencyRoutes);
+    app.use('/', usersRoutes);
+    app.use('/', walletRoutes);
+    app.use('/', scheduleRoutes);
+    app.use('/', budgetRoutes);
+    app.use('/', transactionRoutes);
+    app.use('/', categoryRoutes);
+    app.use('/', currencyRoutes);
 
     app.use('*', (req, res) => {
         res.status(404).json({ error: 'Not found' });

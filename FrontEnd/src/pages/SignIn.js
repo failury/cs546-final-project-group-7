@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import {useState} from 'react';
 const theme = createTheme();
 
 async function loginUser(credentials) {
@@ -22,20 +24,37 @@ async function loginUser(credentials) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(credentials)
-  })
-    .then(data => data.json())
+  }).catch(error => {
+    throw(error);
+}).then(data => {
+  if(!data.ok){
+    return data.text().then(text => { throw new Error(text) })
+  }else {
+    return data.json();
+  }   
+})
+
  }
 export default function SignIn({ setToken }) {
+  const [error,seterror] = useState('');
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let username = data.get('username');
     let password = data.get('password');
-    const token = await loginUser({
-      username,
-      password
-    });
-    setToken(token);
+    try {
+      const token = await loginUser({
+        username,
+        password
+      });
+      if(token!=null){
+        setToken(token);
+      }
+    } catch (error) {
+      seterror(error.message.replace(/['"]+/g, ''));
+    }
+    
+    
   };
 
   return (
@@ -89,10 +108,12 @@ export default function SignIn({ setToken }) {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                {/* space for forgot password */}
+            <Grid item xs={12}>
+            <Typography variant="body1" component="div" gutterBottom color="error">
+               {error}
+              </Typography>
               </Grid>
+            <Grid container>
               <Grid item>
                 <Link href="signup" variant="body2">
                   {"Don't have an account? Sign Up"}

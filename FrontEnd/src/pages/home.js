@@ -10,69 +10,61 @@ import Transaction from '../components/Transacation';
 import Link from '@mui/material/Link';
 import { Button } from '@mui/material';
 import axios from 'axios'
+import GlobalStyles from '@mui/material/GlobalStyles';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import {useState, useEffect} from 'react';
+import useToken from '../components/useToken';
+export default function Home() {
+    const { token, setToken } = useToken();
+    const [user, setuser] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const res = await axios.get('http://localhost:2000/user', {headers: {
+                'Content-Type': 'application/json',
+                'token': token
+              }});
+              setuser(res.data);
+            } catch (error) {
+                console.log(error);
+            } 
+        }
+        fetchData();
+},[]);
 
 
-async function test() {
-    await axios.get("http://localhost:2000");
-    console.log("done")
-}
-export default function home() {
     return (
         <>
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
-                <Box
-                    component="main"
-                    sx={{
-                        backgroundColor: (theme) =>
-                            theme.palette.mode === 'light'
-                                ? theme.palette.grey[100]
-                                : theme.palette.grey[900],
-                        flexGrow: 1,
-                        height: '100vh',
-                        overflow: 'auto',
-                    }}
-                >
-                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <Grid container spacing={3}>
-                            {/* Chart */}
-                            <Grid item xs={12} md={8} lg={9}>
-                                <Paper
-                                    sx={{
-                                        p: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        height: 240,
-                                    }}
-                                >
-                                    <Chart />
-                                </Paper>
-                            </Grid>
-                            {/* Recent Deposits */}
-                            <Grid item xs={12} md={4} lg={3}>
-                                <Paper
-                                    sx={{
-                                        p: 2,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        height: 240,
-                                    }}
-                                >
-                                    <Budget />
-                                </Paper>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <Transaction />
-                                    <Link color="primary" href="Transactions" sx={{ mt: 3 }}>
-                                        See more Transaction
-                                    </Link>
-                                </Paper>
-                            </Grid>
-                        </Grid>
-                    </Container>
-                </Box>
-            </Box>
+      <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
+      <CssBaseline />
+      <Container maxWidth="lg" component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto',
+        }}>
+         <Container maxWidth="sm">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Welcome 
+            </Typography>
+            <Typography variant="h2" align="center" color="text.secondary" paragraph>
+            {user.firstName} {user.lastName}
+            </Typography>
+          </Container>
+      </Container>
+
+
         </>
     )
 }

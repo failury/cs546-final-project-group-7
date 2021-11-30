@@ -11,11 +11,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
-
+import {useState} from 'react';
 const theme = createTheme();
 
 async function signupUser(credentials) {
-  console.log(credentials);
   return fetch('http://localhost:2000/signup', {
     method: 'POST',
     headers: {
@@ -23,10 +22,19 @@ async function signupUser(credentials) {
     },
     body: JSON.stringify(credentials)
   })
-    .then(data => data.json())
+    .then(data => {
+      if(!data.ok){
+        return data.text().then(text => { throw new Error(text) })
+      }else {
+        return data.json();
+      }   
+    }).catch(error => {
+      throw(error);
+  })
  }
 
 export default function SignUp({ setToken }) {
+  const [error,seterror] = useState('');
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -36,13 +44,20 @@ export default function SignUp({ setToken }) {
      let lastname = data.get('lastName');
      let username = data.get('username');
      let password =  data.get('password');
-     const token = await signupUser({
-      firstname,
-      lastname,
-      username,
-      password
-    });
-    setToken(token);
+     try {
+      const res = await signupUser({
+        firstname,
+        lastname,
+        username,
+        password
+      });
+      console.log(res);
+      window.location.href='/login';
+     } catch (error) {
+      console.log(error);
+      seterror("User already existed, please use login instead");
+     }
+     
   };
 
   return (
@@ -116,6 +131,11 @@ export default function SignUp({ setToken }) {
             >
               Sign Up
             </Button>
+            <Grid item xs={12}>
+            <Typography variant="body1" component="div" gutterBottom color="error">
+               {error}
+              </Typography>
+              </Grid>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="login" variant="body2">

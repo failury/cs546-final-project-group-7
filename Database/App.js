@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
+const jwt = require("jsonwebtoken");
 const configRoutes = require('./routes');
-
 const {client} = require('./config/mongoConnection')
 const users = require('./data/users')
 const wallet = require('./data/wallet')
@@ -12,51 +13,60 @@ const category = require('./data/category')
 const currency = require('./data/currency')
 
 const closeConnection = require('./config/mongoConnection')
-console.log('database is working')
-
 app.use(express.json()); 
 
-var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', "*");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-}
-app.use(allowCrossDomain);
+app.use(cors())
 app.use(express.json());
-app.use('/login', (req, res) => {
+
+const generateAccessToken = (user) => {
+  return jwt.sign({ id: user._id }, "mySecretKey", {
+    expiresIn: "20m",
+  });
+};
+
+
+
+app.post('/login', async (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
-  console.log("username: " + username + " password: " + password);
-  if(username == "admin" && password == "password"){
+  try {
+    var user = await users.checklogin(username,password);
+    const accessToken = generateAccessToken(user);
     res.send({
-      token: 'allowed'
+      token: accessToken
     });
-    return;
+  } catch (error) {
+    return res.status(400).json(error);
   }
-  res.send({
-    token: 'wrongusername'
-  });
-  return
 });
 
-app.use('/signup', (req, res) => {
+app.use('/signup', async (req, res) => {
   let firstname = req.body.firstname;
   let lastname = req.body.lastname;
   let username = req.body.username;
   let password = req.body.password;
-  console.log("username: " + username + " password: " + password + "firstname: " +firstname + " lastname: "+ lastname);
-  if(username == "admin" && password == "password"){
-    res.send({
-      token: 'allowed'
-    });
-    return;
+  try {
+    let newuser = await users.create(firstname,lastname,username,password);
+    res.send({'newuser': newuser.username});
+  } catch (error) {
+    return res.status(400).send('register failed');
   }
-  res.send({
-    token: 'registerfailed'
-  });
-  return
 });
+
+// app.get('/user', async (req, res) => {
+//   let token = req.headers.token;
+//   try {
+//     let id = await jwt.verify(token, "mySecretKey", (err, result) => {
+//       res.json({'userid': result.id});
+//     });
+    
+//   } catch (error) {
+//     res.send('no authenticated');
+//   }
+  
+// });
+
+
 configRoutes(app);
 
 app.listen(2000, () => {

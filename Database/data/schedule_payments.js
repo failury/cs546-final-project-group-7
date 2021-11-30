@@ -23,6 +23,26 @@ async function create(spaymentDate, spaymentType, sAmt, sMemo, sLastPostDate ){
     return(new_spayment)
 }
 
+async function getAll(){
+    let list = [];
+    const spayment_Collection = await s_paymentCollection();
+    const spaymentList = await spayment_Collection.find({}).toArray();
+
+    for(let i=0; i<spaymentList.length; i++){
+        let x = spaymentList[i]._id
+        let y=x.toString();
+        spaymentList[i]._id = y;
+    }
+
+    for(let i=0;i<spaymentList.length;i++){
+        let ls = {"spaymentdate": spaymentList[i].spaymentDate, "spaymentType": spaymentList[i].spaymentType, 
+        "sAmt": spaymentList[i].sAmt, "sMemo": spaymentList[i].sMemo, "sLastPostDate": spaymentList[i].sLastPostDate};
+        list.push(ls);
+    }
+    return list;
+}
+
 module.exports = {
-    create
+    create,
+    getAll
 }

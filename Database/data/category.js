@@ -23,6 +23,27 @@ async function create(name, cPaymentType, categoryColor, icon ){
     return(new_category)
 }
 
-module.exports = {
-    create
+async function getAll(){
+    let list = [];
+    const category_Collection = await categoryCollection();
+    const categoryList = await category_Collection.find({}).toArray();
+
+    for(let i=0; i<categoryList.length; i++){
+        let x = categoryList[i]._id
+        let y=x.toString();
+        categoryList[i]._id = y;
+    }
+
+    for(let i=0;i<categoryList.length;i++){
+        let ls = {"name": categoryList[i].name, "cpaymentType": categoryList[i].cpaymentType, 
+        "categoryColor": categoryList[i].categoryColor, "icon": categoryList[i].icon};
+        list.push(ls);
+    }
+    return list;
 }
+
+module.exports = {
+    create,
+    getAll
+}
+
