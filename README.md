@@ -9,8 +9,8 @@
 7. Get all transaction by userid {Ruifeng Zhang}
 9. Delete future transaction by userid {Ruifeng Zhang}
 10. Search transaction by date/categorey/type
-11. Update budget
-12. Delete budget
+11. Update budget {Kai wu}
+12. Delete budget {Kai wu}
 
 # FrontEnd
 
@@ -21,7 +21,7 @@
 5. Delete Wallet {Ruifeng Zhang}
 6. Create transaction {Ruifeng Zhang}
 7. Delete transaction {Ruifeng Zhang}
-8. Update budget
-9. Create budget
-10. Delete budget
-11. Generate reports
+8. Update budget {Kai wu}
+9. Create budget {Kai wu}
+10. Delete budget {Kai wu}
+11. Generate reports {Kai wu}
