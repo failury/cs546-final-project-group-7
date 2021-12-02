@@ -219,7 +219,6 @@ export default function SelectOtherProps() {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-//'Electronic Devices', 'Entertainment', 'Food', 'Daily Expense'
   return (
     <div>
       <FormControl sx={{ m: 1, minWidth: 120 }} > 
@@ -242,24 +241,6 @@ export default function SelectOtherProps() {
         <FormHelperText>Required</FormHelperText>
       </FormControl>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-error-label">Amount</InputLabel>
-        <Select
-          labelId="demo-simple-select-error-label"
-          id="demo-simple-select-error"
-          value={age}
-          label="Age"
-          onChange={handleChange}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-        <FormHelperText>Required</FormHelperText>
-      </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id="demo-simple-select-readonly-label">Payment</InputLabel>
         <Select
           labelId="demo-simple-select-readonly-label"
@@ -267,45 +248,30 @@ export default function SelectOtherProps() {
           value={age}
           label="Age"
           onChange={handleChange}
-          inputProps={{ readOnly: true }}
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
-        <FormHelperText>Read only</FormHelperText>
-      </FormControl>
-      <FormControl required sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-required-label">Age</InputLabel>
-        <Select
-          labelId="demo-simple-select-required-label"
-          id="demo-simple-select-required"
-          value={age}
-          label="Age *"
-          onChange={handleChange}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={10}>Card1</MenuItem>
+          <MenuItem value={20}>Card2</MenuItem>
+          <MenuItem value={30}>Card3</MenuItem>
         </Select>
         <FormHelperText>Required</FormHelperText>
       </FormControl>
+      <div>
+        <p>Discription</p>
+        <input placeholder="discription"></input>
+    </div>
+      <div>
+        <p>Amount</p>
+        <input placeholder="amount"></input>
+      </div>
+     <div>
+     <Stack spacing={2} direction="row">
+       <Button variant="contained">Confirm</Button>
+       <Button variant="outlined">Cancel</Button>
+     </Stack>
+    </div>
     </div>
   );
 }
-
-// export default function BasicButtons() {
-//   return (
-//     <Stack spacing={2} direction="row">
-//       <Button variant="text">Text</Button>
-//       <Button variant="contained">Contained</Button>
-//       <Button variant="outlined">Outlined</Button>
-//     </Stack>
-//   );
-// }

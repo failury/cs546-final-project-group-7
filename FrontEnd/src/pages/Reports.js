@@ -36,7 +36,6 @@ export default function reports() {
                                         height: 360,
                                     }}
                                 >
-                                    {/* <LineMarkerEcharts/> */}
                                     <Reports/>
                                 </Paper>
                             </Grid>

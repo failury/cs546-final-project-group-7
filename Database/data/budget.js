@@ -63,21 +63,29 @@ let exportedMethods = {
 
         return budget;
     },
-    async create(username,budgetname,amount,category,type){
+    async create(userid,budgetname,amount,category,type){
         const budgetCollection = await budget();
         let newBudget = {
-            username:username,
+            user:new ObjectId(userid),
             budgetname:budgetname,
             amount:amount,
             category:category,
             type:type
         }
         let insertInfo = await budgetCollection.insertOne(newBudget);
-        await users.addBudgetToUser(username,budgetname,amount,category,type);
-        await categories.addBudgetToCategory(category,budgetname,amount,type);
         let newId = insertInfo.insertedId;
         let new_budget = await budgetCollection.findOne({_id:newId});
-        return new_budget;
+        const newObjId = ObjectId(new_budget._id); 
+        let x = new_budget._id
+        x = newObjId.toString();
+        new_budget._id=x;
+        return(new_budget);
+    },
+    async getBudgetByUserId(userid) {
+        //TODO: error check for userid
+        const budgetCollection = await budget();
+        const budgetList = await budgetCollection.find({user:ObjectId(userid)}).toArray();
+        return budgetList;
     },
     async update(id,updateBudget) {
         let parsedId = ObjectId(id);
@@ -85,14 +93,13 @@ let exportedMethods = {
 
         const budgetCollection = await budget();
         const updateBudgetInfo = {
-            username: updateBudget.username,
             budgetname: updateBudget.budgetname,
             amount: updateBudget.amount,
             category: updateBudget.category,
             type: updateBudget.type
         }
 
-        const updateInfo = await budgetCollection.updateOne(
+        const updatedInfo = await budgetCollection.updateOne(
             {id: parsedId},
             {$set: updateBudgetInfo}
         )
@@ -102,16 +109,11 @@ let exportedMethods = {
 
         return await this.get(id);
     },
-    async delete(id){
-        if (!id) throw 'You must provide an id to search for';
-        if (typeof id != 'string') throw "the id must be a string";
-        if (id.trim().length === 0) throw "the id is empty spaces";
-
-        let parsedId = ObjectId(id);
-        if (!parsedId) throw "cannot parse id";
-
+    async delete(budgetid,userid){
         const budgetCollection = await budget();
-        let deleteInfo = await budgetCollection.deleteOne({_id:parsedId});
+        let budget = await budgetCollection.findOne({user:ObjectId(userid),_id:ObjectId(budgetid)});
+        if(budget == null) throw 'Budget does not exist';
+        let deleteInfo = await budgetCollection.deleteOne({user:ObjectId(userid),_id:ObjectId(budgetid)});
         if (deleteInfo.deletedCount === 0) throw 'Cannot delete this budget';
 
         return { deleted: true };
