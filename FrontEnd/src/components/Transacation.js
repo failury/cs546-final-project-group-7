@@ -6,50 +6,32 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 import Button from '@mui/material/Button';
-function createData(id, date, type, category, amount, memo) {
-  return { id, date, type, category, amount, memo };
-}
+import useToken from '../components/useToken';
+import { useEffect, useState } from 'react';
+import axios from 'axios'
+import Typography from '@mui/material/Typography';
 
-const rows = [
-  createData(
-    0,
-    '16 Mar, 2021',
-    'expense',
-    'groceries',
-    312.44,
-    'groceries',
-  ),
-  createData(
-    1,
-    '16 Mar, 2021',
-    'income',
-    'category',
-    312.44,
-    'from your mon',
-  ),
-  createData(2, '16 Mar, 2019', 'expense', 'category', 100.81, 'utility'),
-  createData(
-    3,
-    '16 Mar, 2021',
-    'expense',
-    'category',
-    654.39,
-    'my fuking rentmy fuking rentmy fuking rent',
-  ),
-  createData(
-    4,
-    '15 Mar, 2021',
-    'income',
-    'category',
-    212.79,
-    'gift from bro',
-  ),
-];
-function deleteItem(i) {
 
-  //
-}
+async function Delete(token, data) {
+  let config = {
+    headers:{
+      'Content-Type': 'application/json',
+    'token': token
+    }, 
+  };
+
+  axios.post('http://localhost:2000/transaction/delete', {id:data._id},config).then(res => {
+    console.log(res.data);
+    window.location.reload(false);
+  })
+    .catch(err => {
+      console.log(err)
+    })
+};
 export default function Transaction(props) {
+
+  const { token, setToken } = useToken();
+  let data = props.data;
   return (
     <React.Fragment>
       <Title>{props.title}</Title>
@@ -65,22 +47,32 @@ export default function Transaction(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, i) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.type}</TableCell>
-              <TableCell>{row.category}</TableCell>
-              <TableCell>{row.amount}</TableCell>
+        { data.length == 0 && <Typography
+              component="h1"
+              variant="h5"
+              align="center"
+              color="text.secondary"
+              gutterBottom
+            >
+              You dont have any transaction yet
+            </Typography>}
+        
+          {data.map((row, i) => (
+            <TableRow key={i}>
+              <TableCell >{row.payment_Date}</TableCell>
+              <TableCell>{row.payment_Type}</TableCell>
+              <TableCell>category</TableCell>
+              <TableCell>{row.amt}</TableCell>
               <TableCell align="right">{`${row.memo}`}</TableCell>
               <TableCell align="right">
-                    <Button 
-                    variant="contained"
-                      onClick={deleteItem(i)}
-                      color="error"
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
+                <Button
+                  variant="contained"
+                  onClick={() => Delete(token, row)}
+                  color="error"
+                >
+                  Delete
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

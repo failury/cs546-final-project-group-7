@@ -7,10 +7,7 @@ const jwt = require("jsonwebtoken");
 router.get('/user', async (req, res) => {
     let token = req.headers.token;
     try {
-        var id = null;
-        await jwt.verify(token, "mySecretKey", (err, result) => {
-        id = result.id;
-        });
+        let id = jwt.verify(token, "mySecretKey").id;
         let user = await usersdata.getbyid(id);
         res.json(user);
     } catch (e) {
@@ -18,15 +15,15 @@ router.get('/user', async (req, res) => {
         res.sendStatus(500);
     }
 });
-router.get('/users', async (req, res) => {
-    try {
-        let userslist = await usersdata.getAll();
-        res.json(userslist);
-    } catch (e) {
-        console.log(e);
-        res.sendStatus(500);
-    }
-});
+// router.get('/users', async (req, res) => {
+//     try {
+//         let userslist = await usersdata.getAll();
+//         res.json(userslist);
+//     } catch (e) {
+//         console.log(e);
+//         res.sendStatus(500);
+//     }
+// });
 
 // router.post('/users', async (req, res) => {
 //     console.log(req.body)

@@ -4,10 +4,32 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Transaction from '../components/Transacation';
-
+import axios from 'axios'
 import { Stack } from '@mui/material';
 import AddTransaction from '../components/AddTransaction';
+import useToken from '../components/useToken';
+import {useEffect,useState} from 'react';
 export default function Transactions() {
+    const { token, setToken } = useToken();
+    const [data, setdata] = useState([]);
+    const fetchData = async function () {
+      try {
+          const res = await axios.get('http://localhost:2000/transaction', {headers: {
+          'Content-Type': 'application/json',
+          'token': token
+        }});
+        setdata(res.data);
+      } catch (error) {
+          console.log(error);
+      } 
+  };
+    useEffect(() => {
+        fetchData();
+},[]);
+
+
+
+
     return (
         <div>
             <Box sx={{ display: 'flex' }}>
@@ -28,11 +50,11 @@ export default function Transactions() {
                         <AddTransaction/>
                         <Stack component="Grid" spacing={5} noValidate xs={12} >
                                     <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <Transaction title="Recent Transaction" />
+                                        <Transaction title="Recent Transaction" data = {data} />
                                     </Paper>
-                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <Transaction title="Schedule Transaction" />
-                                    </Paper>
+                                    {/* <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                        <Transaction title="Schedule Transaction" data = {data} />
+                                    </Paper> */}
                         </Stack>
                     </Container>
 

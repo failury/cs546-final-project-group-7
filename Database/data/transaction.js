@@ -2,10 +2,11 @@ const mongoCollections = require('../config/mongoCollections');
 const transactionCollection = mongoCollections.transaction
 let { ObjectId } = require('mongodb');
 
-async function create(payment_Date, payment_Type, amt, memo){
+async function create(payment_Date, payment_Type, amt, memo,userid){
     const transaction_collection = await transactionCollection();
 
     let newTransaction = {
+        user:new ObjectId(userid),
         payment_Date: payment_Date,
         payment_Type: payment_Type,
         amt: amt,
@@ -18,8 +19,26 @@ async function create(payment_Date, payment_Type, amt, memo){
     let x = new_transaction._id
     x = newObjId.toString();
     new_transaction._id=x;
-
     return(new_transaction)
+}
+
+async function getAllTransactionByid(userid) {
+    //TODO: error check for userid
+    const transaction_Collection = await transactionCollection();
+    const transactionList = await transaction_Collection.find({user:ObjectId(userid)}).toArray();
+    return transactionList;
+}
+async function deleteTransactionByid(transactionid,userid) {
+    //TODO: error check for userid
+    
+        const transaction_Collection = await transactionCollection();
+        const transaction = await transaction_Collection.findOne({user:ObjectId(userid),_id:ObjectId(transactionid)});
+        if(transaction == null) throw 'item does not exist';
+        const deletionInfo = await transaction_Collection.deleteOne({user:ObjectId(userid),_id:ObjectId(transactionid)});
+        if (deletionInfo.deletedCount === 0) {
+            throw 'Could not remove transaction with id of ${transactionid}';
+          }
+    return {deleted: transactionid};
 }
 
 async function getAll(){
@@ -42,5 +61,7 @@ async function getAll(){
 
 module.exports = {
     create,
-    getAll
+    getAllTransactionByid,
+    getAll,
+    deleteTransactionByid
 }

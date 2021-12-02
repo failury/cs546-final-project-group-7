@@ -1,14 +1,6 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Chart from '../components/Chart';
-import Budget from '../components/Budget';
-import Transaction from '../components/Transacation';
-import Link from '@mui/material/Link';
-import { Button } from '@mui/material';
 import axios from 'axios'
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Typography from '@mui/material/Typography';
@@ -18,18 +10,18 @@ import useToken from '../components/useToken';
 export default function Home() {
     const { token, setToken } = useToken();
     const [user, setuser] = useState([]);
+    const fetchData = async function () {
+      try {
+          const res = await axios.get('http://localhost:2000/user', {headers: {
+          'Content-Type': 'application/json',
+          'token': token
+        }});
+        setuser(res.data);
+      } catch (error) {
+          console.log(error);
+      } 
+  };
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const res = await axios.get('http://localhost:2000/user', {headers: {
-                'Content-Type': 'application/json',
-                'token': token
-              }});
-              setuser(res.data);
-            } catch (error) {
-                console.log(error);
-            } 
-        }
         fetchData();
 },[]);
 
@@ -56,7 +48,7 @@ export default function Home() {
               color="text.primary"
               gutterBottom
             >
-              Welcome 
+              Welcome
             </Typography>
             <Typography variant="h2" align="center" color="text.secondary" paragraph>
             {user.firstName} {user.lastName}
