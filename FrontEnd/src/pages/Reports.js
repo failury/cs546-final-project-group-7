@@ -1,5 +1,6 @@
 import React from 'react';
 import Reports from '../components/Reports';
+//import LineMarkerEcharts from '../components/Reports';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -35,6 +36,7 @@ export default function reports() {
                                         height: 360,
                                     }}
                                 >
+                                    {/* <LineMarkerEcharts/> */}
                                     <Reports/>
                                 </Paper>
                             </Grid>
