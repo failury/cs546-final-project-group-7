@@ -23,6 +23,20 @@ async function create(name, inputAmt, balAmt, type){
     return(new_wallet)
 }
 
+async function getwallet(id) {
+
+    const wallet_collection = await walletCollection();
+
+    let parsedId = ObjectId(id);
+    const new_wallet = await wallet_collection.findOne({ _id: parsedId });
+
+    let x = new_wallet._id
+    let y=x.toString();
+    new_wallet._id = y;
+
+    return new_wallet;
+}
+
 async function getAll(){
     let list = [];
     const wallet_Collection = await walletCollection();
@@ -35,26 +49,13 @@ async function getAll(){
     }
 
     for(let i=0;i<walletList.length;i++){
-        let ls = {"name": walletList[i].name, "inputAmt": walletList[i].inputAmt, "balAmt": walletList[i].balAmt};
+        let ls = {"name": walletList[i].name, "inputAmt": walletList[i].inputAmt, "balAmt": walletList[i].balAmt, "type": walletList[i].type};
         list.push(ls);
     }
     return list;
 }
 
 async function deletewallet(id) {
-    if(!id.trim()){
-        throw "String contains white spaces"
-    }
-    id = id.trim();
-
-    var res = new RegExp(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
-    if(res.test(id) === false){
-        throw 'Id is not valid'
-    }
-
-    if (!id) throw 'Provide an id to remove the data';
-
-    if(typeof id !== 'string') throw 'Id must be a string'
 
     const wallet_collection = await walletCollection();
     let parsedId = ObjectId(id);
@@ -71,6 +72,7 @@ async function deletewallet(id) {
 
 module.exports = {
     create,
+    getwallet,
     getAll,
     deletewallet
 }

@@ -13,6 +13,17 @@ router.get('/wallet', async (req, res) => {
     }
 });
 
+router.get('/wallet/:id', async (req, res) => {
+    
+    try {
+        const walletid = await walletdata.getwallet(req.params.id);
+        res.json(walletid);
+    }catch (error) {
+        res.status(404).json({ message: 'wallet not found!' });
+    }
+
+});
+
 router.post('/wallet', async (req,res) => {
     let walletInfo = req.body;
 
