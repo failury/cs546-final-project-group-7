@@ -42,6 +42,15 @@ export default function SignIn({ setToken }) {
     const data = new FormData(event.currentTarget);
     let username = data.get('username');
     let password = data.get('password');
+    if( ! username|| !password){
+      seterror("Please enter all require information");
+      return;
+     }
+     username = username.toString().trim();
+     password = password.toString().trim();
+     if(username.trim().length < 4){seterror('username length must be greater than 4');return;};
+    if (!username.trim().match(/^[0-9a-z]+$/)){seterror('username contains non alphanumeric');return; }
+    if(password.trim().length < 6){seterror('password length must be greater than 6');return; };
     try {
       const token = await loginUser({
         username,

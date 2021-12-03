@@ -45,8 +45,9 @@ app.use('/signup', async (req, res) => {
   let lastname = req.body.lastname;
   let username = req.body.username;
   let password = req.body.password;
+  let url = req.body.url;
   try {
-    let newuser = await users.create(firstname,lastname,username,password);
+    let newuser = await users.create(firstname,lastname,username,password,url);
     res.send({'newuser': newuser.username});
   } catch (error) {
     return res.status(400).send('register failed');

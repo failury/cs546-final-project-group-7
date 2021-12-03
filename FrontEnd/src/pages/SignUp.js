@@ -40,16 +40,27 @@ export default function SignUp({ setToken }) {
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
     
-    let  firstname = data.get('firstName');
+     let  firstname = data.get('firstName');
      let lastname = data.get('lastName');
      let username = data.get('username');
      let password =  data.get('password');
+     let url = data.get('profilepicture') == null ? "" : data.get('profilepicture');
+     if(!firstname || !lastname || ! username|| !password){
+      seterror("Please enter all require information");
+      return;
+     }
+     username = username.toString().trim();
+     password = password.toString().trim();
+     if(username.trim().length < 4){seterror('username length must be greater than 4');return;};
+    if (!username.trim().match(/^[0-9a-z]+$/)){seterror('username contains non alphanumeric');return; }
+    if(password.trim().length < 6){seterror('password length must be greater than 6');return; };
      try {
       const res = await signupUser({
         firstname,
         lastname,
         username,
-        password
+        password,
+        url
       });
       console.log(res);
       window.location.href='/login';
@@ -109,6 +120,14 @@ export default function SignUp({ setToken }) {
                   label="User Name"
                   name="username"
                   autoComplete="username"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="profilepicture"
+                  label="Profile Picture URL"
+                  name="profilepicture"
                 />
               </Grid>
               <Grid item xs={12}>

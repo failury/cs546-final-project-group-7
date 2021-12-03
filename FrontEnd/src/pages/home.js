@@ -7,9 +7,11 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import {useState, useEffect} from 'react';
 import useToken from '../components/useToken';
+import Avatar from '@mui/material/Avatar';
 export default function Home() {
     const { token, setToken } = useToken();
     const [user, setuser] = useState([]);
+    const [len,setLen] = useState(0);
     const fetchData = async function () {
       try {
           const res = await axios.get('http://localhost:2000/user', {headers: {
@@ -17,42 +19,51 @@ export default function Home() {
           'token': token
         }});
         setuser(res.data);
+        setLen(res.data.imgurl.length);
       } catch (error) {
-          console.log(error);
+        console.log(error)
+        sessionStorage.removeItem('token');
+        window.location.href='/login';
       } 
   };
     useEffect(() => {
         fetchData();
 },[]);
 
-
     return (
         <>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
       <CssBaseline />
       <Container maxWidth="lg" component="main"
-        sx={{
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[100]
-              : theme.palette.grey[900],
-          flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
-        }}>
-         <Container maxWidth="sm">
-            <Typography
+        // sx={{
+        //   backgroundColor: (theme) =>
+        //     theme.palette.mode === 'light'
+        //       ? theme.palette.grey[100]
+        //       : theme.palette.grey[900],
+        //   flexGrow: 1,
+        //   height: '100vh',
+        //   overflow: 'auto',
+        // }}
+        >
+         <Container maxWidth="sm"  >
+           <Stack  alignItems="center"
+  justifyContent="center" spacing={8}>
+           <Typography
               component="h1"
               variant="h2"
               align="center"
               color="text.primary"
               gutterBottom
             >
-              Welcome
+              Welcome Back
             </Typography>
-            <Typography variant="h2" align="center" color="text.secondary" paragraph>
+            <Typography variant="h4" align="center" color="text.secondary" paragraph>
             {user.firstName} {user.lastName}
             </Typography>
+            {len>3 ?<Avatar alt={user.firstName+ " " + user.lastName} src={user.imgurl}sx={{width:256,height:256}} /> : 
+            <Avatar sx={{width:256,height:256}}>{user.firstName+ " " + user.lastName}</Avatar>}
+           </Stack>
+           
           </Container>
       </Container>
 

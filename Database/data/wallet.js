@@ -2,14 +2,15 @@ const mongoCollections = require('../config/mongoCollections');
 const walletCollection = mongoCollections.wallet
 let { ObjectId } = require('mongodb');
 
-async function create(name, inputAmt, balAmt, type){
+async function create(name, inputAmt, balAmt, type,userid){
     const wallet_collection = await walletCollection();
 
     let newWallet = {
+        user:new ObjectId(userid),
         name: name,
         inputAmt: inputAmt, 
         balAmt: balAmt,
-        type : type
+        type : type,
     }; 
     
     const insertinfo = await wallet_collection.insertOne(newWallet)
@@ -21,6 +22,27 @@ async function create(name, inputAmt, balAmt, type){
     new_wallet._id=x;
 
     return(new_wallet)
+}
+
+
+async function getAllWalletByid(userid) {
+    //TODO: error check for userid
+    const wallet_collection = await walletCollection();
+    const walletList = await wallet_collection.find({user:ObjectId(userid)}).toArray();
+    return walletList;
+}
+
+async function deleteWalletByid(walletid,userid) {
+    //TODO: error check for userid
+    
+    const wallet_collection = await walletCollection();
+        const wallet = await wallet_collection.findOne({user:ObjectId(userid),_id:ObjectId(walletid)});
+        if(wallet == null) throw 'item does not exist';
+        const deletionInfo = await wallet_collection.deleteOne({user:ObjectId(userid),_id:ObjectId(walletid)});
+        if (deletionInfo.deletedCount === 0) {
+            throw 'Could not remove wallet with id of ${walletid}';
+          }
+    return {deleted: walletid};
 }
 
 async function getAll(){
@@ -43,5 +65,7 @@ async function getAll(){
 
 module.exports = {
     create,
-    getAll
+    getAll,
+    getAllWalletByid,
+    deleteWalletByid
 }

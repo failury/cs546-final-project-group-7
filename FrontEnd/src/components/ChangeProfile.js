@@ -9,19 +9,63 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PersonIcon from '@mui/icons-material/Person';
+import useToken from '../components/useToken';
+import axios from 'axios'
 const theme = createTheme();
-
+async function updateUser(credentials, token) {
+  return fetch('http://localhost:2000/user', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'token': token
+    },
+    body: JSON.stringify(credentials)
+  })
+    .then(data => {
+      if(!data.ok){
+        return data.text().then(text => { throw new Error(text) })
+      }else {
+        return data.json();
+      }   
+    }).catch(error => {
+      throw(error);
+  })
+ }
 export default function ChangeProfile() {
-  const handleSubmit = (event) => {
+  const { token, setToken } = useToken();
+  const [error,seterror] = React.useState('');
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      firstname: data.get('firstName'),
-      lastname: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    let  firstname = data.get('firstName');
+     let lastname = data.get('lastName');
+     let username = data.get('username');
+     let password =  data.get('password');
+     let url = data.get('profilepicture') == null ? "" : data.get('profilepicture');
+     if(!firstname || !lastname || ! username|| !password){
+      seterror("Please enter all require information");
+      return;
+     }
+     username = username.toString().trim();
+     password = password.toString().trim();
+     if(username.trim().length < 4){seterror('username length must be greater than 4');return;};
+    if (!username.trim().match(/^[0-9a-z]+$/)){seterror('username contains non alphanumeric');return; }
+    if(password.trim().length < 6){seterror('password length must be greater than 6');return; };
+     try {
+      const res = await updateUser({
+        firstname,
+        lastname,
+        username,
+        password,
+        url
+      },token);
+      sessionStorage.removeItem('token');
+      window.location.href='/login';
+     } catch (error) {
+      console.log(error);
+      seterror("Update information failed");
+     }
+
   };
 
   return (
@@ -69,10 +113,20 @@ export default function ChangeProfile() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="New Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="url"
+                  label="New Profile Image URL"
+                  name="url"
+                  autoComplete="url"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="username"
+                  label="New User Name"
+                  name="username"
+                  autoComplete="username"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -86,7 +140,11 @@ export default function ChangeProfile() {
                   autoComplete="new-password"
                 />
               </Grid>
-              
+              <Grid item xs={12}>
+            <Typography variant="body1" component="div" gutterBottom color="error">
+               {error}
+              </Typography>
+              </Grid>
             </Grid>
             <Button
               type="submit"
