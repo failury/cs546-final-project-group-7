@@ -4,8 +4,10 @@ const budgets = require('../data');
 const budgetData = budgets.budget;
 
 router.get('/budget/:id', async (req, res) => {
+    let token = req.headers.token;
     try {
-        let budget = await budgetData.get(req.params.id);
+        let decoded = jwt.verify(token, "mySecretKey");
+        let budget = await budgetData.get(decoded.id);
         res.json(budget);
     } catch (e) {
         res.status(404).json({ error: 'budget not found' });
@@ -14,8 +16,11 @@ router.get('/budget/:id', async (req, res) => {
 
 router.post('/budget',async (req,res) => {
     let budgetInfo = req.body;
+    let token = req.headers.token;
     try {
+        let id = jwt.verify(token, "mySecretKey").id;
         let newBudget = await budgetData.create(
+            id,
             budgetInfo.username,
             budgetInfo.budgetname,
             budgetInfo.amount,
@@ -30,13 +35,7 @@ router.post('/budget',async (req,res) => {
 
 router.patch('/budget/:id',async (req,res) => {
     let budgetInfo = req.body;
-
-    try {
-        await budgetData.get(req.params.id);
-    } catch (e) {
-        res.status(404).json({ error: 'Budget not found' });
-        return;
-    }
+    let token = req.headers.token;
 
     try {
         let updatedBudget = await budgetData.update(req.params.id,budgetInfo);
@@ -48,15 +47,13 @@ router.patch('/budget/:id',async (req,res) => {
 
 router.delete('/budget/:id', async (req, res) => {
     if (!req.params.id) throw 'You must specify an ID to delete';
-    try {
-        await budgetData.get(req.params.id);
-    } catch (e) {
-        res.status(404).json({ error: 'Budget not found' });
-        return;
-    }
+
+    let budgetid = req.body.id;
+    let token = req.headers.token;
 
     try {
-        await budgetData.delete(req.params.id);
+        let id = jwt.verify(token, "mySecretKey").id;
+        await budgetData.delete(budgetid,id);
         res.sendStatus(200);
     } catch (e) {
         res.sendStatus(500);
