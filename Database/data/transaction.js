@@ -40,7 +40,15 @@ async function deleteTransactionByid(transactionid,userid) {
           }
     return {deleted: transactionid};
 }
-
+async function searchByDate(date,userid) {
+    
+}
+async function searchByCategory(date,userid) {
+    
+}
+async function searchByPaymentType(date,userid) {
+    
+}
 async function getAll(){
     let list = [];
     const transaction_Collection = await transactionCollection();

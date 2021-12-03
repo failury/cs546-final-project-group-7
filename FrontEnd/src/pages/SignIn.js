@@ -62,8 +62,6 @@ export default function SignIn({ setToken }) {
     } catch (error) {
       seterror(error.message.replace(/['"]+/g, ''));
     }
-    
-    
   };
 
   return (

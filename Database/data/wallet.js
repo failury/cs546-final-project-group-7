@@ -44,7 +44,12 @@ async function deleteWalletByid(walletid,userid) {
           }
     return {deleted: walletid};
 }
-
+async function searchByName(name, userid) {
+    
+}
+async function updateWalletByID(walletid, userid) {
+    
+}
 async function getAll(){
     let list = [];
     const wallet_Collection = await walletCollection();
