@@ -41,7 +41,36 @@ async function getAll(){
     return list;
 }
 
+async function deletewallet(id) {
+    if(!id.trim()){
+        throw "String contains white spaces"
+    }
+    id = id.trim();
+
+    var res = new RegExp(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i)
+    if(res.test(id) === false){
+        throw 'Id is not valid'
+    }
+
+    if (!id) throw 'Provide an id to remove the data';
+
+    if(typeof id !== 'string') throw 'Id must be a string'
+
+    const wallet_collection = await walletCollection();
+    let parsedId = ObjectId(id);
+
+    const walletid = await wallet_collection.findOne({ _id: parsedId});
+
+    const deletionInfo = await wallet_collection.deleteOne({ _id: parsedId});
+
+    if (deletionInfo.deletedCount === 0) {
+      throw `Could not delete restaurant with id of ${id}`;
+    }
+    return `${walletid.name} is deleted successfully`;
+}
+
 module.exports = {
     create,
-    getAll
+    getAll,
+    deletewallet
 }

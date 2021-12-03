@@ -28,7 +28,26 @@ router.post('/wallet', async (req,res) => {
         console.log(e);
         res.sendStatus(500);
     }
+});
+
+router.delete('/wallet/:id', async (req, res) => {
+    
+    // try {
+    //     await restdata.get(req.params.id);
+    // } catch (e) {
+    //     res.status(404).json({ error: 'Restaurant not found' });
+    //     return;
+    // }
+    try {
+      const deletewallet = await walletdata.deletewallet(req.params.id);
+      res.json(deletewallet);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
 
 });
 
+
 module.exports = router;
+
