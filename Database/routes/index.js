@@ -18,22 +18,6 @@ const constructorMethod = (app) => {
     app.use('*', (req, res) => {
         res.status(404).json({ error: 'Not found' });
     });
-  
-//   router.get('/',async(req,res)=>{
-    
-//     try {
-//       console.log("hi")
-//        await user.create("2","2","2","2")
-//       res.send("ok");
-//     } catch (e) {
-//       res.status(500).json({ error: e });
-//     }
-//   })
-//   app.use('*', (req, res) => {
-//     console.log("hi")
-//     user.create("2","2","2","2")
-//     res.sendStatus(404);
-//   });
 
 };
 

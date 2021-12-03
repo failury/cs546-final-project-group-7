@@ -15,33 +15,22 @@ router.get('/user', async (req, res) => {
         res.sendStatus(500);
     }
 });
-// router.get('/users', async (req, res) => {
-//     try {
-//         let userslist = await usersdata.getAll();
-//         res.json(userslist);
-//     } catch (e) {
-//         console.log(e);
-//         res.sendStatus(500);
-//     }
-// });
 
-// router.post('/users', async (req, res) => {
-//     console.log(req.body)
-//     let userInfo = req.body
-//     try {
-//         console.log("i am from users")
-//         // console.log(userInfo);
-//         const usersCreate = await usersdata.create(
-//             userInfo.firstName,
-//             userInfo.lastName,
-//             userInfo.emailId,
-//             userInfo.hashPassword 
-//         );
-//         res.json(usersCreate);
-//     }catch (e) {
-//         console.log(e);
-//         res.status(500).send();
-//     }
-// });
 
+router.patch('/user', async (req, res) => {
+    let token = req.headers.token;
+    let firstname = req.body.firstname;
+    let lastname = req.body.lastname;
+    let username = req.body.username;
+    let password = req.body.password;
+    let url = req.body.url;
+    try {
+        let id = jwt.verify(token, "mySecretKey").id;
+        let user = await usersdata.update(firstname,lastname,username,password,url,id);
+        res.json(user);
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+});
 module.exports = router;

@@ -14,14 +14,14 @@ var errorCheck = function (string) {
     }
 }
 
-async function create(firstName, lastName, username, password){
+async function create(firstName, lastName, username, password,url){
     username = username.trim();
     password = password.trim();
     errorCheck(username);
     if(username.trim().length < 4){throw 'username length must be greater than 4'};
     if (!username.trim().match(/^[0-9a-z]+$/)){throw 'username contains non alphanumeric '}
     errorCheck(password);
-    if(password.trim().length < 6){throw 'username length must be greater than 4'};
+    if(password.trim().length < 6){throw 'password length must be greater than 6'};
     const users_collection = await usersCollection();
     const List = await users_collection.find({}).toArray();
     let userlist = [];
@@ -36,7 +36,8 @@ async function create(firstName, lastName, username, password){
         firstName: firstName,
         lastName: lastName, 
         username: username,
-        hashPassword : hash
+        hashPassword : hash,
+        imgurl:url
     }; 
     const insertinfo = await users_collection.insertOne(newUsers)
     const newId = insertinfo.insertedId;
@@ -48,7 +49,32 @@ async function create(firstName, lastName, username, password){
 
     return(new_users)
 }
-
+async function update(firstName, lastName, username, password,url,userid){
+    username = username.trim();
+    password = password.trim();
+    errorCheck(username);
+    if(username.trim().length < 4){throw 'username length must be greater than 4'};
+    if (!username.trim().match(/^[0-9a-z]+$/)){throw 'username contains non alphanumeric '}
+    errorCheck(password);
+    if(password.trim().length < 6){throw 'password length must be greater than 6'};
+    const users_collection = await usersCollection();
+    const res = await this.getbyid(userid);
+    if (res === null) throw 'Either the username or password is invalid';
+    const hash = await bcrypt.hash(password, 10);
+    let newUsers = {
+        firstName: firstName,
+        lastName: lastName, 
+        username: username,
+        hashPassword : hash,
+        imgurl:url
+    }; 
+    const updateinfo = await users_collection.updateOne({_id:ObjectId(userid)},{$set:newUsers});
+    if(updateinfo.modifiedCount ===0){
+        throw 'update failed';
+    }
+    const new_users = await users_collection.findOne({ _id: ObjectId(userid) });
+    return(new_users)
+}
 
 async function checklogin(username, password) {
     username = username.trim();
@@ -103,4 +129,5 @@ module.exports = {
     getAll,
     checklogin,
     getbyid,
+    update
 }

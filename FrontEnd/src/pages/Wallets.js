@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import CreditCard from '../components/Card';
-
+import AddCard from '../components/AddCard'
 
 const cards = [
 
@@ -49,6 +49,7 @@ export default function Wallets() {
           overflow: 'auto',
         }}>
         <Grid container spacing={3} alignItems="stretch" justifyContent="center">
+          <AddCard/>
           {cards.map((cards) => (
             <Grid
               item

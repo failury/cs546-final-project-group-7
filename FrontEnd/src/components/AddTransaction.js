@@ -60,7 +60,6 @@ export default function AddTransaction() {
       Amt:amount,
       memo:memo
     }
-    console.log(obj);
       axios.post('http://localhost:2000/transaction/add', obj,{headers: {
         'Content-Type': 'application/json',
         'token': token

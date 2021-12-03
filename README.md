@@ -3,8 +3,8 @@
 1. User validation {Ruifeng Zhang}
 2. Update user {Ruifeng Zhang}
 3. Update Wallet {Ruifeng Zhang}
-4. Get all Wallet by userid 
-5. Delete Wallet by userid 
+4. Get all Wallet by userid
+5. Delete Wallet by userid {Shefalee}
 6. Get Wallet by name 
 7. Get all transaction by userid {Ruifeng Zhang}
 9. Delete future transaction by userid {Ruifeng Zhang}
