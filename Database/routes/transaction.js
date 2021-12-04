@@ -11,7 +11,7 @@ router.get('/transaction', async (req, res) => {
         res.json(transactions);
     } catch (e) {
         console.log(e);
-        res.status(500).json(e.name);
+        res.status(500).json(e.message);
     }
 });
 
@@ -28,10 +28,10 @@ router.post('/transaction/add', async (req,res) => {
             transInfo.memo,
             id
         );
-        res.json(newTransaction);
+        res.send('Transaction Created');
     } catch (e) {
         console.log(e);
-        res.status(500).json(e);
+        res.status(500).json(e.message);
     }
 
 });
@@ -43,9 +43,9 @@ router.post('/transaction/delete', async (req,res) => {
     try {
         let id = jwt.verify(token, "mySecretKey").id;
         const newTransaction = await transactiondata.deleteTransactionByid(transactionid,id);
-        res.json(newTransaction);
+        res.send('Transaction Deleted');
     } catch (e) {
-        res.status(500).json(e);
+        res.status(500).json(e.message);
     }
 
 });

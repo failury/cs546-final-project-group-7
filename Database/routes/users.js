@@ -12,7 +12,7 @@ router.get('/user', async (req, res) => {
         res.json(user);
     } catch (e) {
         console.log(e);
-        res.sendStatus(500);
+        res.status(500).json(e.message);
     }
 });
 
@@ -30,7 +30,7 @@ router.patch('/user', async (req, res) => {
         res.json(user);
     } catch (e) {
         console.log(e);
-        res.sendStatus(500);
+        res.status(500).json(e.message);
     }
 });
 module.exports = router;

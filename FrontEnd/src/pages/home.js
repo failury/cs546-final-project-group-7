@@ -21,7 +21,7 @@ export default function Home() {
         setuser(res.data);
         setLen(res.data.imgurl.length);
       } catch (error) {
-        console.log(error)
+        console.log(error.message)
         sessionStorage.removeItem('token');
         window.location.href='/login';
       } 
@@ -60,8 +60,8 @@ export default function Home() {
             <Typography variant="h4" align="center" color="text.secondary" paragraph>
             {user.firstName} {user.lastName}
             </Typography>
-            {len>3 ?<Avatar alt={user.firstName+ " " + user.lastName} src={user.imgurl}sx={{width:256,height:256}} /> : 
-            <Avatar sx={{width:256,height:256}}>{user.firstName+ " " + user.lastName}</Avatar>}
+            {len>3 ?<Avatar alt={user.firstName+ " " + user.lastName} src={user.imgurl}sx={{width:256,height:256, borderStyle: 'solid'}} /> : 
+            <Avatar sx={{width:256,height:256,borderStyle: 'solid'  }}>{user.firstName+ " " + user.lastName}</Avatar>}
            </Stack>
            
           </Container>

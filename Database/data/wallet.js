@@ -2,14 +2,13 @@ const mongoCollections = require('../config/mongoCollections');
 const walletCollection = mongoCollections.wallet
 let { ObjectId } = require('mongodb');
 
-async function create(name, inputAmt, balAmt, type,userid){
+async function create(name, amount, type,userid){
     const wallet_collection = await walletCollection();
 
     let newWallet = {
         user:new ObjectId(userid),
         name: name,
-        inputAmt: inputAmt, 
-        balAmt: balAmt,
+        amount: amount, 
         type : type,
     }; 
     
