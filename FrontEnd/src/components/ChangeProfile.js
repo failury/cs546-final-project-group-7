@@ -41,7 +41,7 @@ export default function ChangeProfile() {
      let lastname = data.get('lastName');
      let username = data.get('username');
      let password =  data.get('password');
-     let url = data.get('profilepicture') == null ? "" : data.get('profilepicture');
+     let url = data.get('url') == null ? "" : data.get('url');
      if(!firstname || !lastname || ! username|| !password){
       seterror("Please enter all require information");
       return;

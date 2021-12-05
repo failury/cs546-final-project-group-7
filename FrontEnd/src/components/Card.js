@@ -9,8 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+
 
 export default function CreditCard(props) {
   const [open, setOpen] = React.useState(false);
@@ -26,9 +25,9 @@ export default function CreditCard(props) {
     <>
       <Button onClick={handleClickOpen}><Card
         name={cardinfo.name}
-        number={cardinfo.number}
-        expiry={cardinfo.expiry}
-        cvc={cardinfo.cvc}
+        number="5555 4444 3333 1111"
+        expiry="10/20"
+        cvc="737"
       /></Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{cardinfo.walletname}'s amount: {cardinfo.amount}</DialogTitle>

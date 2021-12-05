@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const walletdata = data.wallet;
-
+const jwt = require("jsonwebtoken");
 router.get('/wallet', async (req, res) => {
     try {
         let walletlist = await walletdata.getAll();
@@ -14,19 +14,21 @@ router.get('/wallet', async (req, res) => {
 });
 
 router.post('/wallet', async (req,res) => {
+    let token = req.headers.token;
     let walletInfo = req.body;
-
+    
     try {
+        let id = jwt.verify(token, "mySecretKey").id;
         const newWallet = await walletdata.create(
-            walletInfo.name,
-            walletInfo.inputAmt, 
-            walletInfo.balAmt,
-            walletInfo.type
+            walletInfo.walletname,
+            walletInfo.amount, 
+            walletInfo.type,
+            id
         );
-        res.json(newWallet);
+        res.send('Wallet Created');
     } catch (e) {
         console.log(e);
-        res.sendStatus(500);
+        res.status(500).json(e.message);
     }
 
 });

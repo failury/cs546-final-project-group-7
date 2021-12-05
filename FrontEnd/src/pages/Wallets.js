@@ -1,38 +1,35 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-
+import useToken from '../components/useToken';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import CreditCard from '../components/Card';
 import AddCard from '../components/AddCard'
-
-const cards = [
-
-  {
-    walletname:"wallet1",
-    amount:'1289',
-    name: 'Fake Name',
-    number: '1111 2222 3333 4444',
-    expiry: '09/24',
-    cvc: '345'
-  },
-  {
-    walletname:"wallet1",
-    amount:'1289',
-    name: 'Fake Name',
-    number: '1111 2222 3333 4444',
-    expiry: '09/24',
-    cvc: '345'
-  },
-];
-
-
-
+import axios from 'axios';
 
 export default function Wallets() {
+  const { token, setToken } = useToken();
+  const [data, setdata] = React.useState([]);
+  const fetchData = async () =>{
+    try {
+        const res = await axios.get('http://localhost:2000/wallet', {headers: {
+        'Content-Type': 'application/json',
+        'token': token
+      }});
+      console.log(res.data);
+      setdata(res.data);
+    } catch (error) {
+      console.log(error)
+      // sessionStorage.removeItem('token');
+      // window.location.href='/login';
+    } 
+};
+  React.useEffect(() => {
+      fetchData();
+},[]);
   return (
     <React.Fragment>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
@@ -50,17 +47,17 @@ export default function Wallets() {
         }}>
         <Grid container spacing={3} alignItems="stretch" justifyContent="center">
           <AddCard/>
-          {cards.map((cards) => (
+          {data.map((w) => (
             <Grid
               item
-              key={cards.name}
+              key={w.name}
               xs={12}
               sm={12}
               md={8}
               lg={6}
               margin={2}
             >
-                <CreditCard info={cards} />
+                <CreditCard info={w} />
             </Grid>
           ))}
         </Grid>

@@ -2,14 +2,13 @@ const mongoCollections = require('../config/mongoCollections');
 const walletCollection = mongoCollections.wallet
 let { ObjectId } = require('mongodb');
 
-async function create(name, inputAmt, balAmt, type,userid){
+async function create(name, amount, type,userid){
     const wallet_collection = await walletCollection();
 
     let newWallet = {
         user:new ObjectId(userid),
         name: name,
-        inputAmt: inputAmt, 
-        balAmt: balAmt,
+        amount: amount, 
         type : type,
     }; 
     
@@ -44,7 +43,12 @@ async function deleteWalletByid(walletid,userid) {
           }
     return {deleted: walletid};
 }
-
+async function searchByName(name, userid) {
+    
+}
+async function updateWalletByID(walletid, userid) {
+    
+}
 async function getAll(){
     let list = [];
     const wallet_Collection = await walletCollection();
