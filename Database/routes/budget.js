@@ -7,8 +7,8 @@ const jwt = require("jsonwebtoken");
 router.get('/budget', async (req, res) => {
     let token = req.headers.token;
     try {
-        let decoded = jwt.verify(token, "mySecretKey");
-        let budget = await budgetData.get(decoded.id);
+        let id = jwt.verify(token, "mySecretKey").id;
+        let budget = await budgetData.getBudgetByUserId(id);
         res.json(budget);
     } catch (e) {
         res.status(404).json({ error: 'budget not found' });
@@ -38,7 +38,8 @@ router.patch('/budget/update',async (req,res) => {
     let token = req.headers.token;
 
     try {
-        let updatedBudget = await budgetData.update(req.params.id,budgetInfo);
+        let id = jwt.verify(token, "mySecretKey").id;
+        let updatedBudget = await budgetData.update(id,budgetInfo);
         res.json(updatedBudget);
     } catch (e) {
         res.sendStatus(500);

@@ -6,10 +6,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import useToken from '../components/useToken';
+import useToken from './useToken';
 import axios from 'axios';
 
-export default function Budget() {
+export default function AddBudget() {
 
   const { token, setToken } = useToken();
   const [budgetname, setName] = React.useState('');
@@ -53,7 +53,7 @@ export default function Budget() {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Payment method
+        Add Budget
       </Typography>
       <Box component="form">
       <Grid container spacing={3}>
@@ -101,11 +101,14 @@ export default function Budget() {
             onChange={handleTypeChange}
           />
         </Grid>
+        </Grid>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
-            type="submit"
-            variant="contained"
-            onClick={handleAddBudget}
-            sx={{ mt: 3, mb: 2 }}
+          type="submit"
+          variant="contained"
+          onClick={handleAddBudget}
+          sx={{ mt: 3, mb: 2 }}
         >
             Submit
         </Button>
@@ -115,7 +118,6 @@ export default function Budget() {
         >
             Cancel
         </Button>
-        </Grid>
       </Box>
     </React.Fragment>
   );
