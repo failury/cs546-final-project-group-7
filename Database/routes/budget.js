@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const budgets = require('../data');
 const budgetData = budgets.budget;
+const jwt = require("jsonwebtoken");
 
-router.get('/budget/:id', async (req, res) => {
+router.get('/budget', async (req, res) => {
     let token = req.headers.token;
     try {
         let decoded = jwt.verify(token, "mySecretKey");
@@ -14,14 +15,13 @@ router.get('/budget/:id', async (req, res) => {
     }
 });
 
-router.post('/budget',async (req,res) => {
+router.post('/budget/add',async (req,res) => {
     let budgetInfo = req.body;
     let token = req.headers.token;
     try {
         let id = jwt.verify(token, "mySecretKey").id;
         let newBudget = await budgetData.create(
             id,
-            budgetInfo.username,
             budgetInfo.budgetname,
             budgetInfo.amount,
             budgetInfo.category,
@@ -33,7 +33,7 @@ router.post('/budget',async (req,res) => {
     }
 });
 
-router.patch('/budget/:id',async (req,res) => {
+router.patch('/budget/update',async (req,res) => {
     let budgetInfo = req.body;
     let token = req.headers.token;
 
@@ -45,7 +45,7 @@ router.patch('/budget/:id',async (req,res) => {
     }
 });
 
-router.delete('/budget/:id', async (req, res) => {
+router.delete('/budget/delete', async (req, res) => {
     if (!req.params.id) throw 'You must specify an ID to delete';
 
     let budgetid = req.body.id;

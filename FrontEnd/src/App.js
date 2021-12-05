@@ -11,7 +11,7 @@ import SignUp from './pages/SignUp';
 
 function App() {
   const { token, setToken } = useToken();
-  if (!token || token == "no authenticated" ) {
+  if (!token || token === "no authenticated" ) {
     return (
       <>
         <Switch>

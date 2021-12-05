@@ -57,14 +57,14 @@ let exportedMethods = {
         let parsedId = ObjectId(id);
         if (!parsedId) throw "cannot parse id";
 
-        const budgetCollection = await budget();
-        let budget = await budgetCollection.findOne({_id:parsedId});
+        const budget_collection = await budgetCollection();
+        let budget = await budget_collection.findOne({_id:parsedId});
         if (budget === null) throw 'No such budget';
 
         return budget;
     },
     async create(userid,budgetname,amount,category,type){
-        const budgetCollection = await budget();
+        const budget_collection = await budgetCollection();
         let newBudget = {
             user:new ObjectId(userid),
             budgetname:budgetname,
@@ -72,9 +72,9 @@ let exportedMethods = {
             category:category,
             type:type
         }
-        let insertInfo = await budgetCollection.insertOne(newBudget);
+        let insertInfo = await budget_collection.insertOne(newBudget);
         let newId = insertInfo.insertedId;
-        let new_budget = await budgetCollection.findOne({_id:newId});
+        let new_budget = await budget_collection.findOne({_id:newId});
         const newObjId = ObjectId(new_budget._id); 
         let x = new_budget._id
         x = newObjId.toString();
@@ -83,15 +83,15 @@ let exportedMethods = {
     },
     async getBudgetByUserId(userid) {
         //TODO: error check for userid
-        const budgetCollection = await budget();
-        const budgetList = await budgetCollection.find({user:ObjectId(userid)}).toArray();
+        const budget_collection = await budgetCollection();
+        const budgetList = await budget_collection.find({user:ObjectId(userid)}).toArray();
         return budgetList;
     },
     async update(id,updateBudget) {
         let parsedId = ObjectId(id);
         if (!parsedId) throw "cannot parse id";
 
-        const budgetCollection = await budget();
+        const budget_collection = await budgetCollection();
         const updateBudgetInfo = {
             budgetname: updateBudget.budgetname,
             amount: updateBudget.amount,
@@ -99,7 +99,7 @@ let exportedMethods = {
             type: updateBudget.type
         }
 
-        const updatedInfo = await budgetCollection.updateOne(
+        const updatedInfo = await budget_collection.updateOne(
             {id: parsedId},
             {$set: updateBudgetInfo}
         )
@@ -110,10 +110,10 @@ let exportedMethods = {
         return await this.get(id);
     },
     async delete(budgetid,userid){
-        const budgetCollection = await budget();
-        let budget = await budgetCollection.findOne({user:ObjectId(userid),_id:ObjectId(budgetid)});
+        const budget_collection = await budgetCollection();
+        let budget = await budget_collection.findOne({user:ObjectId(userid),_id:ObjectId(budgetid)});
         if(budget == null) throw 'Budget does not exist';
-        let deleteInfo = await budgetCollection.deleteOne({user:ObjectId(userid),_id:ObjectId(budgetid)});
+        let deleteInfo = await budget_collection.deleteOne({user:ObjectId(userid),_id:ObjectId(budgetid)});
         if (deleteInfo.deletedCount === 0) throw 'Cannot delete this budget';
 
         return { deleted: true };

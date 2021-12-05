@@ -124,6 +124,7 @@ async function getbyid(id) {
     res._id = res._id.toString();
     return res;
 }
+
 module.exports = {
     create,
     getAll,
