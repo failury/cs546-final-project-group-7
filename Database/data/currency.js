@@ -3,6 +3,36 @@ const currencyCollection = mongoCollections.currency
 let { ObjectId } = require('mongodb');
 
 async function create(name, shortName, symbol, conversion ){
+    if (!name ) throw 'You must provide a Name for currency';
+    if (!shortName ) throw 'You must provide currency abbreviation';
+    if (!symbol ) throw 'You must provide currency symbol';
+    if (!conversion ) throw 'You must provide the conversion rate as conpared to dollars';
+
+    if (typeof name !== 'string') throw 'Name is invalid'
+    if (typeof shortName !== 'string') throw 'Current abbreviation is invalid'
+    if (typeof symbol !== 'string') throw 'Symbol is invalid'
+    if (typeof conversion !== 'string') throw 'conversion is invalid'
+
+    if(!name.trim()){
+        throw "Name contains white spaces"
+    }
+    name = name.trim();
+
+    if(!shortName.trim()){
+        throw "Currency abbreviation contains white spaces"
+    }
+    shortName = shortName.trim();
+
+    if(!symbol.trim()){
+        throw "symbol contains white spaces"
+    }
+    symbol = symbol.trim();
+
+    if(!conversion.trim()){
+        throw "Conversion contains white spaces"
+    }
+    conversion = conversion.trim();
+
     const currency_collection = await currencyCollection();
 
     let newCurrency = {
