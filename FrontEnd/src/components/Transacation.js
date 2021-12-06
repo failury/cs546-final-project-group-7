@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios'
 import Typography from '@mui/material/Typography';
 
-
 async function Delete(token, data) {
   let config = {
     headers:{
@@ -28,8 +27,68 @@ async function Delete(token, data) {
       console.log(err)
     })
 };
-export default function Transaction(props) {
+async function Commit(token, walletname,amount,id) {
+  let wallets = [];
+  try {
+    const res = await axios.get('http://localhost:2000/wallet', {headers: {
+    'Content-Type': 'application/json',
+    'token': token
+  }});
+  res.data.forEach(element => {
+    wallets.push(element);
+  });
+} catch (error) {
+  console.log(error)
+  sessionStorage.removeItem('token');
+  window.location.href='/login';
+} 
+let count = 0;
+let obj = {};
+for (const w of wallets) {
+  if(w.name == walletname){
+      count++;
+      obj = w;
+  }
+}
+if(count == 1){
+  obj.amount = parseInt(amount) + parseInt(obj.amount);
+  let config = {
+    headers:{
+      'Content-Type': 'application/json',
+    'token': token
+    }, 
+  };
 
+  axios.patch('http://localhost:2000/wallet', obj,config).then(res => {
+    console.log(res.data);
+    let config = {
+      headers:{
+        'Content-Type': 'application/json',
+      'token': token
+      }, 
+    };
+  
+    axios.post('http://localhost:2000/transaction/delete', {id:id},config).then(res => {
+      console.log(res.data);
+      window.location.reload(false);
+    })
+      .catch(err => {
+        console.log(err)
+      })
+    window.location.reload(false);
+  })
+    .catch(err => {
+      console.log(err)
+    })
+}else{
+  alert("Wallet does not exist.");
+}
+
+
+  
+};
+export default function Transaction(props) {
+  const [error, setError] = React.useState('');
   const { token, setToken } = useToken();
   let data = props.data;
   return (
@@ -41,9 +100,11 @@ export default function Transaction(props) {
             <TableCell>Payment Date</TableCell>
             <TableCell>Payment Type</TableCell>
             <TableCell>Category</TableCell>
+            <TableCell>Wallet</TableCell>
             <TableCell>Amount</TableCell>
             <TableCell align="right">Memo</TableCell>
-            <TableCell align="right">Actions</TableCell>
+            <TableCell align="right"></TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -61,7 +122,8 @@ export default function Transaction(props) {
             <TableRow key={i}>
               <TableCell >{row.payment_Date}</TableCell>
               <TableCell>{row.payment_Type}</TableCell>
-              <TableCell>category</TableCell>
+              <TableCell>{row.category}</TableCell>
+              <TableCell>{row.wallet}</TableCell>
               <TableCell>{row.amt}</TableCell>
               <TableCell align="right">{`${row.memo}`}</TableCell>
               <TableCell align="right">
@@ -71,6 +133,15 @@ export default function Transaction(props) {
                   color="error"
                 >
                   Delete
+                </Button>
+              </TableCell>
+              <TableCell align="right">
+                <Button
+                  variant="contained"
+                  onClick={() => Commit(token,row.wallet,row.amt,row._id)}
+                  color="success"
+                >
+                  Commit
                 </Button>
               </TableCell>
             </TableRow>

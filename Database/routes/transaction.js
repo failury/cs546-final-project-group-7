@@ -24,6 +24,8 @@ router.post("/transaction/add", async (req, res) => {
     const newTransaction = await transactiondata.create(
       transInfo.payment_Date,
       transInfo.payment_Type,
+      transInfo.category,
+      transInfo.wallet,
       transInfo.Amt,
       transInfo.memo,
       id

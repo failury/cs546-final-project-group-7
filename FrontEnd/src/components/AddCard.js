@@ -16,7 +16,6 @@ import { Stack } from '@mui/material';
 import useToken from '../components/useToken';
 import Typography from '@mui/material/Typography';
 async function addWallet(credentials, token) {
-  console.log(credentials)
   return fetch('http://localhost:2000/wallet', {
     method: 'POST',
     headers: {
@@ -28,9 +27,10 @@ async function addWallet(credentials, token) {
     throw(error);
 }).then(data => {
   if(!data.ok){
+    
     return data.text().then(text => { throw new Error(text) })
   }else {
-    return data.json();
+    return data.text();
   }   
 })
 
@@ -65,6 +65,7 @@ export default function CreditCard(props) {
         amount,
         type
       },token);
+      
       setOpen(false);
       window.location.reload(false);
     } catch (error) {
@@ -138,7 +139,7 @@ export default function CreditCard(props) {
               </Typography>
               </Grid>
           </Box>
-
+ 
         </DialogContent>
         <DialogActions>
 

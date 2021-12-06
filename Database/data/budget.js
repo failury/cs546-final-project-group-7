@@ -64,6 +64,37 @@ let exportedMethods = {
         return budget;
     },
     async create(userid,budgetname,amount,category,type){
+        // userid error checking for object id
+        if (!budgetname) throw 'You must provide a name for your budget';
+        if (!amount ) throw 'You must provide amount';
+        if (!category ) throw 'You must provide category for your budget';
+        if (!type ) throw 'You must provide what type of budget you want to create';
+
+        if (typeof budgetname !== 'string') throw 'Name is invalid';
+        if (typeof amount !== 'string') throw 'Amount is invalid';
+        if (typeof category !== 'string') throw 'Category is invalid'
+        if (typeof type !== 'string') throw 'Type of budget is invalid'
+
+        if(!budgetname.trim()){
+            throw "Budget contains white spaces"
+        }
+        budgetname = budgetname.trim();
+
+        if(!amount.trim()){
+            throw "Amount contains white spaces"
+        }
+        amount = amount.trim();
+
+        if(!category.trim()){
+            throw "Category contains white spaces"
+        }
+        type = type.trim();
+
+        if(!type.trim()){
+            throw "Type contains white spaces"
+        }
+        type = type.trim();
+
         const budget_collection = await budgetCollection();
         let newBudget = {
             user:new ObjectId(userid),
@@ -81,13 +112,28 @@ let exportedMethods = {
         new_budget._id=x;
         return(new_budget);
     },
+
+
     async getBudgetByUserId(userid) {
-        //TODO: error check for userid
+        //TODO: error check for userid error checking for object id
+        if (!userid) throw 'You must provide an userid';
+        if (typeof userid != 'string') throw "the userid must be a string";
+        if (userid.trim().length === 0) throw "the userid is empty spaces";
+        userid = userid.trim();
+
         const budget_collection = await budgetCollection();
         const budgetList = await budget_collection.find({user:ObjectId(userid)}).toArray();
         return budgetList;
     },
+
+
     async update(id,updateBudget) {
+
+        if (!id) throw 'You must provide an id';
+        if (typeof userid != 'string') throw "the id must be a string";
+        if (id.trim().length === 0) throw "the id is empty spaces";
+        id = id.trim();
+
         let parsedId = ObjectId(id);
         if (!parsedId) throw "cannot parse id";
 
@@ -104,12 +150,25 @@ let exportedMethods = {
             {$set: updateBudgetInfo}
         )
         if (updatedInfo.modifiedCount === 0) {
-            throw 'could not update restaurant successfully';
+            throw 'could not update budget successfully';
         }
 
         return await this.get(id);
     },
+
+
     async delete(budgetid,userid){
+        // userid error checking for object id
+        if (!budgetid) throw 'You must provide a budgetid';
+        if (typeof budgetid != 'string') throw "the userid must be a string";
+        if (budgetid.trim().length === 0) throw "the userid is empty spaces";
+        budgetid = budgetid.trim();
+
+        if (!userid) throw 'You must provide an userid';
+        if (typeof userid != 'string') throw "the userid must be a string";
+        if (userid.trim().length === 0) throw "the userid is empty spaces";
+        userid = userid.trim();
+
         const budget_collection = await budgetCollection();
         let budget = await budget_collection.findOne({user:ObjectId(userid),_id:ObjectId(budgetid)});
         if(budget == null) throw 'Budget does not exist';

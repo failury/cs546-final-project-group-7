@@ -2,7 +2,33 @@ const mongoCollections = require('../config/mongoCollections');
 const walletCollection = mongoCollections.wallet
 let { ObjectId } = require('mongodb');
 
-async function create(name, amount, type,userid){
+async function create(name, amount, type, userid){
+    // userid error checking for obejct id
+    if (!name ) throw 'You must provide a Name';
+    if (!amount ) throw 'You must provide amount';
+    if (!type ) throw 'You must provide wallet type';
+    if (!userid ) throw 'You must provide user id';
+
+    if (typeof name !== 'string') throw 'Name is invalid'
+    if (typeof amount !== 'string') throw 'Amount is invalid'
+    if (typeof type !== 'string') throw 'Type is invalid'
+    if (typeof userid !== 'string') throw 'Type is invalid'
+
+    if(!name.trim()){
+        throw "Name contains white spaces"
+    }
+    name = name.trim();
+
+    if(!amount.trim()){
+        throw "Amount contains white spaces"
+    }
+    amount = amount.trim();
+
+    if(!type.trim()){
+        throw "Type contains white spaces"
+    }
+    type = type.trim();
+
     const wallet_collection = await walletCollection();
 
     let newWallet = {
@@ -11,7 +37,14 @@ async function create(name, amount, type,userid){
         amount: amount, 
         type : type,
     }; 
-    
+    const List = await wallet_collection.find({}).toArray();
+    let walletlist = [];
+    List.forEach(element => {
+        walletlist.push(element.name.toLowerCase());
+    });
+    if (walletlist.includes(name.toLowerCase())){
+        throw 'walletname existed'
+    }
     const insertinfo = await wallet_collection.insertOne(newWallet)
     const newId = insertinfo.insertedId;
     const new_wallet = await wallet_collection.findOne({ _id: newId });
@@ -46,8 +79,32 @@ async function deleteWalletByid(walletid,userid) {
 async function searchByName(name, userid) {
     
 }
-async function updateWalletByID(walletid, userid) {
-    
+async function updateWalletByID(name, amount, type,walletid, userid) {
+    const wallet_collection = await walletCollection();
+    const res = await wallet_collection.findOne({ _id: ObjectId(walletid), user:ObjectId(userid)});
+    if (res === null) throw 'the wallet does not exist';
+    let updatedWallet = {
+        user:new ObjectId(userid),
+        name: name,
+        amount: amount, 
+        type : type,
+    }; 
+    const List = await wallet_collection.find({}).toArray();
+    let walletlist = [];
+    List.forEach(element => {
+        if(element._id != walletid){
+            walletlist.push(element.name.toLowerCase());
+        }
+    });
+    if (walletlist.includes(name.toLowerCase())){
+        throw 'walletname existed'
+    }
+    const updateinfo = await wallet_collection.updateOne({ _id: ObjectId(walletid), user:ObjectId(userid)},{$set:updatedWallet});
+    if(updateinfo.modifiedCount ===0){
+        throw 'update failed';
+    }
+    const newWallet = await wallet_collection.findOne({ _id: ObjectId(walletid), user:ObjectId(userid)});
+    return(newWallet);
 }
 async function getAll(){
     let list = [];
@@ -71,5 +128,6 @@ module.exports = {
     create,
     getAll,
     getAllWalletByid,
-    deleteWalletByid
+    deleteWalletByid,
+    updateWalletByID
 }

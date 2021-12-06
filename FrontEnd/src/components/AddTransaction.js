@@ -27,8 +27,10 @@ export default function AddTransaction() {
   const [date, setDate] = React.useState(moment(new Date()).format("YYYY-MM-DD"));
   const [cate, setCate] = React.useState('');
   const [type, setType] = React.useState('');
+  const [wallet,setWallet] = React.useState('');
   const [amount, setAmount] = React.useState(0);
   const [memo, setMemo] = React.useState('');
+  const [walletdata, setWalletdata] = React.useState([]);
   const handleDateChange = (event) => {
     setDate(event.target.value);
   };
@@ -44,7 +46,11 @@ export default function AddTransaction() {
   const handleMemoChange = (event) => {
     setMemo(event.target.value);
   };
-  
+  const handleWalletChange = (event) => {
+    console.log("hi");
+    console.log(event.target.value)
+    setWallet(walletdata[event.target.value]);
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -57,6 +63,8 @@ export default function AddTransaction() {
     let obj = {
       payment_Date: date,
       payment_Type:type,
+      category:cate,
+      wallet:wallet,
       Amt:amount,
       memo:memo
     }
@@ -64,7 +72,6 @@ export default function AddTransaction() {
         'Content-Type': 'application/json',
         'token': token
       }}).then(res => {
-        console.log(res);
         setOpen(false);
         window.location.reload(false);
       })
@@ -72,7 +79,27 @@ export default function AddTransaction() {
       console.log(err)
     })
     
-  }
+  };
+  const fetchWallet = async () =>{
+    try {
+        const res = await axios.get('http://localhost:2000/wallet', {headers: {
+        'Content-Type': 'application/json',
+        'token': token
+      }});
+      let obj = [];
+      res.data.forEach(element => {
+        obj.push(element.name);
+      });
+      setWalletdata(obj);
+    } catch (error) {
+      // console.log(error)
+      // sessionStorage.removeItem('token');
+      // window.location.href='/login';
+    } 
+};
+React.useEffect(() => {
+  fetchWallet();
+},[]);
   return (
     <div>
       <Fab color="primary" onClick={handleClickOpen} aria-label="add" sx={{
@@ -123,6 +150,15 @@ export default function AddTransaction() {
                 onChange={handleCateChange}
                 sx={{ width: 200 }}
                 renderInput={(params) => <TextField {...params} label="Category" />}
+              />
+              <Autocomplete
+                disablePortal
+                id="wallet"
+                options={walletdata}
+                value={wallet}
+                onChange={handleWalletChange}
+                sx={{ width: 200 }}
+                renderInput={(params) => <TextField {...params} label="Wallet" />}
               />
               <TextField
                 id="number"
