@@ -3,7 +3,41 @@ const transactionCollection = mongoCollections.transaction;
 let { ObjectId } = require("mongodb");
 const { wallet } = require("../config/mongoCollections");
 
-async function create(payment_Date, payment_Type,category,wallet, amt, memo, userid) {
+async function create(userid, payment_Date, payment_Type, category, wallet, amt, memo) {
+  // payment date error checking remaining
+  // memo error checking ??
+
+  if (!payment_Type ) throw 'You must provide payment type';
+  if (!category ) throw 'You must select category';
+  if (!wallet ) throw 'You must select wallet';
+  if (!amt ) throw 'You must enter amount';
+
+  if (typeof payment_Type !== 'string') throw 'Payment Type is invalid'
+  if (typeof category !== 'string') throw 'category is invalid'
+  if (typeof wallet !== 'string') throw 'wallet is invalid'
+  if (typeof amt !== 'string') throw 'Amount is invalid'
+
+  if(!payment_Type.trim()){
+    throw "Payment Type contains white spaces"
+  }
+  payment_Type = payment_Type.trim();
+  
+  if(!category.trim()){
+    throw "Category contains white spaces"
+  }
+  category = category.trim();
+
+  if(!wallet.trim()){
+    throw "Wallet contains white spaces"
+  }
+  wallet = wallet.trim();
+
+  if(!amt.trim()){
+    throw "Amount contains white spaces"
+  }
+  amt = amt.trim();
+
+
   const transaction_collection = await transactionCollection();
 
   let newTransaction = {
@@ -27,14 +61,36 @@ async function create(payment_Date, payment_Type,category,wallet, amt, memo, use
 
 async function getAllTransactionByid(userid) {
   //TODO: error check for userid
+  if (!userid) throw 'You must provide userid';
+  if (typeof userid !== 'string') throw 'user id is invalid'
+  if(!userid.trim()){
+    throw "User id contains white spaces"
+  }
+  userid = userid.trim();
+
   const transaction_Collection = await transactionCollection();
   const transactionList = await transaction_Collection
     .find({ user: ObjectId(userid) })
     .toArray();
   return transactionList;
 }
+
+
 async function deleteTransactionByid(transactionid, userid) {
   //TODO: error check for userid
+  if (!transactionid) throw 'You must provide transaction id';
+  if (typeof transactionid !== 'string') throw 'transaction id is invalid'
+  if(!transactionid.trim()){
+    throw "Tranaction id contains white spaces"
+  }
+  transactionid = transactionid.trim();
+
+  if (!id) throw 'You must provide userid';
+  if (typeof userid !== 'string') throw 'user idis invalid'
+  if(!userid.trim()){
+    throw "User id contains white spaces"
+  }
+  userid = userid.trim();
 
   const transaction_Collection = await transactionCollection();
   const transaction = await transaction_Collection.findOne({
@@ -47,21 +103,33 @@ async function deleteTransactionByid(transactionid, userid) {
     _id: ObjectId(transactionid),
   });
   if (deletionInfo.deletedCount === 0) {
-    throw "Could not remove transaction with id of ${transactionid}";
+    throw `Could not remove transaction with id of ${transactionid}`;
   }
   return { deleted: transactionid };
 }
 
 async function searchByDate(date, userid) {
+  // error checking for date remaining
+
+  if (!userid) throw 'You must provide userid';
+  if (typeof userid !== 'string') throw 'user idis invalid'
+  if(!userid.trim()){
+    throw "User id contains white spaces"
+  }
+  userid = userid.trim();
+
   const transaction_Collection = await transactionCollection();
   const transaction = await transaction_Collection.findOne({
     user: ObjectId(userid),
     date: date,
   });
   console.log(transaction);
+
 }
 
 async function searchByCategory(date, userid) {
+  // error checking remaining do not remove this line
+
   const transaction_Collection = await transactionCollection();
   const transaction = await transaction_Collection.findOne({
     user: ObjectId(userid),
@@ -70,6 +138,8 @@ async function searchByCategory(date, userid) {
 }
 
 async function searchByPaymentType(date, userid) {
+  // error checking remaining do not remove this line
+
   const transaction_Collection = await transactionCollection();
   const transaction = await transaction_Collection.findOne({
     user: ObjectId(userid),
