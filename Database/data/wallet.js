@@ -11,7 +11,14 @@ async function create(name, amount, type,userid){
         amount: amount, 
         type : type,
     }; 
-    
+    const List = await wallet_collection.find({}).toArray();
+    let walletlist = [];
+    List.forEach(element => {
+        walletlist.push(element.name.toLowerCase());
+    });
+    if (walletlist.includes(name.toLowerCase())){
+        throw 'walletname existed'
+    }
     const insertinfo = await wallet_collection.insertOne(newWallet)
     const newId = insertinfo.insertedId;
     const new_wallet = await wallet_collection.findOne({ _id: newId });
@@ -46,8 +53,32 @@ async function deleteWalletByid(walletid,userid) {
 async function searchByName(name, userid) {
     
 }
-async function updateWalletByID(walletid, userid) {
-    
+async function updateWalletByID(name, amount, type,walletid, userid) {
+    const wallet_collection = await walletCollection();
+    const res = await wallet_collection.findOne({ _id: ObjectId(walletid), user:ObjectId(userid)});
+    if (res === null) throw 'the wallet does not exist';
+    let updatedWallet = {
+        user:new ObjectId(userid),
+        name: name,
+        amount: amount, 
+        type : type,
+    }; 
+    const List = await wallet_collection.find({}).toArray();
+    let walletlist = [];
+    List.forEach(element => {
+        if(element._id != walletid){
+            walletlist.push(element.name.toLowerCase());
+        }
+    });
+    if (walletlist.includes(name.toLowerCase())){
+        throw 'walletname existed'
+    }
+    const updateinfo = await wallet_collection.updateOne({ _id: ObjectId(walletid), user:ObjectId(userid)},{$set:updatedWallet});
+    if(updateinfo.modifiedCount ===0){
+        throw 'update failed';
+    }
+    const newWallet = await wallet_collection.findOne({ _id: ObjectId(walletid), user:ObjectId(userid)});
+    return(newWallet);
 }
 async function getAll(){
     let list = [];
@@ -71,5 +102,6 @@ module.exports = {
     create,
     getAll,
     getAllWalletByid,
-    deleteWalletByid
+    deleteWalletByid,
+    updateWalletByID
 }

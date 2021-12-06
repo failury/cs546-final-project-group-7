@@ -1,14 +1,17 @@
 const mongoCollections = require("../config/mongoCollections");
 const transactionCollection = mongoCollections.transaction;
 let { ObjectId } = require("mongodb");
+const { wallet } = require("../config/mongoCollections");
 
-async function create(payment_Date, payment_Type, amt, memo, userid) {
+async function create(payment_Date, payment_Type,category,wallet, amt, memo, userid) {
   const transaction_collection = await transactionCollection();
 
   let newTransaction = {
     user: new ObjectId(userid),
     payment_Date: payment_Date,
     payment_Type: payment_Type,
+    category:category,
+    wallet:wallet,
     amt: amt,
     memo: memo,
   };

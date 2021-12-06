@@ -9,22 +9,24 @@ import Container from '@mui/material/Container';
 import CreditCard from '../components/Card';
 import AddCard from '../components/AddCard'
 import axios from 'axios';
+import { Stack, Typography,Paper,Divider  } from '@mui/material';
 
 export default function Wallets() {
   const { token, setToken } = useToken();
   const [data, setdata] = React.useState([]);
+  const [len,setLen] = React.useState(0);
   const fetchData = async () =>{
     try {
         const res = await axios.get('http://localhost:2000/wallet', {headers: {
         'Content-Type': 'application/json',
         'token': token
       }});
-      console.log(res.data);
       setdata(res.data);
+      setLen(res.data.length);
     } catch (error) {
       console.log(error)
-      // sessionStorage.removeItem('token');
-      // window.location.href='/login';
+      sessionStorage.removeItem('token');
+      window.location.href='/login';
     } 
 };
   React.useEffect(() => {
@@ -36,15 +38,7 @@ export default function Wallets() {
       <CssBaseline />
 
       <Container maxWidth="lg" component="main"
-        sx={{
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-              ? theme.palette.grey[100]
-              : theme.palette.grey[900],
-          flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
-        }}>
+        >
         <Grid container spacing={3} alignItems="stretch" justifyContent="center">
           <AddCard/>
           {data.map((w) => (
@@ -57,10 +51,43 @@ export default function Wallets() {
               lg={6}
               margin={2}
             >
+              <Paper elevation={3}>
+              <Stack direction="row" spacing={2}>
                 <CreditCard info={w} />
+                <Stack  sx={{paddingTop : '6%'}}  divider={<Divider  flexItem />}>
+                <Typography component="p"
+              variant="h5"
+              align="left"
+              color="text.secondary"
+              gutterBottom>Name: {w.name}</Typography>
+              <Typography component="p"
+              variant="h5"
+              align="left"
+              color="text.secondary"
+              gutterBottom>Type: {w.type}</Typography>
+              <Typography component="p"
+              variant="h5"
+              align="left"
+              color="text.secondary"
+              gutterBottom>Amount: {w.amount}$</Typography>
+                </Stack>
+               
+              
+              </Stack>
+                </Paper>
             </Grid>
           ))}
+          
         </Grid>
+        { len == 0 && <Typography
+              component="h1"
+              variant="h3"
+              align="center"
+              color="text.secondary"
+              gutterBottom
+            >
+              You dont have any Wallet yet
+            </Typography>}
       </Container>
 
 
