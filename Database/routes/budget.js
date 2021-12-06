@@ -15,6 +15,22 @@ router.get('/budget', async (req, res) => {
     }
 });
 
+router.post('/budget/budgetname', async (req, res) => {
+    let token = req.headers.token;
+    console.log(token);
+    let budgetname = req.body.budget_name;
+    console.log(budgetname);
+
+    try {
+        let id = jwt.verify(token, "mySecretKey").id;
+        let budget = await budgetData.getByBudgetName(budgetname,id);
+        console.log(budget);
+        res.json(budget);
+    } catch (e) {
+        res.status(404).json({ error: 'budget not found' });
+    }
+});
+
 router.post('/budget/add',async (req,res) => {
     let budgetInfo = req.body;
     let token = req.headers.token;

@@ -5,20 +5,6 @@ const categories = require('./category');
 let { ObjectId } = require('mongodb');
 
 let exportedMethods = {
-    async get(id){
-        if (!id) throw 'You must provide an id to search for';
-        if (typeof id != 'string') throw "the id must be a string";
-        if (id.trim().length === 0) throw "the id is empty spaces";
-
-        let parsedId = ObjectId(id);
-        if (!parsedId) throw "cannot parse id";
-
-        const budget_collection = await budgetCollection();
-        let budget = await budget_collection.findOne({_id:parsedId});
-        if (budget === null) throw 'No such budget';
-
-        return budget;
-    },
     async create(userid,budgetname,amount,category,wallet,type){
         // userid error checking for object id
         if (!budgetname) throw 'You must provide a name for your budget';
@@ -70,6 +56,20 @@ let exportedMethods = {
         return(new_budget);
     },
 
+    async getByBudgetName(budgetname,userid){
+        // if (!id) throw 'You must provide an id to search for';
+        // if (typeof id != 'string') throw "the id must be a string";
+        // if (id.trim().length === 0) throw "the id is empty spaces";
+
+        // let parsedId = ObjectId(id);
+        // if (!parsedId) throw "cannot parse id";
+
+        const budget_collection = await budgetCollection();
+        let budget = await budget_collection.findOne({budgetname:budgetname,user:ObjectId(userid)});
+        if (budget === null) throw 'No such budget';
+
+        return budget;
+    },
 
     async getBudgetByUserId(userid) {
         //TODO: error check for userid error checking for object id
