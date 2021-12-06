@@ -98,9 +98,7 @@ async function checklogin(username, password) {
 }
 
 async function getAll() {
-    // if(arguments.length >0){
-    //     throw 'Error: Parameters should not be passed'
-    // }
+
     let list = [];
     const users_Collection = await usersCollection();
     const usersList = await users_Collection.find({}).toArray();
@@ -117,12 +115,20 @@ async function getAll() {
     }
     return list;
 }
+
 async function getbyid(id) {
+    if (!id ) throw 'You must provide id';
+    if (typeof id !== 'string') throw 'id is invalid'
+    if(!id.trim()){
+        throw "id contains white spaces"
+    }
+    id = id.trim();
+
     const users_Collection = await usersCollection();
-    let res = await users_Collection.findOne({_id:ObjectId(id)});
-    if (res === null) throw 'No user with that id';
-    res._id = res._id.toString();
-    return res;
+    let user_id = await users_Collection.findOne({_id:ObjectId(id)});
+    if (user_id === null) throw 'No user with that id';
+    user_id._id = user_id._id.toString();
+    return user_id;
 }
 
 module.exports = {

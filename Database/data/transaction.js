@@ -6,7 +6,7 @@ const { wallet } = require("../config/mongoCollections");
 async function create(userid, payment_Date, payment_Type, category, wallet, amt, memo) {
   // payment date error checking remaining
   // memo error checking ??
-
+  // userid error checking for object id
   if (!payment_Type ) throw 'You must provide payment type';
   if (!category ) throw 'You must select category';
   if (!wallet ) throw 'You must select wallet';
@@ -61,6 +61,7 @@ async function create(userid, payment_Date, payment_Type, category, wallet, amt,
 
 async function getAllTransactionByid(userid) {
   //TODO: error check for userid
+  // userid error checking for object id
   if (!userid) throw 'You must provide userid';
   if (typeof userid !== 'string') throw 'user id is invalid'
   if(!userid.trim()){
@@ -77,7 +78,8 @@ async function getAllTransactionByid(userid) {
 
 
 async function deleteTransactionByid(transactionid, userid) {
-  //TODO: error check for userid
+  //TODO: error check for userid for object id
+
   if (!transactionid) throw 'You must provide transaction id';
   if (typeof transactionid !== 'string') throw 'transaction id is invalid'
   if(!transactionid.trim()){
@@ -109,7 +111,8 @@ async function deleteTransactionByid(transactionid, userid) {
 }
 
 async function searchByDate(date, userid) {
-  // error checking for date remaining
+  // error checking for date remaining 
+  // userid error checking for object id
 
   if (!userid) throw 'You must provide userid';
   if (typeof userid !== 'string') throw 'user idis invalid'

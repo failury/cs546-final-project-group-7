@@ -64,7 +64,7 @@ let exportedMethods = {
         return budget;
     },
     async create(userid,budgetname,amount,category,type){
-
+        // userid error checking for object id
         if (!budgetname) throw 'You must provide a name for your budget';
         if (!amount ) throw 'You must provide amount';
         if (!category ) throw 'You must provide category for your budget';
@@ -115,7 +115,7 @@ let exportedMethods = {
 
 
     async getBudgetByUserId(userid) {
-        //TODO: error check for userid
+        //TODO: error check for userid error checking for object id
         if (!userid) throw 'You must provide an userid';
         if (typeof userid != 'string') throw "the userid must be a string";
         if (userid.trim().length === 0) throw "the userid is empty spaces";
@@ -158,7 +158,7 @@ let exportedMethods = {
 
 
     async delete(budgetid,userid){
-
+        // userid error checking for object id
         if (!budgetid) throw 'You must provide a budgetid';
         if (typeof budgetid != 'string') throw "the userid must be a string";
         if (budgetid.trim().length === 0) throw "the userid is empty spaces";
