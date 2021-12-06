@@ -3,7 +3,6 @@ import AddBudgets from '../components/AddBudgets';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import axios from 'axios';
@@ -11,6 +10,29 @@ import useToken from '../components/useToken';
 import { useEffect, useState } from 'react';
 import { Stack } from '@mui/material';
 import Budget from '../components/Budget';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+
+async function Delete(token, data) {
+  let config = {
+    headers:{
+      'Content-Type': 'application/json',
+    'token': token
+    }, 
+  };
+
+  axios.post('http://localhost:2000/budget/delete', {id:data._id},config).then(res => {
+    console.log(res.data);
+    window.location.reload(false);
+  })
+    .catch(err => {
+      console.log(err)
+    })
+};
   
 export default function Budgets() {
   const { token, setToken } = useToken();
@@ -51,28 +73,57 @@ export default function Budgets() {
                   <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <AddBudgets/>
                         <Stack component="Grid" spacing={5} noValidate xs={12} >
-                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <Budget title="All Budget" data = {data} />
-                                    </Paper>
+                          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                              <React.Fragment>
+                                <Table size="medium">
+                                  <TableHead>
+                                    <TableRow>
+                                      <TableCell>Budget Name</TableCell>
+                                      <TableCell>Category</TableCell>
+                                      <TableCell>Amount</TableCell>
+                                      <TableCell>Wallet</TableCell>
+                                      <TableCell>Type</TableCell>
+                                      <TableCell align="right">Actions</TableCell>
+                                    </TableRow>
+                                  </TableHead>
+                                  <TableBody>
+                                  { data.length == 0 && <Typography
+                                        component="h1"
+                                        variant="h5"
+                                        align="center"
+                                        color="text.secondary"
+                                        gutterBottom
+                                      >
+                                        You don't have any budget yet
+                                      </Typography>}
+                                  
+                                    {data.map((row, i) => (
+                                      <TableRow key={i}>
+                                        <TableCell >{row.budgetname}</TableCell>
+                                        <TableCell>{row.category}</TableCell>
+                                        <TableCell>{row.amount}</TableCell>
+                                        <TableCell>{row.wallet}</TableCell>
+                                        <TableCell>{row.type}</TableCell>
+                                        <TableCell>
+                                          <Budget info={row}/>
+                                        </TableCell>
+                                        <TableCell align="right">
+                                          <Button
+                                            variant="contained"
+                                              onClick={() => Delete(token, row)}
+                                            color="error"
+                                          >
+                                            Delete
+                                          </Button>
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
+                                  </TableBody>
+                                </Table>
+                              </React.Fragment>
+                          </Paper>
                         </Stack>
                     </Container>
-
-                  {/* <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Paper
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 500,
-                                }}
-                            >
-                                <Budgets />
-                            </Paper>
-                        </Grid>
-                    </Grid>
-                  </Container> */}
                 </Box>
           </Box>
       </>

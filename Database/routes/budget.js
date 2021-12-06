@@ -25,6 +25,7 @@ router.post('/budget/add',async (req,res) => {
             budgetInfo.budgetname,
             budgetInfo.amount,
             budgetInfo.category,
+            budgetInfo.wallet,
             budgetInfo.type
         );
         res.json(newBudget);
@@ -35,11 +36,14 @@ router.post('/budget/add',async (req,res) => {
 
 router.patch('/budget/update',async (req,res) => {
     let budgetInfo = req.body;
+    console.log(budgetInfo);
     let token = req.headers.token;
+    let id = jwt.verify(token, "mySecretKey").id;
+    console.log(id);
+    console.log(budgetInfo.budgetid);
 
     try {
-        let id = jwt.verify(token, "mySecretKey").id;
-        let updatedBudget = await budgetData.update(id,budgetInfo);
+        let updatedBudget = await budgetData.update(budgetInfo.budgetid,id,budgetInfo.updateinfo);
         res.json(updatedBudget);
     } catch (e) {
         res.sendStatus(500);

@@ -1,5 +1,9 @@
 import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import useToken from './useToken';
@@ -11,9 +15,10 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function AddBudget() {
+export default function UpdateBudget() {
   const [open, setOpen] = React.useState(false);
   const categories = ['Electronic Devices', 'Entertainment','Food','Daily Expense'];
   const types = ['Monthly', 'Yearly'];
@@ -45,7 +50,7 @@ export default function AddBudget() {
     setOpen(false);
   };
 
-  const handleAddBudget = (event) => {
+  const handleUpdateBudget = (event) => {
     event.preventDefault();
     let obj = {
       budgetname:budgetname,
@@ -54,7 +59,7 @@ export default function AddBudget() {
       wallet:wallet,
       type:type
     }
-      axios.post('http://localhost:2000/budget/add', obj,{headers: {
+      axios.patch('http://localhost:2000/budget/update', obj,{headers: {
         'Content-Type': 'application/json',
         'token': token
       }}).then(res => {
@@ -70,7 +75,7 @@ export default function AddBudget() {
 
   return (
     <div>
-      <Fab color="primary" onClick={handleClickOpen} aria-label="add" sx={{
+      {/* <Fab color="primary" onClick={handleClickOpen} aria-label="update" sx={{
         position: "fixed", margin: 0,
         top: "auto",
         right: 40,
@@ -78,7 +83,13 @@ export default function AddBudget() {
         left: "auto"
       }}>
         <AddIcon />
-      </Fab>
+      </Fab> */}
+      <button
+        variant='contained'
+        onClick={handleClickOpen}
+      >
+          Update
+      </button>
       <Dialog
         open={open}
         // TransitionComponent={Transition}
@@ -86,7 +97,7 @@ export default function AddBudget() {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Add a New Budget"}</DialogTitle>
+        <DialogTitle>{"Update a Budget"}</DialogTitle>
         <DialogContent>
           <Box sx={{ p: 2, border: '1px solid grey' }}>
             <Stack component="form" noValidate spacing={3}>
@@ -147,81 +158,9 @@ export default function AddBudget() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleAddBudget}>Add</Button>
+          <Button onClick={handleUpdateBudget}>Update</Button>
         </DialogActions>
       </Dialog>
     </div>
   )
-
-//   return (
-//     <React.Fragment>
-//       <Typography variant="h6" gutterBottom>
-//         Add Budget
-//       </Typography>
-//       <Box component="form">
-//       <Grid container spacing={3}>
-//         <Grid item xs={12} md={6}>
-//           <TextField
-//             required
-//             id="budgetname"
-//             label="Budget Name"
-//             fullWidth
-//             autoComplete="cc-name"
-//             variant="standard"
-//             onChange={handleNameChange}
-//           />
-//         </Grid>
-//         <Grid item xs={12} md={6}>
-//           <TextField
-//             required
-//             id="category"
-//             label="Category"
-//             fullWidth
-//             autoComplete="cc-category"
-//             variant="standard"
-//             onChange={handleCatChange}
-//           />
-//         </Grid>
-//         <Grid item xs={12} md={6}>
-//           <TextField
-//             required
-//             id="amount"
-//             label="Amount"
-//             fullWidth
-//             autoComplete="cc-amount"
-//             variant="standard"
-//             onChange={handleAmountChange}
-//           />
-//         </Grid>
-//         <Grid item xs={12} md={6}>
-//           <TextField
-//             required
-//             id="type"
-//             label="Type"
-//             fullWidth
-//             autoComplete="cc-type"
-//             variant="standard"
-//             onChange={handleTypeChange}
-//           />
-//         </Grid>
-//         </Grid>
-//       </Box>
-//       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-//         <Button
-//           type="submit"
-//           variant="contained"
-//           onClick={handleAddBudget}
-//           sx={{ mt: 3, mb: 2 }}
-//         >
-//             Submit
-//         </Button>
-//         <Button 
-//             type="cancel"
-//             sx={{ mt: 3, ml: 2 }}
-//         >
-//             Cancel
-//         </Button>
-//       </Box>
-//     </React.Fragment>
-//   );
 }

@@ -4,50 +4,6 @@ const users = require('./users');
 const categories = require('./category');
 let { ObjectId } = require('mongodb');
 
-// async function create(name, amt, budgetType){
-//     const budget_collection = await budgetCollection();
-
-//     let newBudget = { 
-//         name: name,
-//         amt: amt,
-//         budgetType: budgetType
-//     }; 
-
-//     const insertinfo = await budget_collection.insertOne(newBudget)
-//     const newId = insertinfo.insertedId;
-//     const new_budget = await budget_collection.findOne({ _id: newId });
-//     const newObjId = ObjectId(new_budget._id); 
-//     let x = new_budget._id
-//     x = newObjId.toString(); 
-//     new_budget._id=x;
-
-//     return(new_budget)
-// }
-
-// async function getAll(){
-//     let list = [];
-//     const budget_Collection = await budgetCollection();
-//     const budgetList = await budget_Collection.find({}).toArray();
-
-//     for(let i=0; i<budgetList.length; i++){
-//         let x = budgetList[i]._id
-//         let y=x.toString();
-//         budgetList[i]._id = y;
-//     }
-
-//     for(let i=0;i<budgetList.length;i++){
-//         let ls = {"budget name": budgetList[i].name, "Amt": budgetList[i].amt, "budget_Type": budgetList[i].budgetType};
-//         list.push(ls);
-//     }
-//     return list;
-// }
-
-// module.exports = {
-//     create,
-//     getAll
-// }
-
-
 let exportedMethods = {
     async get(id){
         if (!id) throw 'You must provide an id to search for';
@@ -63,7 +19,7 @@ let exportedMethods = {
 
         return budget;
     },
-    async create(userid,budgetname,amount,category,type){
+    async create(userid,budgetname,amount,category,wallet,type){
         // userid error checking for object id
         if (!budgetname) throw 'You must provide a name for your budget';
         if (!amount ) throw 'You must provide amount';
@@ -101,6 +57,7 @@ let exportedMethods = {
             budgetname:budgetname,
             amount:amount,
             category:category,
+            wallet:wallet,
             type:type
         }
         let insertInfo = await budget_collection.insertOne(newBudget);
@@ -126,34 +83,32 @@ let exportedMethods = {
         return budgetList;
     },
 
-
-    async update(id,updateBudget) {
+    async update(id,userid,budgetInfo) {
 
         if (!id) throw 'You must provide an id';
-        if (typeof userid != 'string') throw "the id must be a string";
+        if (typeof id != 'string') throw "the id must be a string";
         if (id.trim().length === 0) throw "the id is empty spaces";
         id = id.trim();
 
-        let parsedId = ObjectId(id);
-        if (!parsedId) throw "cannot parse id";
-
         const budget_collection = await budgetCollection();
         const updateBudgetInfo = {
-            budgetname: updateBudget.budgetname,
-            amount: updateBudget.amount,
-            category: updateBudget.category,
-            type: updateBudget.type
+            budgetname: budgetInfo.budgetname,
+            amount: budgetInfo.amount,
+            category: budgetInfo.category,
+            wallet:budgetInfo.wallet,
+            type: budgetInfo.type
         }
 
         const updatedInfo = await budget_collection.updateOne(
-            {id: parsedId},
+            {_id:ObjectId(id),user:ObjectId(userid)},
             {$set: updateBudgetInfo}
-        )
+        );
         if (updatedInfo.modifiedCount === 0) {
             throw 'could not update budget successfully';
         }
 
-        return await this.get(id);
+        let newBudget = await budget_collection.findOne({user:ObjectId(userid),_id:ObjectId(id)});
+        return newBudget;
     },
 
 
