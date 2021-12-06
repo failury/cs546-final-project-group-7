@@ -2,7 +2,33 @@ const mongoCollections = require('../config/mongoCollections');
 const walletCollection = mongoCollections.wallet
 let { ObjectId } = require('mongodb');
 
-async function create(name, amount, type,userid){
+async function create(name, amount, type, userid){
+    // userid error checking for obejct id
+    if (!name ) throw 'You must provide a Name';
+    if (!amount ) throw 'You must provide amount';
+    if (!type ) throw 'You must provide wallet type';
+    if (!userid ) throw 'You must provide user id';
+
+    if (typeof name !== 'string') throw 'Name is invalid'
+    if (typeof amount !== 'string') throw 'Amount is invalid'
+    if (typeof type !== 'string') throw 'Type is invalid'
+    if (typeof userid !== 'string') throw 'Type is invalid'
+
+    if(!name.trim()){
+        throw "Name contains white spaces"
+    }
+    name = name.trim();
+
+    if(!amount.trim()){
+        throw "Amount contains white spaces"
+    }
+    amount = amount.trim();
+
+    if(!type.trim()){
+        throw "Type contains white spaces"
+    }
+    type = type.trim();
+
     const wallet_collection = await walletCollection();
 
     let newWallet = {
