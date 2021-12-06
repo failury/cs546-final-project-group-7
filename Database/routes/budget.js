@@ -46,16 +46,14 @@ router.patch('/budget/update',async (req,res) => {
     }
 });
 
-router.delete('/budget/delete', async (req, res) => {
-    if (!req.params.id) throw 'You must specify an ID to delete';
-
+router.post('/budget/delete', async (req, res) => {
     let budgetid = req.body.id;
     let token = req.headers.token;
 
     try {
         let id = jwt.verify(token, "mySecretKey").id;
         await budgetData.delete(budgetid,id);
-        res.sendStatus(200);
+        res.send("Budget Deleted");
     } catch (e) {
         res.sendStatus(500);
     }

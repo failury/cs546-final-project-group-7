@@ -54,6 +54,7 @@ async function Delete(token, data) {
       console.log(err)
     })
 };
+
 export default function Budget(props) {
 
   const { token, setToken } = useToken();
