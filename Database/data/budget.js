@@ -6,7 +6,7 @@ let { ObjectId } = require('mongodb');
 
 let exportedMethods = {
     async create(userid,budgetname,amount,category,wallet,type){
-        // userid error checking for object id
+        //userid error checking for object id
         if (!budgetname) throw 'You must provide a name for your budget';
         if (!amount ) throw 'You must provide amount';
         if (!category ) throw 'You must provide category for your budget';
@@ -21,11 +21,6 @@ let exportedMethods = {
             throw "Budget contains white spaces"
         }
         budgetname = budgetname.trim();
-
-        if(!amount.trim()){
-            throw "Amount contains white spaces"
-        }
-        amount = amount.trim();
 
         if(!category.trim()){
             throw "Category contains white spaces"
@@ -57,12 +52,9 @@ let exportedMethods = {
     },
 
     async getByBudgetName(budgetname,userid){
-        // if (!id) throw 'You must provide an id to search for';
-        // if (typeof id != 'string') throw "the id must be a string";
-        // if (id.trim().length === 0) throw "the id is empty spaces";
-
-        // let parsedId = ObjectId(id);
-        // if (!parsedId) throw "cannot parse id";
+        if (!id) throw 'You must provide an id to search for';
+        if (typeof id != 'string') throw "the id must be a string";
+        if (id.trim().length === 0) throw "the id is empty spaces";
 
         const budget_collection = await budgetCollection();
         let budget = await budget_collection.findOne({budgetname:budgetname,user:ObjectId(userid)});

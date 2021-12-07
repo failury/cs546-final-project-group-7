@@ -117,7 +117,7 @@ export default function Budget(props) {
               fullWidth
               id="amount"
               label="Amount"
-              //type="number"
+              type="number"
               onChange={handleAmountChange}
               variant="standard"
             />
@@ -174,17 +174,6 @@ export default function Budget(props) {
             </Button>
               </Grid>
             </Grid>
-            {/* <Button
-              onClick={handleRemove}
-              fullWidth
-              variant="contained"
-              color="error"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              I would like to remove this budget
-            </Button> */}
-            
-            
             <Grid item xs={12}>
             <Typography variant="body1" component="div" gutterBottom color="error">
                {error}

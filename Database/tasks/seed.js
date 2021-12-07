@@ -3,19 +3,15 @@ const data = require('../data/');
 const users = data.users;
 const categories = data.category;
 const budgets = data.budget;
+const wallet = data.wallet;
+const transaction = data.transaction;
 
 async function main() {
     const db = await dbConnection.connectToDb();
     //await db.dropDatabase();
 
-    let updateInfo = {
-        budgetname: 'Gaming Monitor',      
-        category: 'Electronic Devices',    
-        amount: '400',
-        wallet: 'Card2',
-        type: 'Monthly'
-    };
-    await budgets.update('61ae2557396b8a937ff6ffc6','61ae2557396b8a937ff6ffc3',updateInfo);
+    //await wallet.create('Card3','500','Debit','61aec22bf54a16fe120b0c72')
+    await transaction.create('2021-12-06','income','gro','Card3','400','daily','61aec22bf54a16fe120b0c72');
 
     console.log('Done seeding database');
     await dbConnection.closeConnection();

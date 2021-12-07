@@ -92,9 +92,9 @@ export default function AddTransaction() {
       });
       setWalletdata(obj);
     } catch (error) {
-      // console.log(error)
-      // sessionStorage.removeItem('token');
-      // window.location.href='/login';
+      console.log(error);
+      sessionStorage.removeItem('token');
+      window.location.href='/login';
     } 
 };
 React.useEffect(() => {
