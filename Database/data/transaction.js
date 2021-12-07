@@ -87,7 +87,7 @@ async function deleteTransactionByid(transactionid, userid) {
   }
   transactionid = transactionid.trim();
 
-  if (!id) throw 'You must provide userid';
+  if (!userid) throw 'You must provide userid';
   if (typeof userid !== 'string') throw 'user idis invalid'
   if(!userid.trim()){
     throw "User id contains white spaces"

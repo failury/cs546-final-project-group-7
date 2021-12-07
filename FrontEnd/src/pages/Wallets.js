@@ -1,6 +1,4 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import useToken from '../components/useToken';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
@@ -12,7 +10,7 @@ import axios from 'axios';
 import { Stack, Typography,Paper,Divider  } from '@mui/material';
 
 export default function Wallets() {
-  const { token, setToken } = useToken();
+  const { token } = useToken();
   const [data, setdata] = React.useState([]);
   const [len,setLen] = React.useState(0);
   const fetchData = async () =>{
@@ -79,7 +77,7 @@ export default function Wallets() {
           ))}
           
         </Grid>
-        { len == 0 && <Typography
+        { len === 0 && <Typography
               component="h1"
               variant="h3"
               align="center"

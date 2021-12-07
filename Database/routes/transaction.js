@@ -10,8 +10,7 @@ router.get("/transaction", async (req, res) => {
     let transactions = await transactiondata.getAllTransactionByid(decoded.id);
     res.json(transactions);
   } catch (e) {
-    console.log(e);
-    res.status(500).json(e.message);
+    res.status(500).json({ error: e });
   }
 });
 
@@ -30,10 +29,9 @@ router.post("/transaction/add", async (req, res) => {
       transInfo.memo,
       id
     );
-    res.send("Transaction Created");
+    res.json({ ok: "Transaction Created" });
   } catch (e) {
-    console.log(e);
-    res.status(500).json(e);
+    res.status(500).json({ error: e });
   }
 });
 
@@ -49,7 +47,7 @@ router.post("/transaction/delete", async (req, res) => {
     );
     res.send("Transaction Deleted");
   } catch (e) {
-    res.status(500).json(e.message);
+    res.status(500).json({ error: e });
   }
 });
 

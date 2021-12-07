@@ -179,15 +179,6 @@ export default function Dashboard({ routes }) {
             Dashboard
           </Typography>
           <AccountMenu/>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
 
         </Toolbar>
       </AppBar>
