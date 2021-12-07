@@ -37,17 +37,16 @@ async function create( payment_Date, payment_Type, category, wallet, amt, memo,u
   }
   amt = amt.trim();
 
-
   const transaction_collection = await transactionCollection();
 
   let newTransaction = {
-    user: new ObjectId(userid),
     payment_Date: payment_Date,
     payment_Type: payment_Type,
     category:category,
     wallet:wallet,
     amt: amt,
     memo: memo,
+    user: new ObjectId(userid)
   };
   const insertinfo = await transaction_collection.insertOne(newTransaction);
   const newId = insertinfo.insertedId;
