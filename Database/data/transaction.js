@@ -3,37 +3,45 @@ const transactionCollection = mongoCollections.transaction;
 let { ObjectId } = require("mongodb");
 const { wallet } = require("../config/mongoCollections");
 
-async function create( payment_Date, payment_Type, category, wallet, amt, memo,userid) {
+async function create(
+  payment_Date,
+  payment_Type,
+  category,
+  wallet,
+  amt,
+  memo,
+  userid
+) {
   // payment date error checking remaining
   // memo error checking ??
   // userid error checking for object id
-  if (!payment_Type ) throw 'You must provide payment type';
-  if (!category ) throw 'You must select category';
-  if (!wallet ) throw 'You must select wallet';
-  if (!amt ) throw 'You must enter amount';
+  if (!payment_Type) throw "You must provide payment type";
+  if (!category) throw "You must select category";
+  if (!wallet) throw "You must select wallet";
+  if (!amt) throw "You must enter amount";
 
-  if (typeof payment_Type !== 'string') throw 'Payment Type is invalid'
-  if (typeof category !== 'string') throw 'category is invalid'
-  if (typeof wallet !== 'string') throw 'wallet is invalid'
-  if (typeof amt !== 'string') throw 'Amount is invalid'
+  if (typeof payment_Type !== "string") throw "Payment Type is invalid";
+  if (typeof category !== "string") throw "category is invalid";
+  if (typeof wallet !== "string") throw "wallet is invalid";
+  if (typeof amt !== "string") throw "Amount is invalid";
 
-  if(!payment_Type.trim()){
-    throw "Payment Type contains white spaces"
+  if (!payment_Type.trim()) {
+    throw "Payment Type contains white spaces";
   }
   payment_Type = payment_Type.trim();
-  
-  if(!category.trim()){
-    throw "Category contains white spaces"
+
+  if (!category.trim()) {
+    throw "Category contains white spaces";
   }
   category = category.trim();
 
-  if(!wallet.trim()){
-    throw "Wallet contains white spaces"
+  if (!wallet.trim()) {
+    throw "Wallet contains white spaces";
   }
   wallet = wallet.trim();
 
-  if(!amt.trim()){
-    throw "Amount contains white spaces"
+  if (!amt.trim()) {
+    throw "Amount contains white spaces";
   }
   amt = amt.trim();
 
@@ -42,11 +50,11 @@ async function create( payment_Date, payment_Type, category, wallet, amt, memo,u
   let newTransaction = {
     payment_Date: payment_Date,
     payment_Type: payment_Type,
-    category:category,
-    wallet:wallet,
+    category: category,
+    wallet: wallet,
     amt: amt,
     memo: memo,
-    user: new ObjectId(userid)
+    user: new ObjectId(userid),
   };
   const insertinfo = await transaction_collection.insertOne(newTransaction);
   const newId = insertinfo.insertedId;
@@ -61,10 +69,10 @@ async function create( payment_Date, payment_Type, category, wallet, amt, memo,u
 async function getAllTransactionByid(userid) {
   //TODO: error check for userid
   // userid error checking for object id
-  if (!userid) throw 'You must provide userid';
-  if (typeof userid !== 'string') throw 'user id is invalid'
-  if(!userid.trim()){
-    throw "User id contains white spaces"
+  if (!userid) throw "You must provide userid";
+  if (typeof userid !== "string") throw "user id is invalid";
+  if (!userid.trim()) {
+    throw "User id contains white spaces";
   }
   userid = userid.trim();
 
@@ -75,21 +83,20 @@ async function getAllTransactionByid(userid) {
   return transactionList;
 }
 
-
 async function deleteTransactionByid(transactionid, userid) {
   //TODO: error check for userid for object id
 
-  if (!transactionid) throw 'You must provide transaction id';
-  if (typeof transactionid !== 'string') throw 'transaction id is invalid'
-  if(!transactionid.trim()){
-    throw "Tranaction id contains white spaces"
+  if (!transactionid) throw "You must provide transaction id";
+  if (typeof transactionid !== "string") throw "transaction id is invalid";
+  if (!transactionid.trim()) {
+    throw "Tranaction id contains white spaces";
   }
   transactionid = transactionid.trim();
 
-  if (!id) throw 'You must provide userid';
-  if (typeof userid !== 'string') throw 'user idis invalid'
-  if(!userid.trim()){
-    throw "User id contains white spaces"
+  if (!id) throw "You must provide userid";
+  if (typeof userid !== "string") throw "user idis invalid";
+  if (!userid.trim()) {
+    throw "User id contains white spaces";
   }
   userid = userid.trim();
 
@@ -110,13 +117,13 @@ async function deleteTransactionByid(transactionid, userid) {
 }
 
 async function searchByDate(date, userid) {
-  // error checking for date remaining 
+  // error checking for date remaining
   // userid error checking for object id
 
-  if (!userid) throw 'You must provide userid';
-  if (typeof userid !== 'string') throw 'user idis invalid'
-  if(!userid.trim()){
-    throw "User id contains white spaces"
+  if (!userid) throw "You must provide userid";
+  if (typeof userid !== "string") throw "user idis invalid";
+  if (!userid.trim()) {
+    throw "User id contains white spaces";
   }
   userid = userid.trim();
 
@@ -125,8 +132,12 @@ async function searchByDate(date, userid) {
     user: ObjectId(userid),
     date: date,
   });
-  console.log(transaction);
+  //   console.log(transaction);
+  // <<<<<<< Updated upstream
 
+  // =======
+  //   return transaction;
+  // >>>>>>> Stashed changes
 }
 
 async function searchByCategory(date, userid) {
@@ -177,7 +188,7 @@ module.exports = {
   getAllTransactionByid,
   getAll,
   deleteTransactionByid,
-  searchByCategory,
-  searchByDate,
-  searchByPaymentType,
+  // searchByCategory,
+  // searchByDate,
+  // searchByPaymentType,
 };

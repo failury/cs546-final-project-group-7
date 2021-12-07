@@ -54,8 +54,11 @@ router.post("/transaction/delete", async (req, res) => {
 });
 
 router.post("/transaction/search", async (req, res) => {
+  let transactionid = req.body.id;
+  let token = req.headers.token;
   try {
-    const dateList = transactiondata.searchByDate(req.body.payment_Date);
+    let id = jwt.verify(token, "mySecretKey").id;
+    const dateList = transactiondata.searchByDate(req.body.payment_Date, id);
   } catch (e) {
     res.status(500).json({ error: e });
   }

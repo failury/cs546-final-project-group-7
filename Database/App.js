@@ -42,6 +42,7 @@ app.use("/signup", async (req, res) => {
   let firstname = req.body.firstname;
   let lastname = req.body.lastname;
   let username = req.body.username;
+  let email = req.body.email;
   let password = req.body.password;
   let url = req.body.url;
   try {
@@ -49,6 +50,7 @@ app.use("/signup", async (req, res) => {
       firstname,
       lastname,
       username,
+      email,
       password,
       url
     );
