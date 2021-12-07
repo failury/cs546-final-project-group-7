@@ -33,7 +33,7 @@ router.post("/transaction/add", async (req, res) => {
     res.send("Transaction Created");
   } catch (e) {
     console.log(e);
-    res.status(500).json(e.message);
+    res.status(500).json(e);
   }
 });
 

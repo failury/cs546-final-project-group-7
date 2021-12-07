@@ -34,7 +34,7 @@ app.post("/login", async (req, res) => {
       token: accessToken,
     });
   } catch (error) {
-    return res.status(400).json(error.message);
+    return res.status(400).json(error);
   }
 });
 
