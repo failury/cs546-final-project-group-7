@@ -4,7 +4,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import axios from 'axios';
 import useToken from '../components/useToken';
 import { useEffect, useState } from 'react';
@@ -14,6 +13,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
+import { Button } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField'
@@ -80,7 +80,7 @@ async function Delete(token, data) {
 };
   
 export default function Budgets() {
-  const { token, setToken } = useToken();
+  const { token } = useToken();
   const [data, setdata] = useState([]);
   const [error,seterror] = useState('');
   const fetchData = async function () {

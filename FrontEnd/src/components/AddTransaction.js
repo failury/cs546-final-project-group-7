@@ -25,8 +25,8 @@ export default function AddTransaction() {
   const paymentType = ['income', 'expense'];
   const categories = ['groceries', 'insurances'];
   const [date, setDate] = React.useState(moment(new Date()).format("YYYY-MM-DD"));
-  const [cate, setCate] = React.useState('');
-  const [type, setType] = React.useState('');
+  const [cate, setCate] = React.useState(categories[0]);
+  const [type, setType] = React.useState(paymentType[0]);
   const [wallet,setWallet] = React.useState('');
   const [amount, setAmount] = React.useState(0);
   const [memo, setMemo] = React.useState('');
@@ -34,22 +34,11 @@ export default function AddTransaction() {
   const handleDateChange = (event) => {
     setDate(event.target.value);
   };
-  const handleCateChange = (event) => {
-    setCate(categories[event.target.value]);
-  };
-  const handleTypeChange = (event) => {
-    setType(paymentType[event.target.value]);
-  };
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
   const handleMemoChange = (event) => {
     setMemo(event.target.value);
-  };
-  const handleWalletChange = (event) => {
-    console.log("hi");
-    console.log(event.target.value)
-    setWallet(walletdata[event.target.value]);
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,7 +65,7 @@ export default function AddTransaction() {
         window.location.reload(false);
       })
     .catch(err => {
-      console.log(err)
+      console.log(err.data)
     })
     
   };
@@ -138,7 +127,9 @@ React.useEffect(() => {
                 id="paymentType"
                 options={paymentType}
                 value={type}
-                onChange={handleTypeChange}
+                onChange={(event, newValue) => {
+                  setType(newValue);
+                }}
                 sx={{ width: 200 }}
                 renderInput={(params) => <TextField {...params} label="Payment Type" />}
               />
@@ -147,7 +138,9 @@ React.useEffect(() => {
                 id="categories"
                 options={categories}
                 value={cate}
-                onChange={handleCateChange}
+                onChange={(event, newValue) => {
+                  setCate(newValue);
+                }}
                 sx={{ width: 200 }}
                 renderInput={(params) => <TextField {...params} label="Category" />}
               />
@@ -156,7 +149,9 @@ React.useEffect(() => {
                 id="wallet"
                 options={walletdata}
                 value={wallet}
-                onChange={handleWalletChange}
+                onChange={(event, newValue) => {
+                  setWallet(newValue);
+                }}
                 sx={{ width: 200 }}
                 renderInput={(params) => <TextField {...params} label="Wallet" />}
               />

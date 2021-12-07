@@ -9,7 +9,7 @@ import {useState, useEffect} from 'react';
 import useToken from '../components/useToken';
 import Avatar from '@mui/material/Avatar';
 export default function Home() {
-    const { token, setToken } = useToken();
+    const { token } = useToken();
     const [user, setuser] = useState([]);
     const [len,setLen] = useState(0);
     const fetchData = async function () {

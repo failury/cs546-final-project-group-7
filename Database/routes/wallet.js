@@ -10,7 +10,7 @@ router.get('/wallet', async (req, res) => {
         let walletlist = await walletdata.getAllWalletByid(id);
         res.json(walletlist);
     } catch (e) {
-        res.sendStatus(500);
+        res.status(500).json({ error: e });
     }
 });
 
@@ -29,7 +29,7 @@ router.post('/wallet', async (req,res) => {
         );
         res.send('Wallet Created');
     } catch (e) {
-        res.status(500).json(e.message);
+        res.status(500).json({ error: e });
     }
 
 });
@@ -49,7 +49,7 @@ router.patch('/wallet', async (req,res) => {
         );
         res.send('Wallet Updated');
     } catch (e) {
-        res.status(500).json(e.message);
+        res.status(500).json({ error: e });
     }
 
 });
@@ -66,7 +66,7 @@ router.post("/wallet/delete", async (req, res) => {
       );
       res.send("Wallet Deleted");
     } catch (e) {
-      res.status(500).json(e.message);
+        res.status(500).json({ error: e });
     }
   });
 
