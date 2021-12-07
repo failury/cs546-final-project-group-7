@@ -1,6 +1,7 @@
 import React from 'react';
-import IncomeReports from '../components/IncomeReports';
+import BudgetReports from '../components/BudgetReports';
 import ExpenseReports from '../components/ExpenseReports';
+import IncomeReports from '../components/IncomeReports';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -61,17 +62,30 @@ export default function ReportPage() {
                     </Stack>
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <Grid container spacing={6}>
-                            <Grid item xs={12} md={8} lg={9}>
+                            <Grid item xs={12} md={7} lg={6.5}>
                                 <Paper
                                     sx={{
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        width:700,
+                                        width:600,
                                         height: 400,
                                     }}
                                 >
-                                    <IncomeReports/>
+                                    <BudgetReports/>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={12} md={4} lg={3}>
+                                <Paper
+                                    sx={{
+                                        p: 2,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        width:600,
+                                        height: 400,
+                                    }}
+                                >
+                                    <ExpenseReports/>
                                 </Paper>
                             </Grid>
                         </Grid>
@@ -84,11 +98,11 @@ export default function ReportPage() {
                                         p: 2,
                                         display: 'flex',
                                         flexDirection: 'column',
-                                        width:700,
+                                        width:1250,
                                         height: 400,
                                     }}
                                 >
-                                    <ExpenseReports/>
+                                    <IncomeReports/>
                                 </Paper>
                             </Grid>
                         </Grid>
