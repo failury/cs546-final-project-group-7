@@ -117,7 +117,7 @@ React.useEffect(() => {
                 type="date"
                 value={date}
                 onChange={handleDateChange}
-                sx={{ width: 220 }}
+                sx={{ width: 200 }}
                 InputLabelProps={{
                   shrink: true,
                 }}

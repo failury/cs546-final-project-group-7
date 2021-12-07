@@ -38,6 +38,8 @@ export default function Budget(props) {
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState("");
   const { token, setToken } = useToken();
+  const categories = ['Electronic Devices', 'Entertainment','Food','Daily Expense'];
+  const types = ['Monthly', 'Yearly'];
   const [type, setType] = React.useState('');
   const [category, setCat] = React.useState('');
   const [amount, setAmount] = React.useState();
@@ -53,13 +55,6 @@ export default function Budget(props) {
   const handleWalletChange = (event) => {
     setWallet(event.target.value);
   }
-
-  const handleCatChange = (event) => {
-    setCat(event.target.value);
-  };
-  const handleTypeChange = (event) => {
-    setType(event.target.value);
-  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -130,27 +125,25 @@ export default function Budget(props) {
               variant="standard"
               onChange={handleWalletChange}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              onChange={handleCatChange}
+            <Autocomplete
+              disablePortal
               id="category"
-              label="Category"
-              name="category"
-              autoFocus
-              variant="standard"
+              options={categories}
+              onChange={(event, newValue) => {
+                setCat(newValue);
+              }}
+              sx={{ width: 200 }}
+              renderInput={(params) => <TextField {...params} label="Category" />}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              onChange={handleTypeChange}
+            <Autocomplete
+              disablePortal
               id="type"
-              label="Type"
-              name="type"
-              autoFocus
-              variant="standard"
+              options={types}
+              onChange={(event, newValue) => {
+                setType(newValue);
+              }}
+              sx={{ width: 200 }}
+              renderInput={(params) => <TextField {...params} label="Type" />}
             />
             <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -190,55 +183,4 @@ export default function Budget(props) {
     </>
 
   );
-
-//   return (
-    // <React.Fragment>
-    //   <Title>{props.title}</Title>
-    //   <Table size="medium">
-    //     <TableHead>
-    //       <TableRow>
-    //         <TableCell>Budget Name</TableCell>
-    //         <TableCell>Category</TableCell>
-    //         <TableCell>Amount</TableCell>
-    //         <TableCell>Wallet</TableCell>
-    //         <TableCell>Type</TableCell>
-    //         <TableCell align="right">Actions</TableCell>
-    //       </TableRow>
-    //     </TableHead>
-    //     <TableBody>
-    //     { data.length == 0 && <Typography
-    //           component="h1"
-    //           variant="h5"
-    //           align="center"
-    //           color="text.secondary"
-    //           gutterBottom
-    //         >
-    //           You don't have any budget yet
-    //         </Typography>}
-        
-    //       {data.map((row, i) => (
-    //         <TableRow key={i}>
-    //           <TableCell >{row.budgetname}</TableCell>
-    //           <TableCell>{row.category}</TableCell>
-    //           <TableCell>{row.amount}</TableCell>
-    //           <TableCell>{row.wallet}</TableCell>
-    //           <TableCell>{row.type}</TableCell>
-    //           <TableCell>
-    //             <UpdateBudget/>
-    //           </TableCell>
-    //           <TableCell align="right">
-    //             <Button
-    //               variant="contained"
-    //               onClick={() => Delete(token, row)}
-    //               color="error"
-    //             >
-    //               Delete
-    //             </Button>
-    //           </TableCell>
-    //         </TableRow>
-    //       ))}
-    //     </TableBody>
-    //   </Table>
-    // </React.Fragment>
-//   );
 }
