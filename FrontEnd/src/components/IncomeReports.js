@@ -15,9 +15,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
-import useToken from '../components/useToken';
+import useToken from './useToken';
 
-export default function Reports(props) {
+export default function IncomeReports(props) {
   const { token, setToken } = useToken();
   const [data, setdata] = useState([]);
   const [error,seterror] = useState('');
@@ -38,11 +38,13 @@ export default function Reports(props) {
       fetchData();
 },[]);
 
+let totalsum = 0;
 let elec_sum = 0;
 let entertain = 0;
 let food_sum = 0;
 let daily_sum = 0;
 for(let i=0;i<data.length;i++){
+  totalsum += parseFloat(data[i].amount);
   if(data[i].category === "Electronic Devices"){
     elec_sum += parseFloat(data[i].amount);
   }
@@ -68,11 +70,10 @@ for(let i=0;i<data.length;i++){
           borderRadius: 4,
           categoryPercentage: 0.5,
           data: [elec_sum, entertain, food_sum, daily_sum],
-          label: 'Amount',
+          label: totalsum,
           maxBarThickness: 10
         }
       ],
-      //labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug', '7 aug']
       labels: ['Electronic Devices', 'Entertainment', 'Food', 'Daily Expense']
     };
   

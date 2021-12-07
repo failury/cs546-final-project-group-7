@@ -1,6 +1,6 @@
 import React from 'react';
-import Reports from '../components/Reports';
-//import LineMarkerEcharts from '../components/Reports';
+import IncomeReports from '../components/IncomeReports';
+import ExpenseReports from '../components/ExpenseReports';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -167,7 +167,7 @@ export default function ReportPage() {
                                         height: 400,
                                     }}
                                 >
-                                    <Reports/>
+                                    <IncomeReports/>
                                 </Paper>
                             </Grid>
                         </Grid>
@@ -185,7 +185,7 @@ export default function ReportPage() {
                                         height: 400,
                                     }}
                                 >
-                                    <Reports/>
+                                    <ExpenseReports/>
                                 </Paper>
                             </Grid>
                         </Grid>
