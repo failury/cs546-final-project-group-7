@@ -70,7 +70,7 @@ for(let i=0;i<data.length;i++){
           borderRadius: 4,
           categoryPercentage: 0.5,
           data: [elec_sum, entertain, food_sum, daily_sum],
-          label: totalsum,
+          label: totalsum.toFixed(2),
           maxBarThickness: 10
         }
       ],

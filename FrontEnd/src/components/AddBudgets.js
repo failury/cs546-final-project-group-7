@@ -23,12 +23,6 @@ export default function AddBudget() {
   const [amount, setAmount] = React.useState(0);
   const [category, setCat] = React.useState('');
   const [wallet,setWallet] = React.useState('');
-  const handleCatChange = (event) => {
-    setCat(categories[event.target.value]);
-  };
-  const handleTypeChange = (event) => {
-    setType(types[event.target.value]);
-  };
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
@@ -81,7 +75,6 @@ export default function AddBudget() {
       </Fab>
       <Dialog
         open={open}
-        // TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
@@ -125,20 +118,22 @@ export default function AddBudget() {
                 sx={{ width: 200 }}
               />
               <Autocomplete
-                required
                 disablePortal
                 id="category"
                 options={categories}
-                onChange={handleCatChange}
+                onChange={(event, newValue) => {
+                  setCat(newValue);
+                }}
                 sx={{ width: 200 }}
                 renderInput={(params) => <TextField {...params} label="Category" />}
               />
               <Autocomplete
-                required
                 disablePortal
                 id="type"
                 options={types}
-                onChange={handleTypeChange}
+                onChange={(event, newValue) => {
+                  setType(newValue);
+                }}
                 sx={{ width: 200 }}
                 renderInput={(params) => <TextField {...params} label="Type" />}
               />
