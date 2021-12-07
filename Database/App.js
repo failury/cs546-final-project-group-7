@@ -54,6 +54,7 @@ app.use("/signup", async (req, res) => {
       password,
       url
     );
+
     res.send({ newuser: newuser.username });
   } catch (error) {
     return res.status(400).send("register failed");

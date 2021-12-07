@@ -2,6 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const usersCollection = mongoCollections.users;
 const bcrypt = require("bcrypt");
 let { ObjectId } = require("mongodb");
+var nodemailer = require("nodemailer");
 
 var errorCheck = function (string) {
   string = string.trim();
@@ -52,6 +53,29 @@ async function create(firstName, lastName, username, email, password, url) {
   let x = new_users._id;
   x = newObjId.toString();
   new_users._id = x;
+
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "vadchhakharsh@gmail.com",
+      pass: "Universal@123",
+    },
+  });
+
+  var mailOptions = {
+    from: "vadchhakharsh@gmail.com",
+    to: email,
+    subject: "New Account",
+    text: "Your Account created successfully!!",
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 
   return new_users;
 }

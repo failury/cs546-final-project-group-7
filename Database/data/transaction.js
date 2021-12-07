@@ -97,10 +97,11 @@ async function deleteTransactionByid(transactionid, userid) {
   if (typeof userid !== "string") throw "user idis invalid";
   if (!userid.trim()) {
     throw "User id contains white spaces";
-  if (!userid) throw 'You must provide userid';
-  if (typeof userid !== 'string') throw 'user idis invalid'
-  if(!userid.trim()){
-    throw "User id contains white spaces"
+  }
+  if (!userid) throw "You must provide userid";
+  if (typeof userid !== "string") throw "user idis invalid";
+  if (!userid.trim()) {
+    throw "User id contains white spaces";
   }
   userid = userid.trim();
 
@@ -192,7 +193,7 @@ module.exports = {
   getAllTransactionByid,
   getAll,
   deleteTransactionByid,
-  // searchByCategory,
-  // searchByDate,
-  // searchByPaymentType,
+  searchByCategory,
+  searchByDate,
+  searchByPaymentType,
 };
