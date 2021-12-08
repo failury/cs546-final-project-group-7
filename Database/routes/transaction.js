@@ -18,17 +18,17 @@ router.get("/transaction", async (req, res) => {
 
 router.post("/transaction/add", async (req, res) => {
   //TODO: error checking nullchecking
-  let transInfo = xss(req.body);
+  let transInfo = req.body;
   let token = req.headers.token;
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const newTransaction = await transactiondata.create(
-      transInfo.payment_Date,
-      transInfo.payment_Type,
-      transInfo.category,
-      transInfo.wallet,
-      transInfo.Amt,
-      transInfo.memo,
+      xss(transInfo.payment_Date),
+      xss(transInfo.payment_Type),
+      xss(transInfo.category),
+      xss(transInfo.wallet),
+      xss(transInfo.Amt),
+      xss(transInfo.memo),
       id
     );
     res.json({ ok: "Transaction Created" });
