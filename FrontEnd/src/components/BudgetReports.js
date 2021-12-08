@@ -17,13 +17,13 @@ import Chart from 'chart.js/auto';
 import axios from 'axios';
 import useToken from './useToken';
 
-export default function ExpenseReports() {
+export default function IncomeReports(props) {
   const { token, setToken } = useToken();
   const [data, setdata] = useState([]);
   const [error,seterror] = useState('');
   const fetchData = async function () {
     try {
-        const res = await axios.get('http://localhost:2000/transaction', {headers: {
+        const res = await axios.get('http://localhost:2000/budget', {headers: {
         'Content-Type': 'application/json',
         'token': token
       }});
@@ -39,16 +39,24 @@ export default function ExpenseReports() {
 },[]);
 
 let totalsum = 0;
-let gro_sum = 0;
-let insure_sum = 0;
+let elec_sum = 0;
+let entertain = 0;
+let food_sum = 0;
+let daily_sum = 0;
 for(let i=0;i<data.length;i++){
-    totalsum += parseFloat(data[i].amt);
-    if(data[i].category === "groceries"){
-        gro_sum += parseFloat(data[i].amt);
-    }
-    if(data[i].category === "insurances"){
-        insure_sum += parseFloat(data[i].amt);
-    }
+  totalsum += parseFloat(data[i].amount);
+  if(data[i].category === "Electronic Devices"){
+    elec_sum += parseFloat(data[i].amount);
+  }
+  if(data[i].category === "Entertainment"){
+    entertain += parseFloat(data[i].amount);
+  }
+  if(data[i].category === "Food"){
+    food_sum += parseFloat(data[i].amount);
+  }
+  if(data[i].category === "Daily Expense"){
+    daily_sum += parseFloat(data[i].amount);
+  }
 }
 
   const theme = useTheme();
@@ -60,12 +68,12 @@ for(let i=0;i<data.length;i++){
           barThickness: 12,
           borderRadius: 4,
           categoryPercentage: 0.5,
-          data: [gro_sum, insure_sum],
+          data: [elec_sum, entertain, food_sum, daily_sum],
           label: totalsum.toFixed(2),
           maxBarThickness: 10
         }
       ],
-      labels: ['groceries','insurances']
+      labels: ['Electronic Devices', 'Entertainment', 'Food', 'Daily Expense']
     };
   
     const options = {
@@ -128,7 +136,7 @@ return (
         //     Last 7 days
         //   </Button>
         // )}
-        title="Expense Reports"
+        title="Budget Report"
       />
       <Divider />
       <CardContent>
