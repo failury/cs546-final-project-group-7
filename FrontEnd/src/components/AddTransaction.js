@@ -23,7 +23,7 @@ export default function AddTransaction() {
   const { token, setToken } = useToken();
   const [open, setOpen] = React.useState(false);
   const paymentType = ['income', 'expense'];
-  const categories = ['groceries', 'insurances'];
+  const categories = ['Food and Beverage', 'Daily necessities','Entertainment','Electronic Devices'];
   const [date, setDate] = React.useState(moment(new Date()).format("YYYY-MM-DD"));
   const [cate, setCate] = React.useState(categories[0]);
   const [type, setType] = React.useState(paymentType[0]);

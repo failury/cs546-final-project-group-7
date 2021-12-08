@@ -51,10 +51,10 @@ for(let i=0;i<data.length;i++){
   if(data[i].category === "Entertainment"){
     entertain += parseFloat(data[i].amount);
   }
-  if(data[i].category === "Food"){
+  if(data[i].category === "Food and Beverage"){
     food_sum += parseFloat(data[i].amount);
   }
-  if(data[i].category === "Daily Expense"){
+  if(data[i].category === "Daily necessities"){
     daily_sum += parseFloat(data[i].amount);
   }
 }
@@ -68,12 +68,12 @@ for(let i=0;i<data.length;i++){
           barThickness: 12,
           borderRadius: 4,
           categoryPercentage: 0.5,
-          data: [elec_sum, entertain, food_sum, daily_sum],
+          data: [food_sum, daily_sum,entertain,elec_sum],
           label: totalsum.toFixed(2),
           maxBarThickness: 10
         }
       ],
-      labels: ['Electronic Devices', 'Entertainment', 'Food', 'Daily Expense']
+      labels: ['Food and Beverage', 'Daily necessities','Entertainment','Electronic Devices']
     };
   
     const options = {

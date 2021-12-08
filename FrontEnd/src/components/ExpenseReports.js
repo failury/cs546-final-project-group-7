@@ -39,15 +39,23 @@ export default function ExpenseReports() {
 },[]);
 
 let totalsum = 0;
-let gro_sum = 0;
-let insure_sum = 0;
+let elec_sum = 0;
+let entertain = 0;
+let food_sum = 0;
+let daily_sum = 0;
 for(let i=0;i<data.length;i++){
     totalsum += parseFloat(data[i].amt);
-    if(data[i].category === "groceries"){
-        gro_sum += parseFloat(data[i].amt);
+    if(data[i].category === "Electronic Devices"){
+      elec_sum += parseFloat(data[i].amt);
     }
-    if(data[i].category === "insurances"){
-        insure_sum += parseFloat(data[i].amt);
+    if(data[i].category === "Entertainment"){
+      entertain += parseFloat(data[i].amt);
+    }
+    if(data[i].category === "Food and Beverage"){
+      food_sum += parseFloat(data[i].amt);
+    }
+    if(data[i].category === "Daily necessities"){
+      daily_sum += parseFloat(data[i].amt);
     }
 }
 
@@ -60,12 +68,12 @@ for(let i=0;i<data.length;i++){
           barThickness: 12,
           borderRadius: 4,
           categoryPercentage: 0.5,
-          data: [gro_sum, insure_sum],
+          data: [food_sum, daily_sum,entertain,elec_sum],
           label: totalsum.toFixed(2),
           maxBarThickness: 10
         }
       ],
-      labels: ['groceries','insurances']
+      labels: ['Food and Beverage', 'Daily necessities','Entertainment','Electronic Devices']
     };
   
     const options = {
