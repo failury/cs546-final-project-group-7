@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require("../data");
 const usersdata = data.users;
 const jwt = require("jsonwebtoken");
+const xss = require("xss");
 
 router.get("/user", async (req, res) => {
   let token = req.headers.token;
@@ -18,12 +19,12 @@ router.get("/user", async (req, res) => {
 
 router.patch("/user", async (req, res) => {
   let token = req.headers.token;
-  let firstname = req.body.firstname;
-  let lastname = req.body.lastname;
-  let username = req.body.username;
-  let email = req.body.email;
-  let password = req.body.password;
-  let url = req.body.url;
+  let firstname = xss(req.body.firstname);
+  let lastname = xss(req.body.lastname);
+  let username = xss(req.body.username);
+  let email = xss(req.body.email);
+  let password = xss(req.body.password);
+  let url = xss(req.body.url);
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     let user = await usersdata.update(

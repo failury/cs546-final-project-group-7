@@ -11,6 +11,7 @@ const budget = require("./data/budget");
 const transaction = require("./data/transaction");
 const category = require("./data/category");
 const currency = require("./data/currency");
+const xss = require("xss");
 
 const closeConnection = require("./config/mongoConnection");
 app.use(express.json());
@@ -25,8 +26,8 @@ const generateAccessToken = (user) => {
 };
 
 app.post("/login", async (req, res) => {
-  let username = req.body.username;
-  let password = req.body.password;
+  let username = xss(req.body.username);
+  let password = xss(req.body.password);
   try {
     var user = await users.checklogin(username, password);
     const accessToken = generateAccessToken(user);
@@ -39,12 +40,12 @@ app.post("/login", async (req, res) => {
 });
 
 app.use("/signup", async (req, res) => {
-  let firstname = req.body.firstname;
-  let lastname = req.body.lastname;
-  let username = req.body.username;
-  let email = req.body.email;
-  let password = req.body.password;
-  let url = req.body.url;
+  let firstname = xss(req.body.firstname);
+  let lastname = xss(req.body.lastname);
+  let username = xss(req.body.username);
+  let email = xss(req.body.email);
+  let password = xss(req.body.password);
+  let url = xss(req.body.url);
   try {
     let newuser = await users.create(
       firstname,

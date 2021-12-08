@@ -3,6 +3,8 @@ const router = express.Router();
 const data = require("../data");
 const transactiondata = data.transaction;
 const jwt = require("jsonwebtoken");
+const xss = require("xss");
+
 router.get("/transaction", async (req, res) => {
   let token = req.headers.token;
   try {
@@ -16,7 +18,7 @@ router.get("/transaction", async (req, res) => {
 
 router.post("/transaction/add", async (req, res) => {
   //TODO: error checking nullchecking
-  let transInfo = req.body;
+  let transInfo = xss(req.body);
   let token = req.headers.token;
   try {
     let id = jwt.verify(token, "mySecretKey").id;
@@ -37,7 +39,7 @@ router.post("/transaction/add", async (req, res) => {
 
 router.post("/transaction/delete", async (req, res) => {
   //TODO: error checking nullchecking
-  let transactionid = req.body.id;
+  let transactionid = xss(req.body.id);
   let token = req.headers.token;
   try {
     let id = jwt.verify(token, "mySecretKey").id;
@@ -52,11 +54,14 @@ router.post("/transaction/delete", async (req, res) => {
 });
 
 router.post("/transaction/search", async (req, res) => {
-  let transactionid = req.body.id;
+  let transactionid = xss(req.body.id);
   let token = req.headers.token;
   try {
     let id = jwt.verify(token, "mySecretKey").id;
-    const dateList = transactiondata.searchByDate(req.body.payment_Date, id);
+    const dateList = transactiondata.searchByDate(
+      xss(req.body.payment_Date),
+      id
+    );
   } catch (e) {
     res.status(500).json({ error: e });
   }
