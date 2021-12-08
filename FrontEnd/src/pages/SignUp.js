@@ -50,12 +50,13 @@ export default function SignUp({ setToken }) {
     let email = data.get("email");
     let url =
       data.get("profilepicture") == null ? "" : data.get("profilepicture");
-    if (!firstname || !lastname || !username || !password) {
+    if (!firstname || !lastname || !username || !email || !password) {
       seterror("Please enter all require information");
       return;
     }
     username = username.toString().trim();
     password = password.toString().trim();
+    email = email.toString().trim();
     if (username.trim().length < 4) {
       seterror("username length must be greater than 4");
       return;
@@ -68,6 +69,14 @@ export default function SignUp({ setToken }) {
       seterror("password length must be greater than 6");
       return;
     }
+
+    if (
+      !email.trim().match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ) {
+      seterror("Email should be in proper format");
+      return;
+    }
+
     try {
       const res = await signupUser({
         firstname,
