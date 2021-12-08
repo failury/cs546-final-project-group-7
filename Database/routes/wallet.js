@@ -18,15 +18,15 @@ router.get("/wallet", async (req, res) => {
 
 router.post("/wallet", async (req, res) => {
   let token = req.headers.token;
-  let walletInfo = xss(req.body);
+  let walletInfo = req.body;
   console.log(walletInfo);
 
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const newWallet = await walletdata.create(
-      walletInfo.walletname,
-      walletInfo.amount,
-      walletInfo.type,
+      xss(walletInfo.walletname),
+      xss(walletInfo.amount),
+      xss(walletInfo.type),
       id
     );
     res.send("Wallet Created");

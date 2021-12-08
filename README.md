@@ -1,14 +1,14 @@
-<h1 align="center">Awesome README Templates</h1>
+<h1 align="center">CS546B Final Project Group 7</h1>
 
 ## Implemented core features
 
 - [x] **Homepage/Landing page**
 - [x] **Dashboard**
 - [x] **Overview/Statistics Page** 
-- [ ] **Add transaction**
+- [x] **Add transaction**
 - [x] **Budget**
 - [x] **Wallet**
-- [ ] **Category** 
+- [x] **Category** 
 - [x] **Filter**
 
 ## Implemented extra features

@@ -11,6 +11,8 @@ import AddTransaction from '../components/AddTransaction';
 import useToken from '../components/useToken';
 import { useEffect, useState } from 'react';
 import FilterOptions from '../components/FilterOptions';
+import SendTransaction from '../components/SendTransaction';
+
 export default function Transactions() {
     const { token } = useToken();
     const [data, setdata] = useState([]);
@@ -56,7 +58,7 @@ export default function Transactions() {
                 >
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                         <AddTransaction />
-                        
+                        <SendTransaction data = {data}/>
                         <Stack spacing={5} noValidate xs={12} >
                         <FilterOptions data = {data} changeData = {changeData} resetData = {resetData}/>
                             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
