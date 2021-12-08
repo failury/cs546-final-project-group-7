@@ -1,5 +1,5 @@
 const express = require("express");
-const { default: xss } = require("xss");
+// const { default: xss } = require("xss");
 const router = express.Router();
 const data = require("../data");
 const categorydata = data.category;
