@@ -42,7 +42,11 @@ let totalsum = 0;
 let elec_sum = 0;
 let entertain = 0;
 let food_sum = 0;
-let daily_sum = 0;
+let gro_sum = 0;
+let debt_sum = 0;
+let loan_sum = 0;
+let other_sum = 0;
+
 for(let i=0;i<data.length;i++){
     totalsum += parseFloat(data[i].amt);
     if(data[i].category === "Electronic Devices"){
@@ -54,8 +58,17 @@ for(let i=0;i<data.length;i++){
     if(data[i].category === "Food and Beverage"){
       food_sum += parseFloat(data[i].amt);
     }
-    if(data[i].category === "Daily necessities"){
-      daily_sum += parseFloat(data[i].amt);
+    if(data[i].category === "Groceries"){
+      gro_sum += parseFloat(data[i].amt);
+    }
+    if(data[i].category === "Debt"){
+      debt_sum += parseFloat(data[i].amt);
+    }
+    if(data[i].category === "Loan"){
+      loan_sum += parseFloat(data[i].amt);
+    }
+    if(data[i].category === "Others"){
+      other_sum += parseFloat(data[i].amt);
     }
 }
 
@@ -68,12 +81,12 @@ for(let i=0;i<data.length;i++){
           barThickness: 12,
           borderRadius: 4,
           categoryPercentage: 0.5,
-          data: [food_sum, daily_sum,entertain,elec_sum],
+          data: [food_sum, gro_sum,entertain,elec_sum,debt_sum,loan_sum,other_sum],
           label: totalsum.toFixed(2),
           maxBarThickness: 10
         }
       ],
-      labels: ['Food and Beverage', 'Daily necessities','Entertainment','Electronic Devices']
+      labels: ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Debt','Loan','Others']
     };
   
     const options = {
