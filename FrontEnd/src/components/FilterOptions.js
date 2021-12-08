@@ -32,13 +32,10 @@ export default function BasicMenu({ data, changeData, resetData }) {
   };
   const handleFilter = (event) => {
     event.preventDefault();
-    if (column == "Date") {
-      console.log("date")
-    } else {
+    
       var newArray = data.filter(function (el) {
         return el[column] == value
       });
-    }
     changeData(newArray);
   };
   return (
