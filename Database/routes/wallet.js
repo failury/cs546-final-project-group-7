@@ -37,15 +37,15 @@ router.post("/wallet", async (req, res) => {
 
 router.patch("/wallet", async (req, res) => {
   let token = req.headers.token;
-  let walletInfo = xss(req.body);
+  let walletInfo = req.body;
 
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const newWallet = await walletdata.updateWalletByID(
-      walletInfo.name,
-      walletInfo.amount,
-      walletInfo.type,
-      walletInfo._id,
+      xss(walletInfo.name),
+      xss(walletInfo.amount),
+      xss(walletInfo.type),
+      xss(walletInfo._id),
       id
     );
     res.send("Wallet Updated");

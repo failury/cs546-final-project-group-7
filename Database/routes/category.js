@@ -16,13 +16,13 @@ router.get("/category", async (req, res) => {
 });
 
 router.post("/category", async (req, res) => {
-  let categoryInfo = xss(req.body);
+  let categoryInfo = req.body;
   try {
     const newCategory = await categorydata.create(
-      categoryInfo.name,
-      categoryInfo.cPaymentType,
-      categoryInfo.categoryColor,
-      categoryInfo.icon
+      xss(categoryInfo.name),
+      xss(categoryInfo.cPaymentType),
+      xss(categoryInfo.categoryColor),
+      xss(categoryInfo.icon)
     );
     res.json(newCategory);
   } catch (e) {

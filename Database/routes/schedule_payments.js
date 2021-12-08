@@ -15,14 +15,14 @@ router.get("/schedulepayment", async (req, res) => {
 });
 
 router.post("/schedulepayment", async (req, res) => {
-  let scheduleInfo = xss(req.body);
+  let scheduleInfo = req.body;
   try {
     const newSchedule = await scheduledata.create(
-      scheduleInfo.spaymentDate,
-      scheduleInfo.spaymentType,
-      scheduleInfo.sAmt,
-      scheduleInfo.sMemo,
-      scheduleInfo.sLastPostDate
+      xss(scheduleInfo.spaymentDate),
+      xss(scheduleInfo.spaymentType),
+      xss(scheduleInfo.sAmt),
+      xss(scheduleInfo.sMemo),
+      xss(scheduleInfo.sLastPostDate)
     );
     res.json(newSchedule);
   } catch (e) {

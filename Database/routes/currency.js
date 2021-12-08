@@ -15,13 +15,13 @@ router.get("/currency", async (req, res) => {
 });
 
 router.post("/currency", async (req, res) => {
-  let currencyInfo = xss(req.body);
+  let currencyInfo = req.body;
   try {
     const newCurrency = await currencydata.create(
-      currencyInfo.name,
-      currencyInfo.shortName,
-      currencyInfo.symbol,
-      currencyInfo.conversion
+      xss(currencyInfo.name),
+      xss(currencyInfo.shortName),
+      xss(currencyInfo.symbol),
+      xss(currencyInfo.conversion)
     );
     res.json(newCurrency);
   } catch (e) {

@@ -33,17 +33,17 @@ router.post("/budget/budgetname", async (req, res) => {
 });
 
 router.post("/budget/add", async (req, res) => {
-  let budgetInfo = xss(req.body);
+  let budgetInfo = req.body;
   let token = req.headers.token;
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     let newBudget = await budgetData.create(
       id,
-      budgetInfo.budgetname,
-      budgetInfo.amount,
-      budgetInfo.category,
-      budgetInfo.wallet,
-      budgetInfo.type
+      xss(budgetInfo.budgetname),
+      xss(budgetInfo.amount),
+      xss(budgetInfo.category),
+      xss(budgetInfo.wallet),
+      xss(budgetInfo.type)
     );
     res.json(newBudget);
   } catch (e) {
@@ -52,7 +52,7 @@ router.post("/budget/add", async (req, res) => {
 });
 
 router.patch("/budget/update", async (req, res) => {
-  let budgetInfo = xss(req.body);
+  let budgetInfo = req.body;
   console.log(budgetInfo);
   let token = req.headers.token;
   let id = jwt.verify(token, "mySecretKey").id;
@@ -61,9 +61,9 @@ router.patch("/budget/update", async (req, res) => {
 
   try {
     let updatedBudget = await budgetData.update(
-      budgetInfo.budgetid,
+      xss(budgetInfo.budgetid),
       id,
-      budgetInfo.updateinfo
+      xss(budgetInfo.updateinfo)
     );
     res.json(updatedBudget);
   } catch (e) {
