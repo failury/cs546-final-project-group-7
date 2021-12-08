@@ -82,6 +82,7 @@ async function Delete(token, data) {
 export default function Budgets() {
   const { token } = useToken();
   const [data, setdata] = useState([]);
+  const [searchdata, setsearch] = useState([]);
   const [error,seterror] = useState('');
   const fetchData = async function () {
     try {
@@ -108,6 +109,14 @@ const handleSearch = async (event) => {
     const res = await searchBudget({
       budget_name
     },token);
+    let array = [];
+    array.push(res);
+    // array.push(res.amount);
+    // array.push(res.category);
+    // array.push(res.wallet);
+    // array.push(res.type);
+    setsearch(array);
+    // console.log(searchdata);
   } catch (error) {
     seterror(error.message.replace(/['"]+/g, ''));
   }
@@ -148,8 +157,8 @@ return (
               Search
             </Button>
             {/* <Grid item xs={12}>
-            <Typography variant="body1" component="div" gutterBottom color="error">
-               {data}
+            <Typography variant="body1" component="div" gutterBottom>
+               {searchdata}
               </Typography>
             </Grid> */}
             <Grid item xs={12}>
@@ -159,6 +168,49 @@ return (
             </Grid>
           </Box>
         </Paper>
+
+        <Stack component="Grid" spacing={5} noValidate xs={12} >
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+          <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Budget Name</StyledTableCell> 
+                    <StyledTableCell>Catrgory</StyledTableCell>
+                    <StyledTableCell>Amount</StyledTableCell>
+                    <StyledTableCell>Wallet</StyledTableCell>
+                    <StyledTableCell>Type</StyledTableCell>
+                    <StyledTableCell>Update</StyledTableCell>
+                    <StyledTableCell>Delete</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {searchdata.map((row) => (
+                    <StyledTableRow key={row.budgetname}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.budgetname}
+                      </StyledTableCell>
+                      <StyledTableCell>{row.category}</StyledTableCell>
+                      <StyledTableCell>{row.amount}</StyledTableCell>
+                      <StyledTableCell>{row.wallet}</StyledTableCell>
+                      <StyledTableCell>{row.type}</StyledTableCell>
+                      <StyledTableCell><Budget info={row}/></StyledTableCell>
+                      <StyledTableCell>
+                      <Button
+                        variant="contained"
+                          onClick={() => Delete(token, row)}
+                        color="error"
+                      >
+                        Delete
+                      </Button>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Stack>
       </Container>
 
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>

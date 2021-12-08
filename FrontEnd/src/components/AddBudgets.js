@@ -23,15 +23,16 @@ export default function AddBudget() {
   const [amount, setAmount] = React.useState(0);
   const [category, setCat] = React.useState('');
   const [wallet,setWallet] = React.useState('');
+  const [walletdata, setWalletdata] = React.useState([]);
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
-  const handleWalletChange = (event) => {
-    setWallet(event.target.value);
-  }
+  // const handleWalletChange = (event) => {
+  //   setWallet(event.target.value);
+  // }
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -59,8 +60,28 @@ export default function AddBudget() {
     .catch(err => {
       console.log(err)
     })
-    
   }
+
+  const fetchWallet = async () =>{
+    try {
+        const res = await axios.get('http://localhost:2000/wallet', {headers: {
+        'Content-Type': 'application/json',
+        'token': token
+      }});
+      let obj = [];
+      res.data.forEach(element => {
+        obj.push(element.name);
+      });
+      setWalletdata(obj);
+    } catch (error) {
+      console.log(error);
+      sessionStorage.removeItem('token');
+      window.location.href='/login';
+    } 
+};
+React.useEffect(() => {
+  fetchWallet();
+},[]);
 
   return (
     <div>
@@ -106,7 +127,18 @@ export default function AddBudget() {
                 onChange={handleAmountChange}
                 sx={{ width: 200 }}
               />
-              <TextField
+              <Autocomplete
+                disablePortal
+                id="wallet"
+                options={walletdata}
+                value={wallet}
+                onChange={(event, newValue) => {
+                  setWallet(newValue);
+                }}
+                sx={{ width: 200 }}
+                renderInput={(params) => <TextField {...params} label="Wallet" />}
+              />
+              {/* <TextField
                 required
                 id="wallet"
                 label="Wallet"
@@ -116,7 +148,7 @@ export default function AddBudget() {
                 variant="standard"
                 onChange={handleWalletChange}
                 sx={{ width: 200 }}
-              />
+              /> */}
               <Autocomplete
                 disablePortal
                 id="category"

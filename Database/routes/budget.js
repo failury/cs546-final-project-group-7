@@ -18,12 +18,12 @@ router.get("/budget", async (req, res) => {
 
 router.post("/budget/budgetname", async (req, res) => {
   let token = req.headers.token;
-  console.log(token);
   let budgetname = xss(req.body.budget_name);
   console.log(budgetname);
 
   try {
     let id = jwt.verify(token, "mySecretKey").id;
+    console.log(id);
     let budget = await budgetData.getByBudgetName(budgetname, id);
     console.log(budget);
     res.json(budget);

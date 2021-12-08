@@ -52,9 +52,6 @@ let exportedMethods = {
     },
 
     async getByBudgetName(budgetname,userid){
-        if (!id) throw 'You must provide an id to search for';
-        if (typeof id != 'string') throw "the id must be a string";
-        if (id.trim().length === 0) throw "the id is empty spaces";
 
         const budget_collection = await budgetCollection();
         let budget = await budget_collection.findOne({budgetname:budgetname,user:ObjectId(userid)});
