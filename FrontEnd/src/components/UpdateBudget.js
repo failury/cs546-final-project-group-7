@@ -1,39 +1,51 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import useToken from './useToken';
-import axios from 'axios';
-import AddIcon from '@mui/icons-material/Add';
-import Fab from '@mui/material/Fab';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
+import useToken from '../components/useToken';
+import { useEffect, useState } from 'react';
+import axios from 'axios'
+import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { Box } from '@mui/system';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import Grid from '@mui/material/Grid';
 
-export default function UpdateBudget() {
+async function updateBudget(credentials,token) {
+  return fetch('http://localhost:2000/budget/update', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'token': token
+    },
+    body: JSON.stringify(credentials)
+  }).catch(error => {
+    console.log(error);
+    throw(error);
+}).then(data => {
+  if(!data.ok){
+    return data.text().then(text => { throw new Error(text) })
+  }else {
+    return data.text();
+  }   
+})
+};
+
+export default function Budget(props) {
   const [open, setOpen] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const { token, setToken } = useToken();
   const categories = ['Electronic Devices', 'Entertainment','Food','Daily Expense'];
   const types = ['Monthly', 'Yearly'];
-  const { token, setToken } = useToken();
-  const [budgetname, setName] = React.useState('');
   const [type, setType] = React.useState('');
-  const [amount, setAmount] = React.useState(0);
   const [category, setCat] = React.useState('');
+  const [amount, setAmount] = React.useState();
+  const [budgetname, setName] = React.useState('');
   const [wallet,setWallet] = React.useState('');
-  const handleCatChange = (event) => {
-    setCat(categories[event.target.value]);
-  };
-  const handleTypeChange = (event) => {
-    setType(types[event.target.value]);
-  };
+
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
@@ -46,121 +58,129 @@ export default function UpdateBudget() {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleUpdateBudget = (event) => {
+  const budgetinfo = props.info;
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    let obj = {
+    let budgetid = budgetinfo._id;
+    let updateinfo = {
       budgetname:budgetname,
       category:category,
       amount:amount,
       wallet:wallet,
       type:type
+    };
+    try {
+      const res = await updateBudget({
+        budgetid,
+        updateinfo
+      } 
+      ,token);
+      setOpen(false);
+      window.location.reload(false);
+    } catch (error) {
+      setError("update wallet error, try again with different name");
     }
-      axios.patch('http://localhost:2000/budget/update', obj,{headers: {
-        'Content-Type': 'application/json',
-        'token': token
-      }}).then(res => {
-        console.log(res);
-        setOpen(false);
-        window.location.reload(false);
-      })
-    .catch(err => {
-      console.log(err)
-    })
-    
   }
 
   return (
-    <div>
-      {/* <Fab color="primary" onClick={handleClickOpen} aria-label="update" sx={{
-        position: "fixed", margin: 0,
-        top: "auto",
-        right: 40,
-        bottom: 40,
-        left: "auto"
-      }}>
-        <AddIcon />
-      </Fab> */}
-      <button
-        variant='contained'
-        onClick={handleClickOpen}
-      >
-          Update
-      </button>
-      <Dialog
-        open={open}
-        // TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{"Update a Budget"}</DialogTitle>
+    <>
+      <Button onClick={handleClickOpen}>Update</Button>
+      <Dialog open={open} onClose={handleClose}>
+      <DialogTitle>Update budget</DialogTitle>
         <DialogContent>
-          <Box sx={{ p: 2, border: '1px solid grey' }}>
-            <Stack component="form" noValidate spacing={3}>
-              <TextField
-                required
-                id="budgetname"
-                label="Budget Name"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="standard"
-                onChange={handleNameChange}
-                sx={{ width: 200 }}
-              />
-              <TextField
-                required
-                id="amount"
-                label="Amount"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="standard"
-                onChange={handleAmountChange}
-                sx={{ width: 200 }}
-              />
-              <TextField
-                required
-                id="wallet"
-                label="Wallet"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="standard"
-                onChange={handleWalletChange}
-                sx={{ width: 200 }}
-              />
-              <Autocomplete
-                required
-                disablePortal
-                id="category"
-                options={categories}
-                onChange={handleCatChange}
-                sx={{ width: 200 }}
-                renderInput={(params) => <TextField {...params} label="Category" />}
-              />
-              <Autocomplete
-                required
-                disablePortal
-                id="type"
-                options={types}
-                onChange={handleTypeChange}
-                sx={{ width: 200 }}
-                renderInput={(params) => <TextField {...params} label="Type" />}
-              />
-            </Stack>
+          <DialogContentText>
+            Please enter the new information.
+          </DialogContentText>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              onChange={handleNameChange}
+              id="budgetname"
+              label="Budget Name"
+              name="budgetname"
+              variant="standard"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="amount"
+              label="Amount"
+              type="number"
+              onChange={handleAmountChange}
+              variant="standard"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="wallet"
+              label="Wallet"
+              variant="standard"
+              onChange={handleWalletChange}
+            />
+            <Autocomplete
+              disablePortal
+              id="category"
+              options={categories}
+              onChange={(event, newValue) => {
+                setCat(newValue);
+              }}
+              sx={{ width: 200 }}
+              renderInput={(params) => <TextField {...params} label="Category" />}
+            />
+            <Autocomplete
+              disablePortal
+              id="type"
+              options={types}
+              onChange={(event, newValue) => {
+                setType(newValue);
+              }}
+              sx={{ width: 200 }}
+              renderInput={(params) => <TextField {...params} label="Type" />}
+            />
+            <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Save
+            </Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+              <Button
+              onClick={handleClose}
+              variant="outlined"
+              fullWidth
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Cancel
+            </Button>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+            <Typography variant="body1" component="div" gutterBottom color="error">
+               {error}
+              </Typography>
+              </Grid>
           </Box>
+ 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleUpdateBudget}>Update</Button>
+
         </DialogActions>
       </Dialog>
-    </div>
-  )
+
+    </>
+
+  );
 }

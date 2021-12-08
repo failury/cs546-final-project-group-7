@@ -1,186 +1,102 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
+import React from 'react';
+import Paper from '@mui/material/Paper';
+import axios from 'axios';
 import useToken from '../components/useToken';
 import { useEffect, useState } from 'react';
-import axios from 'axios'
-import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Box } from '@mui/system';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import Grid from '@mui/material/Grid';
+import { Stack } from '@mui/material';
+import UpdateBudget from '../components/UpdateBudget';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import { Button } from '@mui/material';
+import TableRow from '@mui/material/TableRow';
+import { styled } from '@mui/material/styles';
+import { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
 
-async function updateBudget(credentials,token) {
-  return fetch('http://localhost:2000/budget/update', {
-    method: 'PATCH',
-    headers: {
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.common.white,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+async function Delete(token, data) {
+  let config = {
+    headers:{
       'Content-Type': 'application/json',
-      'token': token
-    },
-    body: JSON.stringify(credentials)
-  }).catch(error => {
-    console.log(error);
-    throw(error);
-}).then(data => {
-  if(!data.ok){
-    return data.text().then(text => { throw new Error(text) })
-  }else {
-    return data.text();
-  }   
-})
+    'token': token
+    }, 
+  };
+
+  axios.post('http://localhost:2000/budget/delete', {id:data._id},config).then(res => {
+    console.log(res.data);
+    window.location.reload(false);
+  })
+    .catch(err => {
+      console.log(err)
+    })
 };
 
-export default function Budget(props) {
-  const [open, setOpen] = React.useState(false);
-  const [error, setError] = React.useState("");
+export default function Budgets(props) {
+  const [error, setError] = React.useState('');
   const { token, setToken } = useToken();
-  const categories = ['Electronic Devices', 'Entertainment','Food','Daily Expense'];
-  const types = ['Monthly', 'Yearly'];
-  const [type, setType] = React.useState('');
-  const [category, setCat] = React.useState('');
-  const [amount, setAmount] = React.useState();
-  const [budgetname, setName] = React.useState('');
-  const [wallet,setWallet] = React.useState('');
+  let data = props.data;
 
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-  };
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
-  const handleWalletChange = (event) => {
-    setWallet(event.target.value);
-  }
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const budgetinfo = props.info;
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    let budgetid = budgetinfo._id;
-    let updateinfo = {
-      budgetname:budgetname,
-      category:category,
-      amount:amount,
-      wallet:wallet,
-      type:type
-    };
-    try {
-      const res = await updateBudget({
-        budgetid,
-        updateinfo
-      } 
-      ,token);
-      setOpen(false);
-      window.location.reload(false);
-    } catch (error) {
-      setError("update wallet error, try again with different name");
-    }
-  }
-
-  return (
-    <>
-      <Button onClick={handleClickOpen}>Update</Button>
-      <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Update budget</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please enter the new information.
-          </DialogContentText>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              onChange={handleNameChange}
-              id="budgetname"
-              label="Budget Name"
-              name="budgetname"
-              variant="standard"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="amount"
-              label="Amount"
-              type="number"
-              onChange={handleAmountChange}
-              variant="standard"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="wallet"
-              label="Wallet"
-              variant="standard"
-              onChange={handleWalletChange}
-            />
-            <Autocomplete
-              disablePortal
-              id="category"
-              options={categories}
-              onChange={(event, newValue) => {
-                setCat(newValue);
-              }}
-              sx={{ width: 200 }}
-              renderInput={(params) => <TextField {...params} label="Category" />}
-            />
-            <Autocomplete
-              disablePortal
-              id="type"
-              options={types}
-              onChange={(event, newValue) => {
-                setType(newValue);
-              }}
-              sx={{ width: 200 }}
-              renderInput={(params) => <TextField {...params} label="Type" />}
-            />
-            <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Save
-            </Button>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-              <Button
-              onClick={handleClose}
-              variant="outlined"
-              fullWidth
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Cancel
-            </Button>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-            <Typography variant="body1" component="div" gutterBottom color="error">
-               {error}
-              </Typography>
-              </Grid>
-          </Box>
- 
-        </DialogContent>
-        <DialogActions>
-
-        </DialogActions>
-      </Dialog>
-
-    </>
-
-  );
+    return(
+      <Stack component="Grid" spacing={5} noValidate xs={12} >
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Budget Name</StyledTableCell> 
+                  <StyledTableCell>Catrgory</StyledTableCell>
+                  <StyledTableCell>Amount</StyledTableCell>
+                  <StyledTableCell>Wallet</StyledTableCell>
+                  <StyledTableCell>Type</StyledTableCell>
+                  <StyledTableCell>Update</StyledTableCell>
+                  <StyledTableCell>Delete</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((row) => (
+                  <StyledTableRow key={row.budgetname}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.budgetname}
+                    </StyledTableCell>
+                    <StyledTableCell>{row.category}</StyledTableCell>
+                    <StyledTableCell>{row.amount}</StyledTableCell>
+                    <StyledTableCell>{row.wallet}</StyledTableCell>
+                    <StyledTableCell>{row.type}</StyledTableCell>
+                    <StyledTableCell><UpdateBudget info={row}/></StyledTableCell>
+                    <StyledTableCell>
+                    <Button
+                      variant="contained"
+                        onClick={() => Delete(token, row)}
+                      color="error"
+                    >
+                      Delete
+                    </Button>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Stack>
+    )
 }

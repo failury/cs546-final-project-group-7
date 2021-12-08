@@ -128,14 +128,6 @@ for(let i=0;i<data.length;i++){
 return (
     <Card>
       <CardHeader
-        // action={(
-        //   <Button
-        //     endIcon={<ArrowDropDownIcon fontSize="small" />}
-        //     size="small"
-        //   >
-        //     Last 7 days
-        //   </Button>
-        // )}
         title="Budget Report"
       />
       <Divider />
@@ -160,13 +152,6 @@ return (
           p: 2
         }}
       >
-        <Button
-          color="primary"
-          endIcon={<ArrowRightIcon fontSize="small" />}
-          size="small"
-        >
-          Overview
-        </Button>
       </Box>
     </Card>
   );

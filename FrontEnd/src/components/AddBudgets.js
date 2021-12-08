@@ -138,17 +138,6 @@ React.useEffect(() => {
                 sx={{ width: 200 }}
                 renderInput={(params) => <TextField {...params} label="Wallet" />}
               />
-              {/* <TextField
-                required
-                id="wallet"
-                label="Wallet"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="standard"
-                onChange={handleWalletChange}
-                sx={{ width: 200 }}
-              /> */}
               <Autocomplete
                 disablePortal
                 id="category"

@@ -8,6 +8,8 @@ import Stack from '@mui/material/Stack';
 import {useState, useEffect} from 'react';
 import useToken from '../components/useToken';
 import Avatar from '@mui/material/Avatar';
+import { pink } from '@mui/material/colors';
+
 export default function Home() {
     const { token } = useToken();
     const [user, setuser] = useState([]);
@@ -60,9 +62,9 @@ export default function Home() {
             <Typography variant="h4" align="center" color="text.secondary" paragraph>
             {user.firstName} {user.lastName}
             </Typography>
-            {len>3 ?<Avatar alt={user.firstName+ " " + user.lastName} src={user.imgurl}sx={{width:256,height:256, borderStyle: 'solid'}} /> : 
-            <Avatar sx={{width:256,height:256,borderStyle: 'solid'  }}>{user.firstName+ " " + user.lastName}</Avatar>}
-           </Stack>
+            {len>3 ?<Avatar alt={user.firstName+ " " + user.lastName} src={user.imgurl}sx={{bgcolor: pink[900],width:256,height:256, borderStyle: 'solid'}} /> : 
+            <Avatar sx={{ bgcolor: pink[900],width:256,height:256,borderStyle: 'solid'}}>{user.firstName+ " " + user.lastName}</Avatar>}
+           </Stack> 
            
           </Container>
       </Container>

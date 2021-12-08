@@ -62,7 +62,7 @@ export default function DateReports() {
 
   return (
     <React.Fragment>
-      <Title>Total Income: {total_income.toFixed(2)}</Title>
+      <h1>Total Income: {total_income.toFixed(2)}</h1>
       <ResponsiveContainer>
         <LineChart
           data={linedata}

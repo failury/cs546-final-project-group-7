@@ -33,7 +33,7 @@ router.post("/budget/budgetname", async (req, res) => {
 });
 
 router.post("/budget/add", async (req, res) => {
-  let budgetInfo = xss(req.body);
+  let budgetInfo = req.body;
   let token = req.headers.token;
   try {
     let id = jwt.verify(token, "mySecretKey").id;
@@ -52,12 +52,9 @@ router.post("/budget/add", async (req, res) => {
 });
 
 router.patch("/budget/update", async (req, res) => {
-  let budgetInfo = xss(req.body);
-  console.log(budgetInfo);
+  let budgetInfo = req.body;
   let token = req.headers.token;
   let id = jwt.verify(token, "mySecretKey").id;
-  console.log(id);
-  console.log(budgetInfo.budgetid);
 
   try {
     let updatedBudget = await budgetData.update(

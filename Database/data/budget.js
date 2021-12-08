@@ -10,11 +10,13 @@ let exportedMethods = {
         if (!budgetname) throw 'You must provide a name for your budget';
         if (!amount ) throw 'You must provide amount';
         if (!category ) throw 'You must provide category for your budget';
+        if (!wallet ) throw 'You must provide wallet for your budget';
         if (!type ) throw 'You must provide what type of budget you want to create';
 
         if (typeof budgetname !== 'string') throw 'Name is invalid';
         if (typeof amount !== 'string') throw 'Amount is invalid';
         if (typeof category !== 'string') throw 'Category is invalid'
+        if (typeof wallet !== 'string') throw 'Wallet is invalid'
         if (typeof type !== 'string') throw 'Type of budget is invalid'
 
         if(!budgetname.trim()){
@@ -22,10 +24,20 @@ let exportedMethods = {
         }
         budgetname = budgetname.trim();
 
+        if(!amount.trim()){
+            throw "Amount contains white spaces"
+        }
+        amount = amount.trim();
+
         if(!category.trim()){
             throw "Category contains white spaces"
         }
         type = type.trim();
+
+        if(!wallet.trim()){
+            throw "Wallet contains white spaces"
+        }
+        wallet = wallet.trim();
 
         if(!type.trim()){
             throw "Type contains white spaces"
@@ -52,6 +64,12 @@ let exportedMethods = {
     },
 
     async getByBudgetName(budgetname,userid){
+        if(!budgetname) throw "You must provide a budget name to search"
+        if (typeof budgetname !== 'string') throw 'Name is invalid';
+        if(!budgetname.trim()){
+            throw "Budget contains white spaces"
+        }
+        budgetname = budgetname.trim();
 
         const budget_collection = await budgetCollection();
         let budget = await budget_collection.findOne({budgetname:budgetname,user:ObjectId(userid)});

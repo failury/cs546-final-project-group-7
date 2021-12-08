@@ -93,7 +93,6 @@ export default function CreditCard(props) {
         name={cardinfo.name}
         number="5555 4444 3333 1111"
         expiry="10/20"
-        cvc="737"
       /></Button>
       <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Update wallet: {cardinfo.name}</DialogTitle>
