@@ -17,26 +17,15 @@ import Chart from 'chart.js/auto';
 import axios from 'axios';
 import useToken from './useToken';
 
-export default function ExpenseReports() {
-  const { token, setToken } = useToken();
-  const [data, setdata] = useState([]);
-  const [error,seterror] = useState('');
-  const fetchData = async function () {
-    try {
-        const res = await axios.get('http://localhost:2000/transaction', {headers: {
-        'Content-Type': 'application/json',
-        'token': token
-      }});
-      setdata(res.data);
-    } catch (error) {
-      console.log(error);
-      sessionStorage.removeItem('token');
-      window.location.href='/login';
-    } 
-};
-  useEffect(() => {
-      fetchData();
-},[]);
+export default function ExpenseReports(props) {
+let list = props.data;
+let expenses = [];
+for(let i=0;i<list.length;i++){
+  if(list[i].payment_Type === 'expense'){
+    expenses.push(list[i]);
+  }
+}
+console.log(expenses);
 
 let totalsum = 0;
 let elec_sum = 0;
@@ -47,28 +36,28 @@ let debt_sum = 0;
 let loan_sum = 0;
 let other_sum = 0;
 
-for(let i=0;i<data.length;i++){
-    totalsum += parseFloat(data[i].amt);
-    if(data[i].category === "Electronic Devices"){
-      elec_sum += parseFloat(data[i].amt);
+for(let i=0;i<expenses.length;i++){
+    totalsum += parseFloat(expenses[i].amt);
+    if(expenses[i].category === "Electronic Devices"){
+      elec_sum += parseFloat(expenses[i].amt);
     }
-    if(data[i].category === "Entertainment"){
-      entertain += parseFloat(data[i].amt);
+    if(expenses[i].category === "Entertainment"){
+      entertain += parseFloat(expenses[i].amt);
     }
-    if(data[i].category === "Food and Beverage"){
-      food_sum += parseFloat(data[i].amt);
+    if(expenses[i].category === "Food and Beverage"){
+      food_sum += parseFloat(expenses[i].amt);
     }
-    if(data[i].category === "Groceries"){
-      gro_sum += parseFloat(data[i].amt);
+    if(expenses[i].category === "Groceries"){
+      gro_sum += parseFloat(expenses[i].amt);
     }
-    if(data[i].category === "Debt"){
-      debt_sum += parseFloat(data[i].amt);
+    if(expenses[i].category === "Debt"){
+      debt_sum += parseFloat(expenses[i].amt);
     }
-    if(data[i].category === "Loan"){
-      loan_sum += parseFloat(data[i].amt);
+    if(expenses[i].category === "Loan"){
+      loan_sum += parseFloat(expenses[i].amt);
     }
-    if(data[i].category === "Others"){
-      other_sum += parseFloat(data[i].amt);
+    if(expenses[i].category === "Others"){
+      other_sum += parseFloat(expenses[i].amt);
     }
 }
 
