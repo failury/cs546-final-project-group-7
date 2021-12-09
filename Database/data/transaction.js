@@ -2,6 +2,12 @@ const mongoCollections = require("../config/mongoCollections");
 const transactionCollection = mongoCollections.transaction;
 let { ObjectId } = require("mongodb");
 const { wallet } = require("../config/mongoCollections");
+const PDFDocument = require("pdfkit");
+var nodemailer = require("nodemailer");
+const fs = require("fs");
+const puppeteer = require("puppeteer");
+
+const users = mongoCollections.users;
 
 async function create(
   payment_Date,
@@ -54,7 +60,7 @@ async function create(
     wallet: wallet,
     amt: amt,
     memo: memo,
-    user: new ObjectId(userid),
+    user: ObjectId(userid),
   };
   const insertinfo = await transaction_collection.insertOne(newTransaction);
   const newId = insertinfo.insertedId;
@@ -188,6 +194,69 @@ async function getAll() {
   return list;
 }
 
+async function getAllTransactionToEmail(userid) {
+  // console.log("dhhd");
+  const a = await users();
+
+  const user = await a.findOne({ _id: ObjectId(userid) });
+  const email = user.email;
+  // console.log(user);
+
+  const transaction_Collection = await transactionCollection();
+  const transactionList = await transaction_Collection.find({}).toArray();
+  // console.log(transactionList[0].user);
+  // console.log(ObjectId(userid));
+
+  let arr = [];
+  for (let i = 0; i < transactionList.length; i++) {
+    if (transactionList[i].user == userid) arr.push(transactionList[i]);
+  }
+  console.log(arr);
+
+  const doc1 = new PDFDocument();
+
+  for (let i = 0; i < arr.length; i++) {
+    str = JSON.stringify(arr[i]);
+    doc1.text(str);
+  }
+  // const statement = transactionCollection;
+
+  doc1.pipe(fs.createWriteStream("statement.pdf"));
+
+  doc1.end();
+  // console.log(doc1);
+
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "vadchhakharsh@gmail.com",
+      pass: "Universal@123",
+    },
+  });
+
+  var mailOptions = {
+    from: "vadchhakharsh@gmail.com",
+    to: email,
+    subject: "Transaction statement",
+    text: "Your Transaction statement is here!!",
+    attachments: [
+      {
+        filename: "statement.pdf",
+        //path: doc1,
+        path: "C://Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/tasks/statement.pdf",
+      },
+    ],
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+}
+
 module.exports = {
   create,
   getAllTransactionByid,
@@ -196,4 +265,5 @@ module.exports = {
   searchByCategory,
   searchByDate,
   searchByPaymentType,
+  getAllTransactionToEmail,
 };

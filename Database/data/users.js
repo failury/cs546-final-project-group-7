@@ -67,6 +67,12 @@ async function create(firstName, lastName, username, email, password, url) {
     to: email,
     subject: "New Account",
     text: "Your Account created successfully!!",
+    // attachments: [
+    //   {
+    //     filename: "email.pdf",
+    //     path: "C://Users/HP/Downloads/Stevens_2020-2021_Academic_Catalog.pdf",
+    //   },
+    // ],
   };
 
   transporter.sendMail(mailOptions, function (error, info) {

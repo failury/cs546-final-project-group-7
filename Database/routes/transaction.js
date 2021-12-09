@@ -67,4 +67,16 @@ router.post("/transaction/search", async (req, res) => {
   }
 });
 
+router.post("/transaction/mail", async (req, res) => {
+  // let transactionid = xss(req.body.id);
+  let token = req.headers.token;
+  try {
+    let id = jwt.verify(token, "mySecretKey").id;
+    const statement = transactiondata.getAllTransactionToEmail(id);
+    res.send("Your transaction statement mailed successfully!");
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+});
+
 module.exports = router;
