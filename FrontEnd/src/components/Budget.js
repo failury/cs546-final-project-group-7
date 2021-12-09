@@ -1,42 +1,39 @@
-// import * as React from 'react';
-// import Link from '@mui/material/Link';
-// import Typography from '@mui/material/Typography';
-// import Title from './Title';
-
-
-
-// export default function Budget() {
-//   return (
-//     <React.Fragment>
-//       <Title>Budget</Title>
-//       <Typography component="p" variant="h4">
-//         $3,024.00
-//       </Typography>
-//       <Typography color="text.secondary" sx={{ flex: 1 }}>
-//         on 15 March, 2019
-//       </Typography>
-//       <div>
-//         <Link color="primary" href="Budget">
-//           View Budget
-//         </Link>
-//       </div>
-//     </React.Fragment>
-//   );
-// }
-
-import * as React from 'react';
+import React from 'react';
+import Paper from '@mui/material/Paper';
+import axios from 'axios';
+import useToken from '../components/useToken';
+import { useEffect, useState } from 'react';
+import { Stack } from '@mui/material';
+import UpdateBudget from '../components/UpdateBudget';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
+import { Button } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
-import Title from './Title';
-import Button from '@mui/material/Button';
-import useToken from '../components/useToken';
-import { useEffect, useState } from 'react';
-import axios from 'axios'
-import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.common.white,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 async function Delete(token, data) {
   let config = {
@@ -54,53 +51,52 @@ async function Delete(token, data) {
       console.log(err)
     })
 };
-export default function Budget(props) {
 
+export default function Budgets(props) {
+  const [error, setError] = React.useState('');
   const { token, setToken } = useToken();
   let data = props.data;
-  return (
-    <React.Fragment>
-      <Title>{props.title}</Title>
-      <Table size="medium">
-        <TableHead>
-          <TableRow>
-            <TableCell>Budget Name</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>Amount</TableCell>
-            <TableCell>Type</TableCell>
-            <TableCell align="right">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-        { data.length == 0 && <Typography
-              component="h1"
-              variant="h5"
-              align="center"
-              color="text.secondary"
-              gutterBottom
-            >
-              You don't have any budget yet
-            </Typography>}
-        
-          {data.map((row, i) => (
-            <TableRow key={i}>
-              <TableCell >{row.budgetname}</TableCell>
-              <TableCell>{row.category}</TableCell>
-              <TableCell>{row.amount}</TableCell>
-              <TableCell>{row.type}</TableCell>
-              <TableCell align="right">
-                <Button
-                  variant="contained"
-                  onClick={() => Delete(token, row)}
-                  color="error"
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </React.Fragment>
-  );
+
+    return(
+      <Stack component="Grid" spacing={5} noValidate xs={12} >
+        <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Budget Name</StyledTableCell> 
+                  <StyledTableCell>Catrgory</StyledTableCell>
+                  <StyledTableCell>Amount</StyledTableCell>
+                  <StyledTableCell>Wallet</StyledTableCell>
+                  <StyledTableCell>Type</StyledTableCell>
+                  <StyledTableCell>Update</StyledTableCell>
+                  <StyledTableCell>Delete</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((row) => (
+                  <StyledTableRow key={row.budgetname}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.budgetname}
+                    </StyledTableCell>
+                    <StyledTableCell>{row.category}</StyledTableCell>
+                    <StyledTableCell>{row.amount}</StyledTableCell>
+                    <StyledTableCell>{row.wallet}</StyledTableCell>
+                    <StyledTableCell>{row.type}</StyledTableCell>
+                    <StyledTableCell><UpdateBudget info={row}/></StyledTableCell>
+                    <StyledTableCell>
+                    <Button
+                      variant="contained"
+                        onClick={() => Delete(token, row)}
+                      color="error"
+                    >
+                      Delete
+                    </Button>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Stack>
+    )
 }

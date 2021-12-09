@@ -1,27 +1,24 @@
-# Database
+<h1 align="center">CS546B Final Project Group 7</h1>
 
-1. User validation {Ruifeng Zhang}
-2. Update user {Ruifeng Zhang}
-3. Update Wallet {Ruifeng Zhang}
-4. Get all Wallet by userid
-5. Delete Wallet by userid {Shefalee}
-6. Get Wallet by name 
-7. Get all transaction by userid {Ruifeng Zhang}
-9. Delete future transaction by userid {Ruifeng Zhang}
-10. Search transaction by date/categorey/type
-11. Update budget {Kai wu}
-12. Delete budget {Kai wu}
+## Implemented core features
 
-# FrontEnd
+- [x] **Homepage/Landing page**
+- [x] **Dashboard**
+- [x] **Overview/Statistics Page** 
+- [x] **Add transaction**
+- [x] **Budget**
+- [x] **Wallet**
+- [x] **Category** 
+- [x] **Filter**
 
-1. User Login/Signup, User logout {Ruifeng Zhang}
-2. Change user information {Ruifeng Zhang}
-3. Create Wallet {Ruifeng Zhang}
-4. Update Wallet {Ruifeng Zhang}
-5. Delete Wallet {Ruifeng Zhang}
-6. Create transaction {Ruifeng Zhang}
-7. Delete transaction {Ruifeng Zhang}
-8. Update budget {Kai wu}
-9. Create budget {Kai wu}
-10. Delete budget {Kai wu}
-11. Generate reports {Kai wu}
+## Implemented extra features
+
+- [x] **Comfirmation Email upon registration**
+
+## How to run the project
+
+1. Navigate to /Frontend and `npm install`
+2. `npm start` to start the react application
+3. Navigate to /Database and `npm install`
+4. `npm start` to start the backend server [the server will be running at localhost:2000]
+

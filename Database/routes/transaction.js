@@ -3,6 +3,8 @@ const router = express.Router();
 const data = require("../data");
 const transactiondata = data.transaction;
 const jwt = require("jsonwebtoken");
+const xss = require("xss");
+
 router.get("/transaction", async (req, res) => {
   let token = req.headers.token;
   try {
@@ -10,8 +12,7 @@ router.get("/transaction", async (req, res) => {
     let transactions = await transactiondata.getAllTransactionByid(decoded.id);
     res.json(transactions);
   } catch (e) {
-    console.log(e);
-    res.status(500).json(e.message);
+    res.status(500).json({ error: e });
   }
 });
 
@@ -22,24 +23,23 @@ router.post("/transaction/add", async (req, res) => {
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const newTransaction = await transactiondata.create(
-      transInfo.payment_Date,
-      transInfo.payment_Type,
-      transInfo.category,
-      transInfo.wallet,
-      transInfo.Amt,
-      transInfo.memo,
+      xss(transInfo.payment_Date),
+      xss(transInfo.payment_Type),
+      xss(transInfo.category),
+      xss(transInfo.wallet),
+      xss(transInfo.Amt),
+      xss(transInfo.memo),
       id
     );
-    res.send("Transaction Created");
+    res.json({ ok: "Transaction Created" });
   } catch (e) {
-    console.log(e);
-    res.status(500).json(e.message);
+    res.status(500).json({ error: e });
   }
 });
 
 router.post("/transaction/delete", async (req, res) => {
   //TODO: error checking nullchecking
-  let transactionid = req.body.id;
+  let transactionid = xss(req.body.id);
   let token = req.headers.token;
   try {
     let id = jwt.verify(token, "mySecretKey").id;
@@ -49,13 +49,31 @@ router.post("/transaction/delete", async (req, res) => {
     );
     res.send("Transaction Deleted");
   } catch (e) {
-    res.status(500).json(e.message);
+    res.status(500).json({ error: e });
   }
 });
 
 router.post("/transaction/search", async (req, res) => {
+  let transactionid = xss(req.body.id);
+  let token = req.headers.token;
   try {
-    const dateList = transactiondata.searchByDate(req.body.payment_Date);
+    let id = jwt.verify(token, "mySecretKey").id;
+    const dateList = transactiondata.searchByDate(
+      xss(req.body.payment_Date),
+      id
+    );
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+});
+
+router.post("/transaction/mail", async (req, res) => {
+  // let transactionid = xss(req.body.id);
+  let token = req.headers.token;
+  try {
+    let id = jwt.verify(token, "mySecretKey").id;
+    const statement = transactiondata.getAllTransactionToEmail(id);
+    res.send("Your transaction statement mailed successfully!");
   } catch (e) {
     res.status(500).json({ error: e });
   }

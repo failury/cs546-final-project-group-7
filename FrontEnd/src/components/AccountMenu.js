@@ -13,7 +13,9 @@ import { useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import ChangeProfile from './ChangeProfile';
-import  { Redirect } from 'react-router-dom'
+import  { Redirect } from 'react-router-dom';
+import { pink } from '@mui/material/colors';
+
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -44,7 +46,7 @@ export default function AccountMenu() {
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
           <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ bgcolor: pink[900], width: 32, height: 32 }}>M</Avatar>
           </IconButton>
         </Tooltip>
       </Box>

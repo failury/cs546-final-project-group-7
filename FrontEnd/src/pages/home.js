@@ -8,8 +8,10 @@ import Stack from '@mui/material/Stack';
 import {useState, useEffect} from 'react';
 import useToken from '../components/useToken';
 import Avatar from '@mui/material/Avatar';
+import { pink } from '@mui/material/colors';
+
 export default function Home() {
-    const { token, setToken } = useToken();
+    const { token } = useToken();
     const [user, setuser] = useState([]);
     const [len,setLen] = useState(0);
     const fetchData = async function () {
@@ -60,9 +62,9 @@ export default function Home() {
             <Typography variant="h4" align="center" color="text.secondary" paragraph>
             {user.firstName} {user.lastName}
             </Typography>
-            {len>3 ?<Avatar alt={user.firstName+ " " + user.lastName} src={user.imgurl}sx={{width:256,height:256, borderStyle: 'solid'}} /> : 
-            <Avatar sx={{width:256,height:256,borderStyle: 'solid'  }}>{user.firstName+ " " + user.lastName}</Avatar>}
-           </Stack>
+            {len>3 ?<Avatar alt={user.firstName+ " " + user.lastName} src={user.imgurl}sx={{bgcolor: pink[900],width:256,height:256, borderStyle: 'solid'}} /> : 
+            <Avatar sx={{ bgcolor: pink[900],width:256,height:256,borderStyle: 'solid'}}>{user.firstName+ " " + user.lastName}</Avatar>}
+           </Stack> 
            
           </Container>
       </Container>

@@ -41,7 +41,7 @@ async function create(name, amount, type, userid){
         amount: amount, 
         type : type,
     }; 
-    const List = await wallet_collection.find({}).toArray();
+    const List = await getAllWalletByid(userid);
     let walletlist = [];
     List.forEach(element => {
         walletlist.push(element.name.toLowerCase());

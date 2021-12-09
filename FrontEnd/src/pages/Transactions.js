@@ -6,27 +6,40 @@ import Paper from '@mui/material/Paper';
 import Transaction from '../components/Transacation';
 import axios from 'axios'
 import { Stack } from '@mui/material';
+import Button from "@material-ui/core/Button";
 import AddTransaction from '../components/AddTransaction';
 import useToken from '../components/useToken';
-import {useEffect,useState} from 'react';
+import { useEffect, useState } from 'react';
+import FilterOptions from '../components/FilterOptions';
+import SendTransaction from '../components/SendTransaction';
+
 export default function Transactions() {
-    const { token, setToken } = useToken();
+    const { token } = useToken();
     const [data, setdata] = useState([]);
+    let changeData = async function (newdata) {
+        setdata(newdata);
+    }
+    
     const fetchData = async function () {
-      try {
-          const res = await axios.get('http://localhost:2000/transaction', {headers: {
-          'Content-Type': 'application/json',
-          'token': token
-        }});
-        setdata(res.data);
-      } catch (error) {
-        sessionStorage.removeItem('token');
-        window.location.href='/login';
-      } 
-  };
+        try {
+            const res = await axios.get('http://localhost:2000/transaction', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token
+                }
+            });
+            setdata(res.data);
+        } catch (error) {
+            sessionStorage.removeItem('token');
+            window.location.href = '/login';
+        }
+    };
+    let resetData = async function () {
+        fetchData();
+    }
     useEffect(() => {
         fetchData();
-},[]);
+    }, []);
 
 
 
@@ -44,14 +57,14 @@ export default function Transactions() {
                     }}
                 >
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        <AddTransaction/>
-                        <Stack component="Grid" spacing={5} noValidate xs={12} >
-                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <Transaction title="Recent Transaction" data = {data} />
-                                    </Paper>
-                                    {/* <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <Transaction title="Schedule Transaction" data = {data} />
-                                    </Paper> */}
+                        <AddTransaction />
+                        <SendTransaction data = {data}/>
+                        <Stack spacing={5} noValidate xs={12} >
+                        <FilterOptions data = {data} changeData = {changeData} resetData = {resetData}/>
+                            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                <Transaction title="Recent Transaction" data={data}  />
+                            </Paper>
+
                         </Stack>
                     </Container>
 
