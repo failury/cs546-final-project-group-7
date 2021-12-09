@@ -3,7 +3,6 @@ const walletCollection = mongoCollections.wallet
 let { ObjectId } = require('mongodb');
 
 async function create(name, amount, type, userid){
-    // userid error checking for obejct id
     if (!name ) throw 'You must provide a Name';
     if (!amount ) throw 'You must provide amount';
     if (!type ) throw 'You must provide wallet type';
@@ -12,7 +11,12 @@ async function create(name, amount, type, userid){
     if (typeof name !== 'string') throw 'Name is invalid'
     if (typeof amount !== 'string') throw 'Amount is invalid'
     if (typeof type !== 'string') throw 'Type is invalid'
-    if (typeof userid !== 'string') throw 'Type is invalid'
+    if (typeof userid !== 'string') throw 'User id is invalid'
+
+    if(!userid.trim()){
+        throw "User id contains white spaces"
+    }
+    userid = userid.trim();
 
     if(!name.trim()){
         throw "Name contains white spaces"
@@ -58,28 +62,85 @@ async function create(name, amount, type, userid){
 
 
 async function getAllWalletByid(userid) {
-    //TODO: error check for userid
+
+    if (!userid ) throw 'You must provide user id';
+    if (typeof userid !== 'string') throw 'User id is invalid'
+    if(!userid.trim()){
+        throw "User id contains white spaces"
+    }
+    userid = userid.trim();
+
     const wallet_collection = await walletCollection();
     const walletList = await wallet_collection.find({user:ObjectId(userid)}).toArray();
     return walletList;
 }
 
 async function deleteWalletByid(walletid,userid) {
-    //TODO: error check for userid
-    
+    if (!walletid ) throw 'You must provide wallet id';
+    if (typeof walletid !== 'string') throw 'Wallet id is invalid'
+    if(!walletid.trim()){
+        throw "Wallet id contains white spaces"
+    }
+    walletid = walletid.trim();
+
+    if (!userid ) throw 'You must provide user id';
+    if (typeof userid !== 'string') throw 'Userid is invalid'
+    if(!userid.trim()){
+        throw "User id contains white spaces"
+    }
+    userid = userid.trim();
+
     const wallet_collection = await walletCollection();
         const wallet = await wallet_collection.findOne({user:ObjectId(userid),_id:ObjectId(walletid)});
         if(wallet == null) throw 'item does not exist';
         const deletionInfo = await wallet_collection.deleteOne({user:ObjectId(userid),_id:ObjectId(walletid)});
         if (deletionInfo.deletedCount === 0) {
-            throw 'Could not remove wallet with id of ${walletid}';
+            throw `Could not remove wallet with id of ${walletid}`;
           }
     return {deleted: walletid};
 }
+
 async function searchByName(name, userid) {
-    
 }
-async function updateWalletByID(name, amount, type,walletid, userid) {
+
+async function updateWalletByID(name, amount, type, walletid, userid) {
+    if (!name ) throw 'You must provide a Name';
+    if (!amount ) throw 'You must provide amount';
+    if (!type ) throw 'You must provide wallet type';
+    if (!walletid ) throw 'You must provide wallet id';
+    if (!userid ) throw 'You must provide user id';
+    
+    if (typeof name !== 'string') throw 'Name is invalid'
+    if (typeof amount !== 'string') throw 'Amount is invalid'
+    if (typeof type !== 'string') throw 'Type is invalid'
+    if (typeof walletid !== 'string') throw 'Wallet  is invalid'
+    if (typeof userid !== 'string') throw 'User id is invalid'
+
+    if(!walletid.trim()){
+        throw "Wallet id contains white spaces"
+    }
+    walletid = walletid.trim();
+
+    if(!userid.trim()){
+        throw "User id contains white spaces"
+    }
+    userid = userid.trim();
+
+    if(!name.trim()){
+        throw "Name contains white spaces"
+    }
+    name = name.trim();
+
+    if(!amount.trim()){
+        throw "Amount contains white spaces"
+    }
+    amount = amount.trim();
+
+    if(!type.trim()){
+        throw "Type contains white spaces"
+    }
+    type = type.trim();
+
     const wallet_collection = await walletCollection();
     const res = await wallet_collection.findOne({ _id: ObjectId(walletid), user:ObjectId(userid)});
     if (res === null) throw 'the wallet does not exist';
@@ -106,27 +167,28 @@ async function updateWalletByID(name, amount, type,walletid, userid) {
     const newWallet = await wallet_collection.findOne({ _id: ObjectId(walletid), user:ObjectId(userid)});
     return(newWallet);
 }
-async function getAll(){
-    let list = [];
-    const wallet_Collection = await walletCollection();
-    const walletList = await wallet_Collection.find({}).toArray();
 
-    for(let i=0; i<walletList.length; i++){
-        let x = walletList[i]._id
-        let y=x.toString();
-        walletList[i]._id = y;
-    }
+// async function getAll(){
+//     let list = [];
+//     const wallet_Collection = await walletCollection();
+//     const walletList = await wallet_Collection.find({}).toArray();
 
-    for(let i=0;i<walletList.length;i++){
-        let ls = {"name": walletList[i].name, "inputAmt": walletList[i].inputAmt, "balAmt": walletList[i].balAmt};
-        list.push(ls);
-    }
-    return list;
-}
+//     for(let i=0; i<walletList.length; i++){
+//         let x = walletList[i]._id
+//         let y=x.toString();
+//         walletList[i]._id = y;
+//     }
+
+//     for(let i=0;i<walletList.length;i++){
+//         let ls = {"name": walletList[i].name, "inputAmt": walletList[i].inputAmt, "balAmt": walletList[i].balAmt};
+//         list.push(ls);
+//     }
+//     return list;
+// }
 
 module.exports = {
     create,
-    getAll,
+    //getAll,
     getAllWalletByid,
     deleteWalletByid,
     updateWalletByID
