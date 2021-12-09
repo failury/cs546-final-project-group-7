@@ -5,6 +5,7 @@ const transactiondata = data.transaction;
 const jwt = require("jsonwebtoken");
 const xss = require("xss");
 
+const alert = require("alert");
 router.get("/transaction", async (req, res) => {
   let token = req.headers.token;
   try {
@@ -73,7 +74,9 @@ router.post("/transaction/mail", async (req, res) => {
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const statement = transactiondata.getAllTransactionToEmail(id);
-    res.send("Your transaction statement mailed successfully!");
+    //console.log("harsh");
+    // res.jsonp({ success: true });
+    alert("Your transaction statement mailed successfully!");
   } catch (e) {
     return res.status(400).json(e);
   }

@@ -13,7 +13,7 @@ async function main() {
   // let budget = await budgets.getByBudgetName('wine','61aec22bf54a16fe120b0c72');
   // console.log(budget);
   let budget = await transaction.getAllTransactionToEmail(
-    "61b12bcc34972fab06528795"
+    "61b124f8170f8e0445abff59"
   );
 
   console.log("Done seeding database");
