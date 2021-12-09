@@ -58,7 +58,7 @@ app.use("/signup", async (req, res) => {
 
     res.send({ newuser: newuser.username });
   } catch (error) {
-    return res.status(400).send("register failed");
+    return res.status(400).json(error);
   }
 });
 

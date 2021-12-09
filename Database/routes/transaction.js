@@ -33,7 +33,7 @@ router.post("/transaction/add", async (req, res) => {
     );
     res.json({ ok: "Transaction Created" });
   } catch (e) {
-    res.status(500).json({ error: e });
+    return res.status(500).json(e);
   }
 });
 
@@ -49,7 +49,7 @@ router.post("/transaction/delete", async (req, res) => {
     );
     res.send("Transaction Deleted");
   } catch (e) {
-    res.status(500).json({ error: e });
+    return res.status(400).json(e);
   }
 });
 
@@ -63,7 +63,7 @@ router.post("/transaction/search", async (req, res) => {
       id
     );
   } catch (e) {
-    res.status(500).json({ error: e });
+    return res.status(400).json(e);
   }
 });
 
@@ -75,7 +75,7 @@ router.post("/transaction/mail", async (req, res) => {
     const statement = transactiondata.getAllTransactionToEmail(id);
     res.send("Your transaction statement mailed successfully!");
   } catch (e) {
-    res.status(500).json({ error: e });
+    return res.status(400).json(e);
   }
 });
 
