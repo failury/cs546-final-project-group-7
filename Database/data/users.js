@@ -15,6 +15,32 @@ var errorCheck = function (string) {
 };
 
 async function create(firstName, lastName, username, email, password, url) {
+
+  if (!firstName ) throw 'You must provide a First Name';
+  if (!lastName ) throw 'You must provide a Last Name';
+  if (!username ) throw 'You must provide a Username';
+  if (!password ) throw 'You must provide a Password';
+  if (!email) throw 'You must provide an Email';
+
+  if (typeof firstName !== 'string') throw 'First Name is invalid'
+  if (typeof lastName !== 'string') throw 'Last Name is invalid'
+  if (typeof email !== 'string') throw 'Email is invalid'
+
+  if (!firstName.trim()) {
+    throw "First Name contains white spaces";
+  }
+  firstName = firstName.trim();
+
+  if (!lastName.trim()) {
+    throw "Last Name contains white spaces";
+  }
+  lastName = lastName.trim();
+
+  if (!email.trim()) {
+    throw "Email contains white spaces";
+  }
+  email = email.trim();
+
   username = username.trim();
   password = password.trim();
   errorCheck(username);
@@ -85,15 +111,41 @@ async function create(firstName, lastName, username, email, password, url) {
 
   return new_users;
 }
-async function update(
-  firstName,
-  lastName,
-  username,
-  email,
-  password,
-  url,
-  userid
-) {
+async function update(firstName, lastName, username, email, password, url, userid){
+
+  if (!userid ) throw 'You must provide a Userid';
+  if (!firstName ) throw 'You must provide a First Name';
+  if (!lastName ) throw 'You must provide a Last Name';
+  if (!username ) throw 'You must provide a Username';
+  if (!password ) throw 'You must provide a Password';
+  if (!email) throw 'You must provide an Email';
+
+  if (typeof userid !== 'string') throw 'User id is invalid'
+  if (typeof firstName !== 'string') throw 'First Name is invalid'
+  if (typeof lastName !== 'string') throw 'Last Name is invalid'
+  if (typeof email !== 'string') throw 'Email is invalid'
+
+  if (!userid.trim()) {
+    throw "User id contains white spaces";
+  }
+  userid = userid.trim();
+
+  if (!firstName.trim()) {
+    throw "First Name contains white spaces";
+  }
+  firstName = firstName.trim();
+
+  if (!lastName.trim()) {
+    throw "Last Name contains white spaces";
+  }
+  lastName = lastName.trim();
+
+  if (!email.trim()) {
+    throw "Email contains white spaces";
+  }
+  email = email.trim();
+
+
   username = username.trim();
   password = password.trim();
   errorCheck(username);
@@ -131,6 +183,10 @@ async function update(
 }
 
 async function checklogin(username, password) {
+
+  if (!username ) throw 'You must provide a Username';
+  if (!password ) throw 'You must provide a Password';
+
   username = username.trim();
   password = password.trim();
   errorCheck(username);
@@ -173,16 +229,16 @@ async function getAll() {
   return list;
 }
 
-async function getbyid(id) {
-  if (!id) throw "You must provide id";
-  if (typeof id !== "string") throw "id is invalid";
-  if (!id.trim()) {
-    throw "id contains white spaces";
+async function getbyid(userid) {
+  if (!userid) throw "You must provide Userid";
+  if (typeof userid !== "string") throw "Userid is invalid";
+  if (!userid.trim()) {
+    throw "User id contains white spaces";
   }
-  id = id.trim();
+  userid = userid.trim();
 
   const users_Collection = await usersCollection();
-  let user_id = await users_Collection.findOne({ _id: ObjectId(id) });
+  let user_id = await users_Collection.findOne({ _id: ObjectId(userid) });
   if (user_id === null) throw "No user with that id";
   user_id._id = user_id._id.toString();
   return user_id;

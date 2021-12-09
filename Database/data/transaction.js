@@ -131,17 +131,10 @@ async function searchByDate(date, userid) {
   // error checking for date remaining
   // userid error checking for object id
 
-<<<<<<< HEAD
-  if (!userid) throw 'You must provide userid';
-  if (typeof userid !== 'string') throw 'user id is invalid'
-  if(!userid.trim()){
-    throw "User id contains white spaces"
-=======
   if (!userid) throw "You must provide userid";
   if (typeof userid !== "string") throw "user idis invalid";
   if (!userid.trim()) {
     throw "User id contains white spaces";
->>>>>>> 17f7b8f9f74e271edf74167e66f9a06c42d1c8ab
   }
   userid = userid.trim();
 
