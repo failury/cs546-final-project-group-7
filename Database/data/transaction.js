@@ -243,7 +243,7 @@ async function getAllTransactionToEmail(userid) {
       {
         filename: "statement.pdf",
         //path: doc1,
-        path: "C://Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/tasks/statement.pdf",
+        path: "C://Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/statement.pdf",
       },
     ],
   };
