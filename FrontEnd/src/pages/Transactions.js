@@ -62,7 +62,8 @@ export default function Transactions() {
                         <Stack spacing={5} noValidate xs={12} >
                         <FilterOptions data = {data} changeData = {changeData} resetData = {resetData}/>
                             <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                <Transaction title="Recent Transaction" data={data}  />
+                                <h1>Recent Transaction</h1>
+                                <Transaction data={data}  />
                             </Paper>
 
                         </Stack>
