@@ -15,7 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 export default function AddBudget() {
   const [open, setOpen] = React.useState(false);
-  const categories = ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices'];
+  const categories = ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Others'];
   const types = ['Monthly', 'Yearly'];
   const { token, setToken } = useToken();
   const [budgetname, setName] = React.useState('');
