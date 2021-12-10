@@ -6,18 +6,25 @@ let { ObjectId } = require('mongodb');
 
 let exportedMethods = {
     async create(userid,budgetname,amount,category,wallet,type){
-        //userid error checking for object id
+        
+        if (!userid) throw 'You must provide user id';
         if (!budgetname) throw 'You must provide a name for your budget';
         if (!amount ) throw 'You must provide amount';
         if (!category ) throw 'You must provide category for your budget';
         if (!wallet ) throw 'You must provide wallet for your budget';
         if (!type ) throw 'You must provide what type of budget you want to create';
 
+        if (typeof userid !== 'string') throw 'User id is invalid';
         if (typeof budgetname !== 'string') throw 'Name is invalid';
         if (typeof amount !== 'string') throw 'Amount is invalid';
         if (typeof category !== 'string') throw 'Category is invalid'
         if (typeof wallet !== 'string') throw 'Wallet is invalid'
         if (typeof type !== 'string') throw 'Type of budget is invalid'
+
+        if(!userid.trim()){
+            throw "User id contains white spaces"
+        }
+        userid = userid.trim();
 
         if(!budgetname.trim()){
             throw "Budget contains white spaces"
@@ -64,12 +71,20 @@ let exportedMethods = {
     },
 
     async getByBudgetName(budgetname,userid){
+
         if(!budgetname) throw "You must provide a budget name to search"
         if (typeof budgetname !== 'string') throw 'Name is invalid';
         if(!budgetname.trim()){
             throw "Budget contains white spaces"
         }
         budgetname = budgetname.trim();
+
+        if(!userid) throw "You must provide a user id"
+        if (typeof userid !== 'string') throw 'user id is invalid';
+        if(!userid.trim()){
+            throw "User id contains white spaces"
+        }
+        userid = userid.trim();
 
         const budget_collection = await budgetCollection();
         let budget = await budget_collection.findOne({budgetname:budgetname,user:ObjectId(userid)});
@@ -79,7 +94,7 @@ let exportedMethods = {
     },
 
     async getBudgetByUserId(userid) {
-        //TODO: error check for userid error checking for object id
+
         if (!userid) throw 'You must provide an userid';
         if (typeof userid != 'string') throw "the userid must be a string";
         if (userid.trim().length === 0) throw "the userid is empty spaces";
@@ -96,6 +111,13 @@ let exportedMethods = {
         if (typeof id != 'string') throw "the id must be a string";
         if (id.trim().length === 0) throw "the id is empty spaces";
         id = id.trim();
+
+        if (!userid) throw 'You must provide user id';
+        if (typeof userid != 'string') throw "the user id must be a string";
+        if (userid.trim().length === 0) throw "the user id is empty spaces";
+        userid = userid.trim();
+
+        if (!budgetInfo) throw 'You must provide budget info';
 
         const budget_collection = await budgetCollection();
         const updateBudgetInfo = {
@@ -120,7 +142,7 @@ let exportedMethods = {
 
 
     async delete(budgetid,userid){
-        // userid error checking for object id
+        
         if (!budgetid) throw 'You must provide a budgetid';
         if (typeof budgetid != 'string') throw "the userid must be a string";
         if (budgetid.trim().length === 0) throw "the userid is empty spaces";

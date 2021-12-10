@@ -64,7 +64,7 @@ export default function Budgets(props) {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Budget Name</StyledTableCell> 
-                  <StyledTableCell>Catrgory</StyledTableCell>
+                  <StyledTableCell>Category</StyledTableCell>
                   <StyledTableCell>Amount</StyledTableCell>
                   <StyledTableCell>Wallet</StyledTableCell>
                   <StyledTableCell>Type</StyledTableCell>

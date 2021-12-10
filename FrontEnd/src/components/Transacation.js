@@ -26,7 +26,7 @@ async function Delete(token, data) {
       console.log(err)
     })
 };
-async function Commit(token, walletname,amount,id) {
+async function Commit(token, walletname, amount, id) {
   let wallets = [];
   try {
     const res = await axios.get('http://localhost:2000/wallet', {headers: {
@@ -57,9 +57,8 @@ if(count == 1){
     'token': token
     }, 
   };
-
+  console.log('obj', obj)
   axios.patch('http://localhost:2000/wallet', obj,config).then(res => {
-    console.log(res.data);
     let config = {
       headers:{
         'Content-Type': 'application/json',
@@ -77,6 +76,7 @@ if(count == 1){
     window.location.reload(false);
   })
     .catch(err => {
+      console.log('hello')
       console.log(err)
     })
 }else{

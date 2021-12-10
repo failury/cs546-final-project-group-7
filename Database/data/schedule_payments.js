@@ -3,6 +3,26 @@ const s_paymentCollection = mongoCollections.schedulepayments
 let { ObjectId } = require('mongodb');
 
 async function create(spaymentDate, spaymentType, sAmt, sMemo, sLastPostDate ){
+    if (!spaymentDate) throw "You must provide payment Date";
+    if (!spaymentType) throw "You must provide payment type";
+    if (!sAmt) throw "You must provide amount";
+    if (!sLastPostDate) throw "You must provide when was the last payment made";
+
+    if (typeof spaymentDate !== "string") throw "payment date is invalid";
+    if (typeof spaymentType !== "string") throw "payment type is invalid";
+    if (typeof sAmt !== "string") throw "amount is invalid";
+    if (typeof sLastPostDate !== "string") throw "last post date is invalid";
+
+    if (!spaymentType.trim()) {
+        throw "payment type contains white spaces";
+    }
+    spaymentType = spaymentType.trim();
+
+    if (!sAmt.trim()) {
+        throw "amount contains white spaces";
+    }
+    sAmt = sAmt.trim();
+
     const spayment_collection = await s_paymentCollection();
 
     let newS_payment = {

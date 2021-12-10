@@ -40,12 +40,12 @@ router.post("/transaction/add", async (req, res) => {
 
 router.post("/transaction/delete", async (req, res) => {
   //TODO: error checking nullchecking
-  let transactionid = xss(req.body.id);
+  let transactionid = req.body.id;
   let token = req.headers.token;
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const newTransaction = await transactiondata.deleteTransactionByid(
-      transactionid,
+      xss(transactionid),
       id
     );
     res.send("Transaction Deleted");

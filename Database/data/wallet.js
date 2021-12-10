@@ -100,8 +100,8 @@ async function deleteWalletByid(walletid,userid) {
     return {deleted: walletid};
 }
 
-async function searchByName(name, userid) {
-}
+// async function searchByName(name, userid) {
+// }
 
 async function updateWalletByID(name, amount, type, walletid, userid) {
     if (!name ) throw 'You must provide a Name';
