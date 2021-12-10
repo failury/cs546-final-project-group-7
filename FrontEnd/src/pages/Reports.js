@@ -22,7 +22,6 @@ export default function ReportPage() {
     const { token } = useToken();
     const [data, setdata] = useState([]);
     let changeData = async function (newdata) {
-        console.log('change');
         setdata(newdata);
     }
     

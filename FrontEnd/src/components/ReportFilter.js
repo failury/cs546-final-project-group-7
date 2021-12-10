@@ -23,18 +23,6 @@ export default function BasicMenu({ data, changeData, resetData }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handlesubClick = (event) => {
-    setAnchorEl1(event.currentTarget);
-
-
-  };
-  const handlesubClose = (string) => {
-    setAnchorEl1(null);
-    if(typeof string  === 'string'){
-      setColumn(string);
-    }
-    
-  };
   const handleFilter = (event) => {
     event.preventDefault();
 
@@ -70,7 +58,7 @@ export default function BasicMenu({ data, changeData, resetData }) {
           horizontal: 'left',
         }}
       >
-        <Box component="form" onSubmit={handleFilter} noValidate sx={{ mt: 1, p: 5 }}>
+        <Box component="form" onSubmit={handleFilter} noValidate sx={{ mt: 5, p: 10 }}>
           <Stack direction="row"
             justifyContent="space-around"
             alignItems="center"
