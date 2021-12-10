@@ -25,7 +25,6 @@ for(let i=0;i<list.length;i++){
     expenses.push(list[i]);
   }
 }
-console.log(expenses);
 
 let totalsum = 0;
 let elec_sum = 0;

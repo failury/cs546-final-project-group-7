@@ -19,7 +19,6 @@ router.get("/wallet", async (req, res) => {
 router.post("/wallet", async (req, res) => {
   let token = req.headers.token;
   let walletInfo = req.body;
-  console.log(walletInfo);
 
   try {
     let id = jwt.verify(token, "mySecretKey").id;

@@ -40,7 +40,6 @@ export default function ReportPage() {
         }
     };
     let resetData = async function () {
-        console.log('reset');
         fetchData();
     }
     useEffect(() => {

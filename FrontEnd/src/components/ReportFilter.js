@@ -28,16 +28,12 @@ export default function BasicMenu({ data, changeData, resetData }) {
 
     let month_int = ['01','02','03','04','05','06','07','08','09','10','11','12'];
     let index = months.indexOf(month);
-    console.log(index);
       var newArray = data.filter(function (el) {
-        console.log(el.payment_Date.slice(5,7));
-        console.log(month_int[index]);
         
         return el.payment_Date.slice(5,7) == month_int[index];
       });
     changeData(newArray);
-    console.log(newArray);
-  };
+  }
   return (
     <div>
       <Button

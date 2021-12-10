@@ -12,9 +12,33 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+
+async function addBudget(credentials, token) {
+  return fetch('http://localhost:2000/budget/add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'token': token
+    },
+    body: JSON.stringify(credentials)
+  }).catch(error => {
+    throw(error);
+}).then(data => {
+  if(!data.ok){
+    
+    return data.text().then(text => { throw new Error(text) })
+  }else {
+    return data.text();
+  }   
+})
+
+ }
 
 export default function AddBudget() {
   const [open, setOpen] = React.useState(false);
+  const [error,seterror] = React.useState('');
   const categories = ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Others'];
   const types = ['Monthly', 'Yearly'];
   const { token, setToken } = useToken();
@@ -37,26 +61,28 @@ export default function AddBudget() {
     setOpen(false);
   };
 
-  const handleAddBudget = (event) => {
+  const handleAddBudget = async (event) => {
     event.preventDefault();
-    let obj = {
-      budgetname:budgetname,
-      category:category,
-      amount:amount,
-      wallet:wallet,
-      type:type
+
+    if(!budgetname || !category || !amount || !wallet || !type){
+      seterror("Please enter all require information");
+      return;
     }
-      axios.post('http://localhost:2000/budget/add', obj,{headers: {
-        'Content-Type': 'application/json',
-        'token': token
-      }}).then(res => {
-        console.log(res);
-        setOpen(false);
-        window.location.reload(false);
-      })
-    .catch(err => {
-      console.log(err)
-    })
+
+    try {
+      const res = await addBudget({
+        budgetname,
+        amount,
+        category,
+        wallet,
+        type
+      },token);
+      
+      setOpen(false);
+      window.location.reload(false);
+    } catch (error) {
+      seterror(error.message.replace(/['"]+/g, ''));
+    }
   }
 
   const fetchWallet = async () =>{
@@ -71,7 +97,6 @@ export default function AddBudget() {
       });
       setWalletdata(obj);
     } catch (error) {
-      console.log(error);
       sessionStorage.removeItem('token');
       window.location.href='/login';
     } 
@@ -97,7 +122,6 @@ React.useEffect(() => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        {/* <DialogTitle>{"Add a New Budget"}</DialogTitle> */}
         <h1>{"Add a New Budget"}</h1>
         <DialogContent>
           <Box sx={{ p: 3, border: '1px solid grey' }}>
@@ -162,6 +186,11 @@ React.useEffect(() => {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleAddBudget}>Add</Button>
+          <Grid item xs={12}>
+            <Typography variant="body1" component="div" gutterBottom color="error">
+               {error}
+              </Typography>
+              </Grid>
         </DialogActions>
       </Dialog>
     </div>

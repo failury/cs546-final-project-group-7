@@ -25,7 +25,6 @@ export default function ExpenseReports(props) {
       incomes.push(list[i]);
     }
   }
-  console.log(incomes);
   
   let totalsum = 0;
   let elec_sum = 0;
