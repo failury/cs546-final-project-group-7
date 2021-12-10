@@ -14,6 +14,8 @@
 ## Implemented extra features
 
 - [x] **Comfirmation Email upon registration**
+- [x] **Transaction Statement Email upon Email button**
+
 
 ## How to run the project
 

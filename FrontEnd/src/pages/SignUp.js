@@ -89,8 +89,7 @@ export default function SignUp({ setToken }) {
       console.log(res);
       window.location.href = "/login";
     } catch (error) {
-      console.log(error);
-      seterror(error);
+      seterror(error.message.replace(/['"]+/g, ''));
     }
   };
 

@@ -15,7 +15,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import useToken from '../components/useToken';
 import axios from 'axios';
 import moment from 'moment';
-
+import { Grid,Typography } from '@mui/material';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -31,6 +31,7 @@ export default function AddTransaction() {
   const [amount, setAmount] = React.useState(0);
   const [memo, setMemo] = React.useState('');
   const [walletdata, setWalletdata] = React.useState([]);
+  const [error,seterror] = React.useState('');
   const handleDateChange = (event) => {
     setDate(event.target.value);
   };
@@ -65,7 +66,7 @@ export default function AddTransaction() {
         window.location.reload(false);
       })
     .catch(err => {
-      console.log(err.data)
+      seterror("Failed to create Transaction, plase check all the fields");
     })
     
   };
@@ -175,6 +176,11 @@ React.useEffect(() => {
                 onChange={handleMemoChange}
               />
             </Stack>
+            <Grid item xs={12}>
+            <Typography variant="body1" component="div" gutterBottom color="error">
+               {error}
+              </Typography>
+              </Grid>
           </Box>
         </DialogContent>
         <DialogActions>

@@ -232,6 +232,7 @@ async function getAllTransactionToEmail(userid) {
 
   const user = await a.findOne({ _id: ObjectId(userid) });
   const email = user.email;
+  const username = user.username;
   // console.log(user);
 
   const transaction_Collection = await transactionCollection();
@@ -243,20 +244,73 @@ async function getAllTransactionToEmail(userid) {
   for (let i = 0; i < transactionList.length; i++) {
     if (transactionList[i].user == userid) arr.push(transactionList[i]);
   }
-  console.log(arr);
+  //console.log(arr);
 
-  const doc1 = new PDFDocument();
+  const doc = new PDFDocument();
+
+  doc.text("\n\n");
+
+  doc
+    .font("Courier-BoldOblique")
+    .fontSize(25)
+    .text("TRANSACTION STATEMENT", { lineBreak: true, align: "center" });
+  doc.fontSize(18);
+  doc.text("\n\n\n");
+  doc
+    .image(
+      "C:/Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif"
+      // 210,
+      // 15,
+      // { fit: [200, 200] }
+    )
+    .stroke();
+
+  //doc.lineBreak();
+
+  // const list = doc.struct("List");
+  doc.text("\n");
+
+  doc
+    .fillColor("red")
+    .font("Helvetica-BoldOblique")
+    .fontSize("18")
+    .text(username, { align: "center" });
+  doc.text("\n");
 
   for (let i = 0; i < arr.length; i++) {
+    const pDate = arr[i].payment_Date;
+    const pType = arr[i].payment_Type;
+    const category = arr[i].category;
+    const wallet = arr[i].wallet;
+    const amt = arr[i].amt;
+    const memo = arr[i].memo;
+
+    // console.log(date);
+
     str = JSON.stringify(arr[i]);
-    doc1.text(str);
+    doc
+      .fillColor("black")
+      .font("Times-Bold")
+      .text(i + 1);
+    doc.font("Times-Bold").text(`Date : ${pDate}`);
+    //doc.font("Times-Roman").text(pDate);
+    doc.font("Times-Bold").text(`Type : ${pType}`);
+    // doc.font("Times-Roman").text(pType);
+    doc.font("Times-Bold").text(`Category : ${category}`);
+    //doc.font("Times-Roman").text(category);
+    doc.font("Times-Bold").text(`Wallet : ${wallet}`);
+    //doc.font("Times-Roman").text(wallet);
+    doc.font("Times-Bold").text(`Amount : ${amt}`);
+    // doc.font("Times-Roman").text(amt);
+    doc.font("Times-Bold").text(`Memo : ${memo}`);
+    // doc.font("Times-Roman").text(memo);
+    doc.text("\n");
   }
-  // const statement = transactionCollection;
 
-  doc1.pipe(fs.createWriteStream("statement.pdf"));
+  doc.pipe(fs.createWriteStream("statement.pdf"));
 
-  doc1.end();
-  // console.log(doc1);
+  doc.end();
+  //console.log(doc);
 
   var transporter = nodemailer.createTransport({
     service: "gmail",
@@ -274,7 +328,7 @@ async function getAllTransactionToEmail(userid) {
     attachments: [
       {
         filename: "statement.pdf",
-        //path: doc1,
+        //path: doc,
         path: "C://Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/statement.pdf",
       },
     ],

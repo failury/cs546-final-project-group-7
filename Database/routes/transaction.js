@@ -5,6 +5,7 @@ const transactiondata = data.transaction;
 const jwt = require("jsonwebtoken");
 const xss = require("xss");
 
+const alert = require("alert");
 router.get("/transaction", async (req, res) => {
   let token = req.headers.token;
   try {
@@ -33,7 +34,7 @@ router.post("/transaction/add", async (req, res) => {
     );
     res.json({ ok: "Transaction Created" });
   } catch (e) {
-    res.status(500).json({ error: e });
+    return res.status(500).json(e);
   }
 });
 
@@ -49,7 +50,7 @@ router.post("/transaction/delete", async (req, res) => {
     );
     res.send("Transaction Deleted");
   } catch (e) {
-    res.status(500).json({ error: e });
+    return res.status(400).json(e);
   }
 });
 
@@ -63,7 +64,7 @@ router.post("/transaction/search", async (req, res) => {
       id
     );
   } catch (e) {
-    res.status(500).json({ error: e });
+    return res.status(400).json(e);
   }
 });
 
@@ -73,9 +74,11 @@ router.post("/transaction/mail", async (req, res) => {
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const statement = transactiondata.getAllTransactionToEmail(id);
-    res.send("Your transaction statement mailed successfully!");
+    //console.log("harsh");
+    // res.jsonp({ success: true });
+    alert("Your transaction statement mailed successfully!");
   } catch (e) {
-    res.status(500).json({ error: e });
+    return res.status(400).json(e);
   }
 });
 
