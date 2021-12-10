@@ -41,6 +41,11 @@ async function create(firstName, lastName, username, email, password, url) {
   }
   email = email.trim();
 
+  let mail = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+  if(mail.test(email) === false){
+    throw 'Invalid email'
+  }
+
   username = username.trim();
   password = password.trim();
   errorCheck(username);
