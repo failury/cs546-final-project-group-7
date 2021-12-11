@@ -36,7 +36,7 @@ export default function Budget(props) {
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState("");
   const { token } = useToken();
-  const categories = ['Electronic Devices', 'Entertainment','Food','Daily Expense'];
+  const categories = ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Others'];
   const types = ['Monthly', 'Yearly'];
   const [type, setType] = React.useState('');
   const [category, setCat] = React.useState('');

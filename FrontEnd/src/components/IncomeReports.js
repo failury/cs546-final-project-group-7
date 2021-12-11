@@ -8,7 +8,6 @@ import { Card, CardContent, Grid, MenuItem, TextField } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import { useTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-
 import { Bar } from 'react-chartjs-2';
 import { Box, Button, CardHeader, Divider} from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
