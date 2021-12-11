@@ -9,7 +9,15 @@ const puppeteer = require("puppeteer");
 
 const users = mongoCollections.users;
 
-async function create(payment_Date, payment_Type, category, wallet, amt, memo, userid){
+async function create(
+  payment_Date,
+  payment_Type,
+  category,
+  wallet,
+  amt,
+  memo,
+  userid
+) {
   // payment date error checking remaining
 
   if (!userid) throw "You must provide user id";
@@ -73,7 +81,6 @@ async function create(payment_Date, payment_Type, category, wallet, amt, memo, u
 }
 
 async function getAllTransactionByid(userid) {
-
   if (!userid) throw "You must provide userid";
   if (typeof userid !== "string") throw "user id is invalid";
   if (!userid.trim()) {
@@ -89,8 +96,6 @@ async function getAllTransactionByid(userid) {
 }
 
 async function deleteTransactionByid(transactionid, userid) {
-
-
   if (!transactionid) throw "You must provide transaction id";
   if (typeof transactionid !== "string") throw "transaction id is invalid";
   if (!transactionid.trim()) {
@@ -152,7 +157,6 @@ async function searchByDate(date, userid) {
 }
 
 async function searchByCategory(date, userid) {
-
   if (!date) throw "You must provide date";
   if (typeof date !== "string") throw "date is invalid";
   if (!date.trim()) {
