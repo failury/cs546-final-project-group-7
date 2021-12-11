@@ -60,6 +60,17 @@ let exportedMethods = {
             wallet:wallet,
             type:type
         }
+
+        let List = await this.getBudgetByUserId(userid);
+        let budgetlist = [];
+        List.forEach(element => {
+            budgetlist.push(element.budgetname.toLowerCase());
+            
+        });
+        if (budgetlist.includes(budgetname.toLowerCase())){
+            throw 'budgetname existed'
+        }
+
         let insertInfo = await budget_collection.insertOne(newBudget);
         let newId = insertInfo.insertedId;
         let new_budget = await budget_collection.findOne({_id:newId});
@@ -68,29 +79,6 @@ let exportedMethods = {
         x = newObjId.toString();
         new_budget._id=x;
         return(new_budget);
-    },
-
-    async getByBudgetName(budgetname,userid){
-
-        if(!budgetname) throw "You must provide a budget name to search"
-        if (typeof budgetname !== 'string') throw 'Name is invalid';
-        if(!budgetname.trim()){
-            throw "Budget contains white spaces"
-        }
-        budgetname = budgetname.trim();
-
-        if(!userid) throw "You must provide a user id"
-        if (typeof userid !== 'string') throw 'user id is invalid';
-        if(!userid.trim()){
-            throw "User id contains white spaces"
-        }
-        userid = userid.trim();
-
-        const budget_collection = await budgetCollection();
-        let budget = await budget_collection.findOne({budgetname:budgetname,user:ObjectId(userid)});
-        if (budget === null) throw 'No such budget';
-
-        return budget;
     },
 
     async getBudgetByUserId(userid) {

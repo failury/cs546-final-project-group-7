@@ -22,7 +22,6 @@ export default function ReportPage() {
     const { token } = useToken();
     const [data, setdata] = useState([]);
     let changeData = async function (newdata) {
-        console.log('change');
         setdata(newdata);
     }
     
@@ -41,7 +40,6 @@ export default function ReportPage() {
         }
     };
     let resetData = async function () {
-        console.log('reset');
         fetchData();
     }
     useEffect(() => {
@@ -73,57 +71,5 @@ export default function ReportPage() {
                 </Box>
 
             </Box>
-        // <>
-        //     <Box sx={{ display: 'flex' }}>
-        //         <CssBaseline />
-        //         <Box
-        //             component="main"
-        //             sx={{
-        //                 backgroundColor: (theme) =>
-        //                     theme.palette.mode === 'light'
-        //                         ? theme.palette.grey[300]
-        //                         : theme.palette.grey[900],
-        //                 flexGrow: 1,
-        //                 height: '100vh',
-        //                 overflow: 'auto',
-        //             }}
-        //         >
-        //             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        //                 <Grid container spacing={6}>
-        //                     <Grid item xs={12} md={8} lg={9}>
-        //                         <Paper
-        //                             sx={{
-        //                                 p: 2,
-        //                                 display: 'flex',
-        //                                 flexDirection: 'column',
-        //                                 width:1250,
-        //                                 height: 400,
-        //                             }}
-        //                         >
-        //                             <ExpenseReports/>
-        //                         </Paper>
-        //                     </Grid>
-        //                 </Grid>
-        //             </Container>
-        //             <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        //                 <Grid container spacing={6}>
-        //                     <Grid item xs={12} md={8} lg={9}>
-        //                         <Paper
-        //                             sx={{
-        //                                 p: 2,
-        //                                 display: 'flex',
-        //                                 flexDirection: 'column',
-        //                                 width:1250,
-        //                                 height: 400,
-        //                             }}
-        //                         >
-        //                             <IncomeReports/>
-        //                         </Paper>
-        //                     </Grid>
-        //                 </Grid>
-        //             </Container>
-        //         </Box>
-        //     </Box>
-        // </>
     )
 }

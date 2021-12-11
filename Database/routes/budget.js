@@ -106,7 +106,7 @@ router.post("/budget/add", async (req, res) => {
     );
     res.json(newBudget);
   } catch (e) {
-    res.sendStatus(500);
+    res.status(500).json({ error: e });
   }
 });
 

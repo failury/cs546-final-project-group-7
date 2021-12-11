@@ -23,33 +23,17 @@ export default function BasicMenu({ data, changeData, resetData }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handlesubClick = (event) => {
-    setAnchorEl1(event.currentTarget);
-
-
-  };
-  const handlesubClose = (string) => {
-    setAnchorEl1(null);
-    if(typeof string  === 'string'){
-      setColumn(string);
-    }
-    
-  };
   const handleFilter = (event) => {
     event.preventDefault();
 
     let month_int = ['01','02','03','04','05','06','07','08','09','10','11','12'];
     let index = months.indexOf(month);
-    console.log(index);
       var newArray = data.filter(function (el) {
-        console.log(el.payment_Date.slice(5,7));
-        console.log(month_int[index]);
         
         return el.payment_Date.slice(5,7) == month_int[index];
       });
     changeData(newArray);
-    console.log(newArray);
-  };
+  }
   return (
     <div>
       <Button
@@ -70,7 +54,7 @@ export default function BasicMenu({ data, changeData, resetData }) {
           horizontal: 'left',
         }}
       >
-        <Box component="form" onSubmit={handleFilter} noValidate sx={{ mt: 1, p: 5 }}>
+        <Box component="form" onSubmit={handleFilter} noValidate sx={{ mt: 5, p: 10 }}>
           <Stack direction="row"
             justifyContent="space-around"
             alignItems="center"
