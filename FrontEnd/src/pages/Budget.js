@@ -1,6 +1,5 @@
 import React from 'react';
 import AddBudgets from '../components/AddBudgets';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -37,6 +36,7 @@ const { token } = useToken();
     }
     useEffect(() => {
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 return (

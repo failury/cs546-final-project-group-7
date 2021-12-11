@@ -147,10 +147,10 @@ router.patch("/wallet", async (req, res) => {
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const newWallet = await walletdata.updateWalletByID(
-      xss(walletInfo.name),
+      xss(walletInfo.walletname),
       xss(walletInfo.amount),
       xss(walletInfo.type),
-      xss(walletInfo._id),
+      xss(walletInfo.walletid),
       id
     );
     res.send("Wallet Updated");

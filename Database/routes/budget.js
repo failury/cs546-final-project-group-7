@@ -66,7 +66,7 @@ router.post("/budget/add", async (req, res) => {
     return;
   }
 
-  if (!req.body.budget_name){
+  if (!req.body.budgetname){
     res.status(400).json({ error: 'You must specify Budget Name ' });
     return;
   }
@@ -76,7 +76,7 @@ router.post("/budget/add", async (req, res) => {
     return;
   }
 
-  if(typeof req.body.budget_name !== 'string') {
+  if(typeof req.body.budgetname !== 'string') {
     res.status(400).json({error: 'Budget Name must be a string'});
     return;
   }
@@ -86,11 +86,11 @@ router.post("/budget/add", async (req, res) => {
     return;
   }
 
-  if(!req.body.budget_name.trim()){
+  if(!req.body.budgetname.trim()){
     res.status(400).json({ error: 'Budget Name contains white spaces ' });
     return;
   }
-  req.body.budget_name = req.body.budget_name.trim();
+  req.body.budgetname = req.body.budgetname.trim();
 
   if(!req.body.amount.trim()){
     res.status(400).json({ error: 'Amount contains white spaces ' });

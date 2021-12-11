@@ -17,6 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import { Avatar } from '@mui/material';
 import RouteWithSubRoutes from './RouteWithSubRoutes';
 import {
   Switch,
@@ -30,7 +31,7 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import ArticleIcon from '@mui/icons-material/Article';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-
+import LOGO from '../assets/LOGO.jpg'
 
 
 
