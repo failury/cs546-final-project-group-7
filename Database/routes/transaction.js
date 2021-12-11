@@ -9,6 +9,12 @@ const alert = require("alert");
 
 router.get("/transaction", async (req, res) => {
   let token = req.headers.token;
+
+  if (!token) {
+    res.status(400).json({ error: 'Error' });
+    return;
+  }
+
   try {
     let decoded = jwt.verify(token, "mySecretKey");
     let transactions = await transactiondata.getAllTransactionByid(decoded.id);

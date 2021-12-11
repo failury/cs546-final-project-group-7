@@ -7,6 +7,12 @@ const xss = require("xss");
 
 router.get("/budget", async (req, res) => {
   let token = req.headers.token;
+
+  if (!token) {
+    res.status(400).json({ error: 'Error' });
+    return;
+  }
+
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     let budget = await budgetData.getBudgetByUserId(id);

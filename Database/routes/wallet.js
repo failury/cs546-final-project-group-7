@@ -20,6 +20,15 @@ router.post("/wallet", async (req, res) => {
   let token = req.headers.token;
   let walletInfo = req.body;
 
+  if (!token) {
+    res.status(400).json({ error: 'Error' });
+    return;
+  }
+  if (!walletInfo) {
+    res.status(400).json({ error: 'You must provide data ' });
+    return;
+  }
+
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const newWallet = await walletdata.create(
