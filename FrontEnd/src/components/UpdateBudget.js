@@ -35,8 +35,13 @@ async function updateBudget(credentials,token) {
 export default function Budget(props) {
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState("");
+<<<<<<< Updated upstream
   const { token } = useToken();
   const categories = ['Electronic Devices', 'Entertainment','Food','Daily Expense'];
+=======
+  const { token, setToken } = useToken();
+  const categories = ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Others'];
+>>>>>>> Stashed changes
   const types = ['Monthly', 'Yearly'];
   const [type, setType] = React.useState('');
   const [category, setCat] = React.useState('');

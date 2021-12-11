@@ -22,43 +22,6 @@ router.get("/budget", async (req, res) => {
   }
 });
 
-router.post("/budget/budgetname", async (req, res) => {
-  if (!req.headers.token){
-    res.status(400).json({ error: 'Error' });
-    return;
-  }
-  
-  if (!req.body.budget_name){
-    res.status(400).json({ error: 'You must specify Budget Name ' });
-    return;
-  }
-
-  if(typeof req.body.budget_name !== 'string') {
-    res.status(400).json({error: 'Budget Name must be a string'});
-    return;
-  }
-
-  if(!req.body.budget_name.trim()){
-    res.status(400).json({ error: 'Budget Name contains white spaces ' });
-    return;
-  }
-  req.body.budget_name = req.body.budget_name.trim();
-
-  let token = req.headers.token;
-  let budgetname = xss(req.body.budget_name);
-  //console.log(budgetname);
-
-  try {
-    let id = jwt.verify(token, "mySecretKey").id;
-    console.log(id);
-    let budget = await budgetData.getByBudgetName(budgetname, id);
-    console.log(budget);
-    res.json(budget);
-  } catch (e) {
-    res.status(404).json({ error: "budget not found" });
-  }
-});
-
 router.post("/budget/add", async (req, res) => {
   
   if (!req.headers.token){
