@@ -116,16 +116,6 @@ let exportedMethods = {
             type: budgetInfo.type
         }
 
-        let List = await this.getBudgetByUserId(userid);
-        let budgetlist = [];
-        List.forEach(element => {
-            budgetlist.push(element.budgetname.toLowerCase());
-            
-        });
-        if (budgetlist.includes(budgetInfo.budgetname.toLowerCase())){
-            throw 'budgetname already existed';
-        }
-
         const updatedInfo = await budget_collection.updateOne(
             {_id:ObjectId(id),user:ObjectId(userid)},
             {$set: updateBudgetInfo}
