@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import useToken from '../components/useToken';
-import { useEffect, useState } from 'react';
-import axios from 'axios'
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -37,8 +35,8 @@ async function updateBudget(credentials,token) {
 export default function Budget(props) {
   const [open, setOpen] = React.useState(false);
   const [error, setError] = React.useState("");
-  const { token, setToken } = useToken();
-  const categories = ['Electronic Devices', 'Entertainment','Food','Daily Expense'];
+  const { token } = useToken();
+  const categories = ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Others'];
   const types = ['Monthly', 'Yearly'];
   const [type, setType] = React.useState('');
   const [category, setCat] = React.useState('');
@@ -74,7 +72,7 @@ export default function Budget(props) {
       type:type
     };
     try {
-      const res = await updateBudget({
+      var res = await updateBudget({
         budgetid,
         updateinfo
       } 

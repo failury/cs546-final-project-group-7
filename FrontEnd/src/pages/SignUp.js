@@ -12,6 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import LOGO from '../assets/LOGO.jpg'
 const theme = createTheme();
 
 async function signupUser(credentials) {
@@ -105,7 +106,7 @@ export default function SignUp({ setToken }) {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar src={LOGO}  sx={{ m: 1, width: 128, height: 128 }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -158,7 +159,7 @@ export default function SignUp({ setToken }) {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField fullWidth id="email" label="Email Id" name="email" />
+                <TextField required fullWidth id="email" label="Email Id" name="email" />
               </Grid>
               <Grid item xs={12}>
                 <TextField

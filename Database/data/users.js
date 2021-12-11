@@ -161,6 +161,14 @@ async function update(firstName, lastName, username, password, url, userid){
   const users_collection = await usersCollection();
   const res = await this.getbyid(userid);
   if (res === null) throw "Either the username or password is invalid";
+  const List = await users_collection.find({}).toArray();
+  let userlist = [];
+  List.forEach((element) => {
+    userlist.push(element.username.toLowerCase());
+  });
+  if (userlist.includes(username.toLowerCase())) {
+    throw "username existed";
+  }
   const hash = await bcrypt.hash(password, 10);
   let newUsers = {
     firstName: firstName,

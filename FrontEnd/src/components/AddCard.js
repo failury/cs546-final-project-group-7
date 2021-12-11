@@ -59,6 +59,10 @@ export default function CreditCard(props) {
       seterror("Please enter all require information");
       return;
      }
+     if(!walletname.trim().match(/^[0-9a-z]+$/)){
+      seterror("Incorrect wallet name");
+      return;
+    }
     try {
       const res = await addWallet({
         walletname,

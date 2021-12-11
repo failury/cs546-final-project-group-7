@@ -26,7 +26,7 @@ async function Delete(token, data) {
       console.log(err)
     })
 };
-async function Commit(token, walletname, amount, id) {
+async function Commit(token, walletname, amount, id, type) {
   let wallets = [];
   try {
     const res = await axios.get('http://localhost:2000/wallet', {headers: {
@@ -44,13 +44,19 @@ async function Commit(token, walletname, amount, id) {
 let count = 0;
 let obj = {};
 for (const w of wallets) {
-  if(w.name == walletname){
+  if(w.name === walletname){
       count++;
       obj = w;
+      obj.walletname = obj.name;
+      obj.walletid = obj._id;
   }
 }
-if(count == 1){
-  obj.amount = parseInt(amount) + parseInt(obj.amount);
+if(count === 1){
+  if(type === "income"){
+    obj.amount = (parseInt(amount) + parseInt(obj.amount)).toString();
+  }else{
+    obj.amount = (-(parseInt(amount)) + parseInt(obj.amount)).toString();
+  }
   let config = {
     headers:{
       'Content-Type': 'application/json',
@@ -87,8 +93,7 @@ if(count == 1){
   
 };
 export default function Transaction(props) {
-  const [error, setError] = React.useState('');
-  const { token, setToken } = useToken();
+  const { token } = useToken();
   let data = props.data;
   return (
     <React.Fragment>
@@ -107,7 +112,7 @@ export default function Transaction(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-        { data.length == 0 && <Typography
+        { data.length === 0 && <Typography
               component="h1"
               variant="h5"
               align="center"
@@ -118,7 +123,7 @@ export default function Transaction(props) {
             </Typography>}
         
           {data.map((row, i) => (
-            <TableRow key={i}>
+            <TableRow key={i} sx={{backgroundColor:row.colored === true ? '#f44336': 'none'}}>
               <TableCell >{row.payment_Date}</TableCell>
               <TableCell>{row.payment_Type}</TableCell>
               <TableCell>{row.category}</TableCell>
@@ -137,7 +142,7 @@ export default function Transaction(props) {
               <TableCell align="right">
                 <Button
                   variant="contained"
-                  onClick={() => Commit(token,row.wallet,row.amt,row._id)}
+                  onClick={() => Commit(token,row.wallet,row.amt,row._id, row.payment_Type)}
                   color="success"
                 >
                   Commit

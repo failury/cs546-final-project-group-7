@@ -6,12 +6,11 @@ const jwt = require("jsonwebtoken");
 const xss = require("xss");
 
 const alert = require("alert");
-
 router.get("/transaction", async (req, res) => {
   let token = req.headers.token;
 
   if (!token) {
-    res.status(400).json({ error: 'Error' });
+    res.status(400).json({ error: "Error" });
     return;
   }
 
@@ -27,9 +26,13 @@ router.get("/transaction", async (req, res) => {
 router.post("/transaction/add", async (req, res) => {
   let transInfo = req.body;
   let token = req.headers.token;
-
+  let payment_Date = xss(transInfo.payment_Date);
+  let payment_Type = xss(transInfo.payment_Type);
+  let category = xss(transInfo.category);
+  let wallet = xss(transInfo.wallet);
+  let Amt = xss(transInfo.Amt);
   if (!token) {
-    res.status(400).json({ error: 'Error' });
+    res.status(400).json({ error: "Error" });
     return;
   }
 
@@ -38,85 +41,85 @@ router.post("/transaction/add", async (req, res) => {
   //   return;
   // }
 
-  if (!transInfo.payment_Date) {
-    res.status(400).json({ error: 'You must provide date' });
+  if (!payment_Date) {
+    res.status(400).json({ error: "You must provide date" });
     return;
   }
 
-  if (!transInfo.payment_Type) {
-    res.status(400).json({ error: 'You must provide payment type' });
+  if (!payment_Type) {
+    res.status(400).json({ error: "You must provide payment type" });
     return;
   }
 
-  if (!transInfo.category) {
-    res.status(400).json({ error: 'You must provide category' });
+  if (!category) {
+    res.status(400).json({ error: "You must provide category" });
     return;
   }
 
-  if (!transInfo.wallet) {
-    res.status(400).json({ error: 'You must provide wallet' });
+  if (!wallet) {
+    res.status(400).json({ error: "You must provide wallet" });
     return;
   }
 
-  if (!transInfo.Amt) {
-    res.status(400).json({ error: 'You must provide amount' });
-    return;
-  }
-  
-  if (typeof transInfo.payment_Date !== 'string'){
-    res.status(400).json({ error: 'Date is invalid' });
-    return;
-  }   
-
-  if (typeof transInfo.payment_Type !== 'string'){
-    res.status(400).json({ error: 'Payment Type is invalid' });
-    return;
-  }
-  
-  if (typeof transInfo.category !== 'string'){
-    res.status(400).json({ error: 'category is invalid' });
-    return;
-  } 
-
-  if (typeof transInfo.wallet !== 'string'){
-    res.status(400).json({ error: 'Wallet is invalid' });
-    return;
-  } 
-
-  if (typeof transInfo.Amt !== 'string'){
-    res.status(400).json({ error: 'Amount is invalid' });
+  if (!Amt) {
+    res.status(400).json({ error: "You must provide amount" });
     return;
   }
 
-  if(!transInfo.payment_Date.trim()){
-    res.status(400).json({ error: 'date contains white spaces' });
+  if (typeof payment_Date !== "string") {
+    res.status(400).json({ error: "Date is invalid" });
     return;
   }
-  transInfo.payment_Date = transInfo.payment_Date.trim();
 
-  if(!transInfo.payment_Type.trim()){
-    res.status(400).json({ error: 'payment type contains white spaces' });
+  if (typeof payment_Type !== "string") {
+    res.status(400).json({ error: "Payment Type is invalid" });
     return;
   }
-  transInfo.payment_Type = transInfo.payment_Type.trim();
 
-  if(!transInfo.category.trim()){
-    res.status(400).json({ error: 'Category contains white spaces' });
+  if (typeof category !== "string") {
+    res.status(400).json({ error: "category is invalid" });
     return;
   }
-  transInfo.category = transInfo.category.trim();
 
-  if(!transInfo.wallet.trim()){
-    res.status(400).json({ error: 'Wallet contains white spaces' });
+  if (typeof wallet !== "string") {
+    res.status(400).json({ error: "Wallet is invalid" });
     return;
   }
-  transInfo.wallet = transInfo.wallet.trim();
 
-  if(!transInfo.Amt.trim()){
-    res.status(400).json({ error: 'amount contains white spaces' });
+  if (typeof Amt !== "string") {
+    res.status(400).json({ error: "Amount is invalid" });
     return;
   }
-  transInfo.Amt = transInfo.Amt.trim();
+
+  if (!payment_Date.trim()) {
+    res.status(400).json({ error: "date contains white spaces" });
+    return;
+  }
+  payment_Date = payment_Date.trim();
+
+  if (!payment_Type.trim()) {
+    res.status(400).json({ error: "payment type contains white spaces" });
+    return;
+  }
+  payment_Type = payment_Type.trim();
+
+  if (!category.trim()) {
+    res.status(400).json({ error: "Category contains white spaces" });
+    return;
+  }
+  category = category.trim();
+
+  if (!wallet.trim()) {
+    res.status(400).json({ error: "Wallet contains white spaces" });
+    return;
+  }
+  wallet = wallet.trim();
+
+  if (!Amt.trim()) {
+    res.status(400).json({ error: "amount contains white spaces" });
+    return;
+  }
+  Amt = Amt.trim();
 
   try {
     let id = jwt.verify(token, "mySecretKey").id;
@@ -136,36 +139,34 @@ router.post("/transaction/add", async (req, res) => {
 });
 
 router.post("/transaction/delete", async (req, res) => {
-
-  let transactionid = req.body.id;
+  let transactionid = xss(req.body.id);
   let token = req.headers.token;
 
   if (!token) {
-    res.status(400).json({ error: 'Error' });
+    res.status(400).json({ error: "Error" });
     return;
   }
 
   if (!transactionid) {
-    res.status(400).json({ error: 'You must provide id' });
+    res.status(400).json({ error: "You must provide id" });
     return;
   }
 
-  if (typeof transactionid !== 'string'){
-    res.status(400).json({ error: 'Id is invalid' });
+  if (typeof transactionid !== "string") {
+    res.status(400).json({ error: "Id is invalid" });
     return;
   }
 
-  if(!transactionid.trim()){
-    res.status(400).json({ error: 'id contains white spaces' });
+  if (!transactionid.trim()) {
+    res.status(400).json({ error: "id contains white spaces" });
     return;
   }
   transactionid = transactionid.trim();
 
-
   try {
     let id = jwt.verify(token, "mySecretKey").id;
     const newTransaction = await transactiondata.deleteTransactionByid(
-      xss(transactionid),
+      transactionid,
       id
     );
     res.send("Transaction Deleted");
@@ -176,36 +177,34 @@ router.post("/transaction/delete", async (req, res) => {
 
 router.post("/transaction/search", async (req, res) => {
   //let transactionid = xss(req.body.id);
+  let payment_Date = xss(req.body.payment_Date);
 
   let token = req.headers.token;
 
   if (!token) {
-    res.status(400).json({ error: 'error' });
+    res.status(400).json({ error: "error" });
     return;
   }
 
-  if (!req.body.payment_Date) {
-    res.status(400).json({ error: 'You must provide date' });
+  if (!payment_Date) {
+    res.status(400).json({ error: "You must provide date" });
     return;
   }
 
-  if (typeof req.body.payment_Date !== 'string'){
-    res.status(400).json({ error: 'Date is invalid' });
+  if (typeof payment_Date !== "string") {
+    res.status(400).json({ error: "Date is invalid" });
     return;
   }
 
-  if(!req.body.payment_Date.trim()){
-    res.status(400).json({ error: 'Date contains white spaces' });
+  if (!payment_Date.trim()) {
+    res.status(400).json({ error: "Date contains white spaces" });
     return;
   }
-  req.body.payment_Date = req.body.payment_Date.trim();
+  payment_Date = payment_Date.trim();
 
   try {
     let id = jwt.verify(token, "mySecretKey").id;
-    const dateList = transactiondata.searchByDate(
-      xss(req.body.payment_Date),
-      id
-    );
+    const dateList = transactiondata.searchByDate(payment_Date, id);
   } catch (e) {
     return res.status(400).json(e);
   }
@@ -216,7 +215,7 @@ router.post("/transaction/mail", async (req, res) => {
   let token = req.headers.token;
 
   if (!token) {
-    res.status(400).json({ error: 'error' });
+    res.status(400).json({ error: "error" });
     return;
   }
 

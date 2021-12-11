@@ -8,7 +8,6 @@ import { Card, CardContent, Grid, MenuItem, TextField } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import { useTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
-
 import { Bar } from 'react-chartjs-2';
 import { Box, Button, CardHeader, Divider} from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -27,33 +26,25 @@ export default function ExpenseReports(props) {
   }
   
   let totalsum = 0;
-  let elec_sum = 0;
-  let entertain = 0;
-  let food_sum = 0;
-  let gro_sum = 0;
-  let debt_sum = 0;
+  let bussiness = 0;
+  let sal_sum = 0;
+  let ins_sum = 0;
   let loan_sum = 0;
   let other_sum = 0;
   
   for(let i=0;i<incomes.length;i++){
       totalsum += parseFloat(incomes[i].amt);
-      if(incomes[i].category === "Electronic Devices"){
-        elec_sum += parseFloat(incomes[i].amt);
-      }
-      if(incomes[i].category === "Entertainment"){
-        entertain += parseFloat(incomes[i].amt);
-      }
-      if(incomes[i].category === "Food and Beverage"){
-        food_sum += parseFloat(incomes[i].amt);
-      }
-      if(incomes[i].category === "Groceries"){
-        gro_sum += parseFloat(incomes[i].amt);
-      }
-      if(incomes[i].category === "Debt"){
-        debt_sum += parseFloat(incomes[i].amt);
-      }
       if(incomes[i].category === "Loan"){
         loan_sum += parseFloat(incomes[i].amt);
+      }
+      if(incomes[i].category === "Bussiness"){
+        bussiness += parseFloat(incomes[i].amt);
+      }
+      if(incomes[i].category === "Insurance"){
+        ins_sum += parseFloat(incomes[i].amt);
+      }
+      if(incomes[i].category === "Salary"){
+        sal_sum += parseFloat(incomes[i].amt);
       }
       if(incomes[i].category === "Others"){
         other_sum += parseFloat(incomes[i].amt);
@@ -69,12 +60,12 @@ export default function ExpenseReports(props) {
           barThickness: 12,
           borderRadius: 4,
           categoryPercentage: 0.5,
-          data: [food_sum, gro_sum,entertain,elec_sum,debt_sum,loan_sum,other_sum],
+          data: [loan_sum,other_sum,sal_sum,ins_sum,bussiness],
           label: totalsum.toFixed(2),
           maxBarThickness: 10
         }
       ],
-      labels: ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Debt','Loan','Others']
+      labels: ['Loan','Others','Salary','Insurance','Bussiness']
     };
   
     const options = {

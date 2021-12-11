@@ -9,7 +9,7 @@ router.get("/user", async (req, res) => {
   let token = req.headers.token;
 
   if (!token) {
-    res.status(400).json({ error: 'Error' });
+    res.status(400).json({ error: "Error" });
     return;
   }
 
@@ -25,13 +25,13 @@ router.get("/user", async (req, res) => {
 
 router.patch("/user", async (req, res) => {
   let token = req.headers.token;
-  
+
   if (!token) {
-    res.status(400).json({ error: 'Error' });
+    res.status(400).json({ error: "Error" });
     return;
   }
   if (!req.body) {
-    res.status(400).json({ error: 'You must provide data ' });
+    res.status(400).json({ error: "You must provide data " });
     return;
   }
 
@@ -42,63 +42,63 @@ router.patch("/user", async (req, res) => {
   let url = xss(req.body.url);
 
   if (!firstname) {
-    res.status(400).json({ error: 'You must provide first name' });
+    res.status(400).json({ error: "You must provide first name" });
     return;
   }
   if (!lastname) {
-    res.status(400).json({ error: 'You must provide last name' });
+    res.status(400).json({ error: "You must provide last name" });
     return;
   }
   if (!username) {
-    res.status(400).json({ error: 'You must provide username' });
+    res.status(400).json({ error: "You must provide username" });
     return;
   }
 
   if (!password) {
-    res.status(400).json({ error: 'You must provide password' });
+    res.status(400).json({ error: "You must provide password" });
     return;
   }
 
-  if (typeof firstname !== 'string'){
-    res.status(400).json({ error: 'First Name is invalid' });
+  if (typeof firstname !== "string") {
+    res.status(400).json({ error: "First Name is invalid" });
     return;
   }
 
-  if (typeof lastname !== 'string'){
-    res.status(400).json({ error: 'last Name is invalid' });
+  if (typeof lastname !== "string") {
+    res.status(400).json({ error: "last Name is invalid" });
     return;
   }
 
-  if (typeof username !== 'string'){
-    res.status(400).json({ error: 'User Name is invalid' });
+  if (typeof username !== "string") {
+    res.status(400).json({ error: "User Name is invalid" });
     return;
   }
 
-  if (typeof password !== 'string'){
-    res.status(400).json({ error: 'Password is invalid' });
+  if (typeof password !== "string") {
+    res.status(400).json({ error: "Password is invalid" });
     return;
   }
 
-  if(!firstname.trim()){
-    res.status(400).json({ error: 'First name contains white spaces' });
+  if (!firstname.trim()) {
+    res.status(400).json({ error: "First name contains white spaces" });
     return;
   }
   firstname = firstname.trim();
 
-  if(!lastname.trim()){
-    res.status(400).json({ error: 'Last name contains white spaces' });
+  if (!lastname.trim()) {
+    res.status(400).json({ error: "Last name contains white spaces" });
     return;
   }
   lastname = lastname.trim();
 
-  if(!username.trim()){
-    res.status(400).json({ error: 'User name contains white spaces' });
+  if (!username.trim()) {
+    res.status(400).json({ error: "User name contains white spaces" });
     return;
   }
   username = username.trim();
 
-  if(!password.trim()){
-    res.status(400).json({ error: 'Password contains white spaces' });
+  if (!password.trim()) {
+    res.status(400).json({ error: "Password contains white spaces" });
     return;
   }
   password = password.trim();

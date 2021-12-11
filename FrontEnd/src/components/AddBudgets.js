@@ -68,6 +68,10 @@ export default function AddBudget() {
       seterror("Please enter all require information");
       return;
     }
+    if(!budgetname.trim().match(/^[0-9a-z]+$/)){
+      seterror("Incorrect budget name");
+      return;
+    }
 
     try {
       const res = await addBudget({
@@ -122,7 +126,7 @@ React.useEffect(() => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <h1>{"Add a New Budget"}</h1>
+        <DialogTitle>{"Add a New Budget"}</DialogTitle>
         <DialogContent>
           <Box sx={{ p: 3, border: '1px solid grey' }}>
             <Stack component="form" noValidate spacing={3}>

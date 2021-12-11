@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 import Transaction from '../components/Transacation';
 import axios from 'axios'
 import { Stack } from '@mui/material';
-import Button from "@material-ui/core/Button";
 import AddTransaction from '../components/AddTransaction';
 import useToken from '../components/useToken';
 import { useEffect, useState } from 'react';
@@ -28,10 +27,19 @@ export default function Transactions() {
                     'token': token
                 }
             });
-            setdata(res.data);
+            let objs = res.data;
+            const today = new Date();
+            objs.forEach(element => {
+                let date = new Date(element.payment_Date);
+                if(element.category === 'Bills' && date.getTime() === today.getTime() ){
+                    element.colored = true;
+                }
+            });
+            setdata(objs);
         } catch (error) {
-            sessionStorage.removeItem('token');
-            window.location.href = '/login';
+            console.log(error);
+            // sessionStorage.removeItem('token');
+            // window.location.href = '/login';
         }
     };
     let resetData = async function () {
@@ -39,6 +47,7 @@ export default function Transactions() {
     }
     useEffect(() => {
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 

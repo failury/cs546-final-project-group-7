@@ -10,7 +10,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PersonIcon from '@mui/icons-material/Person';
 import useToken from '../components/useToken';
-import axios from 'axios'
 const theme = createTheme();
 async function updateUser(credentials, token) {
   return fetch('http://localhost:2000/user', {
@@ -32,7 +31,7 @@ async function updateUser(credentials, token) {
   })
  }
 export default function ChangeProfile() {
-  const { token, setToken } = useToken();
+  const { token } = useToken();
   const [error,seterror] = React.useState('');
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -9,7 +9,7 @@ router.get("/budget", async (req, res) => {
   let token = req.headers.token;
 
   if (!token) {
-    res.status(400).json({ error: 'Error' });
+    res.status(400).json({ error: "Error" });
     return;
   }
 
@@ -23,26 +23,28 @@ router.get("/budget", async (req, res) => {
 });
 
 router.post("/budget/budgetname", async (req, res) => {
-  if (!req.headers.token){
-    res.status(400).json({ error: 'Error' });
-    return;
-  }
-  
-  if (!req.body.budgetname){
-    res.status(400).json({ error: 'You must specify Budget Name ' });
+  let budget_name = xss(req.body.budget_name);
+
+  if (!req.headers.token) {
+    res.status(400).json({ error: "Error" });
     return;
   }
 
-  if(typeof req.body.budgetname !== 'string') {
-    res.status(400).json({error: 'Budget Name must be a string'});
+  if (!budget_name) {
+    res.status(400).json({ error: "You must specify Budget Name " });
     return;
   }
 
-  if(!req.body.budgetname.trim()){
-    res.status(400).json({ error: 'Budget Name contains white spaces ' });
+  if (typeof budget_name !== "string") {
+    res.status(400).json({ error: "Budget Name must be a string" });
     return;
   }
-  req.body.budgetname = req.body.budgetname.trim();
+
+  if (!budget_name.trim()) {
+    res.status(400).json({ error: "Budget Name contains white spaces " });
+    return;
+  }
+  budget_name = budget_name.trim();
 
   let token = req.headers.token;
   let budgetname = xss(req.body.budgetname);
@@ -60,43 +62,45 @@ router.post("/budget/budgetname", async (req, res) => {
 });
 
 router.post("/budget/add", async (req, res) => {
-  
-  if (!req.headers.token){
-    res.status(400).json({ error: 'Error' });
+  let budgetname = xss(req.body.budgetname);
+  let amount = xss(req.body.amount);
+
+  if (!req.headers.token) {
+    res.status(400).json({ error: "Error" });
     return;
   }
 
-  if (!req.body.budgetname){
-    res.status(400).json({ error: 'You must specify Budget Name ' });
+  if (!budgetname) {
+    res.status(400).json({ error: "You must specify Budget Name " });
     return;
   }
 
-  if (!req.body.amount){
-    res.status(400).json({ error: 'You must specify amount ' });
+  if (!amount) {
+    res.status(400).json({ error: "You must specify amount " });
     return;
   }
 
-  if(typeof req.body.budgetname !== 'string') {
-    res.status(400).json({error: 'Budget Name must be a string'});
+  if (typeof budgetname !== "string") {
+    res.status(400).json({ error: "Budget Name must be a string" });
     return;
   }
 
-  if(typeof req.body.amount !== 'string') {
-    res.status(400).json({error: 'Amount must be a string'});
+  if (typeof amount !== "string") {
+    res.status(400).json({ error: "Amount must be a string" });
     return;
   }
 
-  if(!req.body.budgetname.trim()){
-    res.status(400).json({ error: 'Budget Name contains white spaces ' });
+  if (!budgetname.trim()) {
+    res.status(400).json({ error: "Budget Name contains white spaces " });
     return;
   }
-  req.body.budgetname = req.body.budgetname.trim();
+  budgetname = budgetname.trim();
 
-  if(!req.body.amount.trim()){
-    res.status(400).json({ error: 'Amount contains white spaces ' });
+  if (!amount.trim()) {
+    res.status(400).json({ error: "Amount contains white spaces " });
     return;
   }
-  req.body.amount = req.body.amount.trim();
+  amount = amount.trim();
 
   let budgetInfo = req.body;
   let token = req.headers.token;
@@ -104,11 +108,11 @@ router.post("/budget/add", async (req, res) => {
     let id = jwt.verify(token, "mySecretKey").id;
     let newBudget = await budgetData.create(
       id,
-      budgetInfo.budgetname,
-      budgetInfo.amount,
-      budgetInfo.category,
-      budgetInfo.wallet,
-      budgetInfo.type
+      xss(budgetInfo.budgetname),
+      xss(budgetInfo.amount),
+      xss(budgetInfo.category),
+      xss(budgetInfo.wallet),
+      xss(budgetInfo.type)
     );
     res.json(newBudget);
   } catch (e) {
@@ -117,27 +121,27 @@ router.post("/budget/add", async (req, res) => {
 });
 
 router.patch("/budget/update", async (req, res) => {
-
   let budgetInfo = req.body;
+  let budgetid = xss(req.body.budgetid);
   let token = req.headers.token;
 
-  if (!token){
-    res.status(400).json({ error: 'Error' });
+  if (!token) {
+    res.status(400).json({ error: "Error" });
     return;
   }
 
-  if (!budgetInfo){
-    res.status(400).json({ error: 'You must provide all information' });
+  if (!budgetInfo) {
+    res.status(400).json({ error: "You must provide all information" });
     return;
   }
 
-  if (!req.body.budgetid){
-    res.status(400).json({ error: 'You must specify Budget id' });
+  if (!budgetid) {
+    res.status(400).json({ error: "You must specify Budget id" });
     return;
   }
 
-  if(typeof req.body.budgetid !== 'string') {
-    res.status(400).json({error: 'Budget Id must be a string'});
+  if (typeof budgetid !== "string") {
+    res.status(400).json({ error: "Budget Id must be a string" });
     return;
   }
 
@@ -145,9 +149,9 @@ router.patch("/budget/update", async (req, res) => {
 
   try {
     let updatedBudget = await budgetData.update(
-      budgetInfo.budgetid,
+      budgetid,
       id,
-      budgetInfo.updateinfo
+      xss(budgetInfo.updateinfo)
     );
     res.json(updatedBudget);
   } catch (e) {
@@ -156,29 +160,29 @@ router.patch("/budget/update", async (req, res) => {
 });
 
 router.post("/budget/delete", async (req, res) => {
-
-  if (!req.headers.token){
-    res.status(400).json({ error: 'Error' });
-    return;
-  }
-
-  if (!req.body.id){
-    res.status(400).json({ error: 'You must provide an id' });
-    return;
-  }
-
-  if(typeof req.body.id !== 'string') {
-    res.status(400).json({error: 'Id must be a string'});
-    return;
-  }
-
-  if(!req.body.id.trim()){
-    res.status(400).json({ error: 'id contains white spaces ' });
-    return;
-  }
-  req.body.id = req.body.id.trim();
-
   let budgetid = xss(req.body.id);
+
+  if (!req.headers.token) {
+    res.status(400).json({ error: "Error" });
+    return;
+  }
+
+  if (!budgetid) {
+    res.status(400).json({ error: "You must provide an id" });
+    return;
+  }
+
+  if (typeof budgetid !== "string") {
+    res.status(400).json({ error: "Id must be a string" });
+    return;
+  }
+
+  if (!budgetid.trim()) {
+    res.status(400).json({ error: "id contains white spaces " });
+    return;
+  }
+  budgetid = budgetid.trim();
+
   let token = req.headers.token;
 
   try {

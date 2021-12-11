@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import {useState} from 'react';
+import LOGO from '../assets/LOGO.jpg'
 const theme = createTheme();
 
 async function loginUser(credentials) {
@@ -74,7 +75,7 @@ export default function SignIn({ setToken }) {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar src={LOGO}  sx={{ m: 1, width: 128, height: 128 }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
