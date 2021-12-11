@@ -32,7 +32,6 @@ router.patch("/user", async (req, res) => {
   let firstname = xss(req.body.firstname);
   let lastname = xss(req.body.lastname);
   let username = xss(req.body.username);
-  let email = xss(req.body.email);
   let password = xss(req.body.password);
   let url = xss(req.body.url);
 
@@ -48,15 +47,55 @@ router.patch("/user", async (req, res) => {
     res.status(400).json({ error: 'You must provide username' });
     return;
   }
-  if (!email) {
-    res.status(400).json({ error: 'You must provide email' });
-    return;
-  }
 
   if (!password) {
     res.status(400).json({ error: 'You must provide password' });
     return;
   }
+
+  if (typeof firstname !== 'string'){
+    res.status(400).json({ error: 'First Name is invalid' });
+    return;
+  }
+
+  if (typeof lastname !== 'string'){
+    res.status(400).json({ error: 'last Name is invalid' });
+    return;
+  }
+
+  if (typeof username !== 'string'){
+    res.status(400).json({ error: 'User Name is invalid' });
+    return;
+  }
+
+  if (typeof password !== 'string'){
+    res.status(400).json({ error: 'Password is invalid' });
+    return;
+  }
+
+  if(!firstname.trim()){
+    res.status(400).json({ error: 'First name contains white spaces' });
+    return;
+  }
+  firstname = firstname.trim();
+
+  if(!lastname.trim()){
+    res.status(400).json({ error: 'Last name contains white spaces' });
+    return;
+  }
+  lastname = lastname.trim();
+
+  if(!username.trim()){
+    res.status(400).json({ error: 'User name contains white spaces' });
+    return;
+  }
+  username = username.trim();
+
+  if(!password.trim()){
+    res.status(400).json({ error: 'Password contains white spaces' });
+    return;
+  }
+  password = password.trim();
 
   try {
     let id = jwt.verify(token, "mySecretKey").id;
@@ -64,7 +103,6 @@ router.patch("/user", async (req, res) => {
       firstname,
       lastname,
       username,
-      email,
       password,
       url,
       id

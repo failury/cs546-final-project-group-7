@@ -116,19 +116,18 @@ async function create(firstName, lastName, username, email, password, url) {
 
   return new_users;
 }
-async function update(firstName, lastName, username, email, password, url, userid){
+async function update(firstName, lastName, username, password, url, userid){
 
   if (!userid ) throw 'You must provide a Userid';
   if (!firstName ) throw 'You must provide a First Name';
   if (!lastName ) throw 'You must provide a Last Name';
   if (!username ) throw 'You must provide a Username';
   if (!password ) throw 'You must provide a Password';
-  if (!email) throw 'You must provide an Email';
 
   if (typeof userid !== 'string') throw 'User id is invalid'
   if (typeof firstName !== 'string') throw 'First Name is invalid'
   if (typeof lastName !== 'string') throw 'Last Name is invalid'
-  if (typeof email !== 'string') throw 'Email is invalid'
+
 
   if (!userid.trim()) {
     throw "User id contains white spaces";
@@ -144,11 +143,6 @@ async function update(firstName, lastName, username, email, password, url, useri
     throw "Last Name contains white spaces";
   }
   lastName = lastName.trim();
-
-  if (!email.trim()) {
-    throw "Email contains white spaces";
-  }
-  email = email.trim();
 
 
   username = username.trim();
@@ -172,7 +166,6 @@ async function update(firstName, lastName, username, email, password, url, useri
     firstName: firstName,
     lastName: lastName,
     username: username,
-    email: email,
     hashPassword: hash,
     imgurl: url,
   };
