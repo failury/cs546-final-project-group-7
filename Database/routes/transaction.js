@@ -33,10 +33,10 @@ router.post("/transaction/add", async (req, res) => {
     return;
   }
 
-  if (!transInfo) {
-    res.status(400).json({ error: 'You must provide data' });
-    return;
-  }
+  // if (!transInfo) {
+  //   res.status(400).json({ error: 'You must provide data' });
+  //   return;
+  // }
 
   if (!transInfo.payment_Date) {
     res.status(400).json({ error: 'You must provide date' });
