@@ -37,7 +37,7 @@ router.patch("/user", async (req, res) => {
 
   let firstname = xss(req.body.firstname);
   let lastname = xss(req.body.lastname);
-  let username = xss(req.body.username);
+  let username = xss(req.body.username.toLowerCase());
   let password = xss(req.body.password);
   let url = xss(req.body.url);
 
