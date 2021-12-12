@@ -19,7 +19,7 @@ async function main() {
   await transaction.create('2021-12-10','expense','Food and Beverage','mycard2','36','wine',id);
   await transaction.create('2021-12-11','expense','Others','mycard1','200','buy',id);
   await transaction.create('2021-12-11','income','Others','mycard1','90','no memo',id);
-  await transaction.create('2021-12-10','income','Loan','mycard1','1000','need to pay back',id);
+  await transaction.create('2021-12-10','income','Debt','mycard1','1000','paid monthly part',id);
 
   await budgets.create(id,'wine','60','Food and Beverage','mycard1','Monthly');
   await budgets.create(id,'Gaming Monitor','600','Electronic Devices','mycard1','Yearly');
