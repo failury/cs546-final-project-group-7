@@ -152,12 +152,8 @@ async function searchByDate(date, userid) {
     user: ObjectId(userid),
     date: date,
   });
-  //   console.log(transaction);
-  // <<<<<<< Updated upstream
+  return transaction;
 
-  // =======
-  //   return transaction;
-  // >>>>>>> Stashed changes
 }
 
 async function searchByCategory(date, userid) {
@@ -268,9 +264,8 @@ async function getAllTransactionToEmail(userid) {
     .text("TRANSACTION STATEMENT", { lineBreak: true, align: "center" });
   doc.fontSize(18);
   doc.text("\n\n\n");
-  doc
-    .image( ABSPATH + "/spendthrift.jfif")
-    .stroke();
+  doc.image(ABSPATH + "/spendthrift.jfif").stroke();
+  // // C:/Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif
   //doc.lineBreak();
 
   // const list = doc.struct("List");
