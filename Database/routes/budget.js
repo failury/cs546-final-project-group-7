@@ -121,10 +121,14 @@ router.post("/budget/add", async (req, res) => {
 });
 
 router.patch("/budget/update", async (req, res) => {
-  let budgetInfo = req.body;
   let budgetid = xss(req.body.budgetid);
   let token = req.headers.token;
-
+  let budgetInfo = {};
+  budgetInfo.budgetname = xss(req.body.updateinfo.budgetname);
+  budgetInfo.category = xss(req.body.updateinfo.category);
+  budgetInfo.amount = xss(req.body.updateinfo.amount);
+  budgetInfo.wallet = xss(req.body.updateinfo.wallet);
+  budgetInfo.type = xss(req.body.updateinfo.type);
   if (!token) {
     res.status(400).json({ error: "Error" });
     return;
@@ -151,7 +155,7 @@ router.patch("/budget/update", async (req, res) => {
     let updatedBudget = await budgetData.update(
       budgetid,
       id,
-      xss(budgetInfo.updateinfo)
+      budgetInfo
     );
     res.json(updatedBudget);
   } catch (e) {
