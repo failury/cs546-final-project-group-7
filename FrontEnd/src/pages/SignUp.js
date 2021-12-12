@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import LOGO from '../assets/LOGO.jpg'
+import LOGO from "../assets/LOGO.jpg";
 const theme = createTheme();
 
 async function signupUser(credentials) {
@@ -62,7 +62,7 @@ export default function SignUp({ setToken }) {
       seterror("username length must be greater than 4");
       return;
     }
-    if (!username.trim().match(/^[0-9a-z]+$/)) {
+    if (!username.trim().match(/^[0-9a-zA-Z]+$/)) {
       seterror("username contains non alphanumeric");
       return;
     }
@@ -90,7 +90,7 @@ export default function SignUp({ setToken }) {
       console.log(res);
       window.location.href = "/login";
     } catch (error) {
-      seterror(error.message.replace(/['"]+/g, ''));
+      seterror(error.message.replace(/['"]+/g, ""));
     }
   };
 
@@ -106,7 +106,7 @@ export default function SignUp({ setToken }) {
             alignItems: "center",
           }}
         >
-          <Avatar src={LOGO}  sx={{ m: 1, width: 128, height: 128 }}>
+          <Avatar src={LOGO} sx={{ m: 1, width: 128, height: 128 }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -159,7 +159,13 @@ export default function SignUp({ setToken }) {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField required fullWidth id="email" label="Email Id" name="email" />
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Id"
+                  name="email"
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField

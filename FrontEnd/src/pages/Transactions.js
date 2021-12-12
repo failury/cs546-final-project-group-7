@@ -31,7 +31,8 @@ export default function Transactions() {
             const today = new Date();
             objs.forEach(element => {
                 let date = new Date(element.payment_Date);
-                if(element.category === 'Bills' && date.getTime() === today.getTime() ){
+                let mo = date.getDate() + 1
+                if(element.category === 'Bills' && mo === today.getDate() ){
                     element.colored = true;
                 }
             });

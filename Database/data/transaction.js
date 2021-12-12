@@ -6,6 +6,8 @@ const PDFDocument = require("pdfkit");
 var nodemailer = require("nodemailer");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
+const path = require("path");
+const ABSPATH = path.dirname(process.mainModule.filename);
 
 const users = mongoCollections.users;
 
@@ -26,6 +28,8 @@ async function create(
   if (!category) throw "You must select category";
   if (!wallet) throw "You must select wallet";
   if (!amt) throw "You must enter amount";
+
+  if(amt === '00') throw "Transaction amount cannot be zero"
 
   if (typeof userid !== "string") throw "user id is invalid";
   if (typeof payment_Date !== "string") throw "Payment date is invalid";
@@ -148,12 +152,8 @@ async function searchByDate(date, userid) {
     user: ObjectId(userid),
     date: date,
   });
-  //   console.log(transaction);
-  // <<<<<<< Updated upstream
+  return transaction;
 
-  // =======
-  //   return transaction;
-  // >>>>>>> Stashed changes
 }
 
 async function searchByCategory(date, userid) {
@@ -241,6 +241,10 @@ async function getAllTransactionToEmail(userid) {
 
   const transaction_Collection = await transactionCollection();
   const transactionList = await transaction_Collection.find({}).toArray();
+
+  if(transactionList.length === 0){
+    throw "Transactions are empty"
+  }
   // console.log(transactionList[0].user);
   // console.log(ObjectId(userid));
 
@@ -260,12 +264,8 @@ async function getAllTransactionToEmail(userid) {
     .text("TRANSACTION STATEMENT", { lineBreak: true, align: "center" });
   doc.fontSize(18);
   doc.text("\n\n\n");
-  doc
-    .image(
-      "D:\software\github\cs546-final-project-group-7\Database\spendthrift.jfif"
-    )
-    .stroke();
-// // C:/Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif
+  doc.image(ABSPATH + "/spendthrift.jfif").stroke();
+
   //doc.lineBreak();
 
   // const list = doc.struct("List");
@@ -330,13 +330,11 @@ async function getAllTransactionToEmail(userid) {
       {
         filename: "statement.pdf",
         //path: doc,
-        path: "D:\software\github\cs546-final-project-group-7\Database\statement.pdf",
+        path: ABSPATH + "/statement.pdf",
       },
     ],
   };
-  //D:\software\github\cs546-final-project-group-7\Database\spendthrift.jfif
-  // // // C://Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/statement.pdf
-  // /// //Users/shefalee/Documents/GitHub/cs546-final-project-group-7/Database/statement.pdf
+
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {

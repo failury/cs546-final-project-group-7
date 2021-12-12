@@ -66,6 +66,11 @@ router.post("/transaction/add", async (req, res) => {
     return;
   }
 
+  if(Amt === '0' || Amt ==='00' || Amt ==='0.0'){
+    res.status(400).json({ error: "Transaction amount cannot be zero" });
+    return;
+  }
+
   if (typeof payment_Date !== "string") {
     res.status(400).json({ error: "Date is invalid" });
     return;

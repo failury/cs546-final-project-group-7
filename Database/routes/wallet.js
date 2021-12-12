@@ -44,6 +44,12 @@ router.post("/wallet", async (req, res) => {
     res.status(400).json({ error: "You must provide wallet amount " });
     return;
   }
+
+  if(amount === '0' || amount ==='00' || amount === '0.0'){
+    res.status(400).json({ error: "Wallet Amount cannot be zero " });
+    return;
+  }
+
   if (!type) {
     res.status(400).json({ error: "You must provide wallet type " });
     return;

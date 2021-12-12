@@ -15,16 +15,15 @@ var errorCheck = function (string) {
 };
 
 async function create(firstName, lastName, username, email, password, url) {
+  if (!firstName) throw "You must provide a First Name";
+  if (!lastName) throw "You must provide a Last Name";
+  if (!username) throw "You must provide a Username";
+  if (!password) throw "You must provide a Password";
+  if (!email) throw "You must provide an Email";
 
-  if (!firstName ) throw 'You must provide a First Name';
-  if (!lastName ) throw 'You must provide a Last Name';
-  if (!username ) throw 'You must provide a Username';
-  if (!password ) throw 'You must provide a Password';
-  if (!email) throw 'You must provide an Email';
-
-  if (typeof firstName !== 'string') throw 'First Name is invalid'
-  if (typeof lastName !== 'string') throw 'Last Name is invalid'
-  if (typeof email !== 'string') throw 'Email is invalid'
+  if (typeof firstName !== "string") throw "First Name is invalid";
+  if (typeof lastName !== "string") throw "Last Name is invalid";
+  if (typeof email !== "string") throw "Email is invalid";
 
   if (!firstName.trim()) {
     throw "First Name contains white spaces";
@@ -42,17 +41,17 @@ async function create(firstName, lastName, username, email, password, url) {
   email = email.trim();
 
   let mail = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
-  if(mail.test(email) === false){
-    throw 'Invalid email'
+  if (mail.test(email) === false) {
+    throw "Invalid email";
   }
 
-  username = username.trim();
+  username = username.toLowerCase().trim();
   password = password.trim();
   errorCheck(username);
   if (username.trim().length < 4) {
     throw "username length must be greater than 4";
   }
-  if (!username.trim().match(/^[0-9a-z]+$/)) {
+  if (!username.trim().match(/^[0-9a-zA-Z]+$/)) {
     throw "username contains non alphanumeric ";
   }
   errorCheck(password);
@@ -116,18 +115,16 @@ async function create(firstName, lastName, username, email, password, url) {
 
   return new_users;
 }
-async function update(firstName, lastName, username, password, url, userid){
+async function update(firstName, lastName, username, password, url, userid) {
+  if (!userid) throw "You must provide a Userid";
+  if (!firstName) throw "You must provide a First Name";
+  if (!lastName) throw "You must provide a Last Name";
+  if (!username) throw "You must provide a Username";
+  if (!password) throw "You must provide a Password";
 
-  if (!userid ) throw 'You must provide a Userid';
-  if (!firstName ) throw 'You must provide a First Name';
-  if (!lastName ) throw 'You must provide a Last Name';
-  if (!username ) throw 'You must provide a Username';
-  if (!password ) throw 'You must provide a Password';
-
-  if (typeof userid !== 'string') throw 'User id is invalid'
-  if (typeof firstName !== 'string') throw 'First Name is invalid'
-  if (typeof lastName !== 'string') throw 'Last Name is invalid'
-
+  if (typeof userid !== "string") throw "User id is invalid";
+  if (typeof firstName !== "string") throw "First Name is invalid";
+  if (typeof lastName !== "string") throw "Last Name is invalid";
 
   if (!userid.trim()) {
     throw "User id contains white spaces";
@@ -144,14 +141,13 @@ async function update(firstName, lastName, username, password, url, userid){
   }
   lastName = lastName.trim();
 
-
   username = username.trim();
   password = password.trim();
   errorCheck(username);
   if (username.trim().length < 4) {
     throw "username length must be greater than 4";
   }
-  if (!username.trim().match(/^[0-9a-z]+$/)) {
+  if (!username.trim().match(/^[0-9a-zA-Z]+$/)) {
     throw "username contains non alphanumeric ";
   }
   errorCheck(password);
@@ -189,9 +185,8 @@ async function update(firstName, lastName, username, password, url, userid){
 }
 
 async function checklogin(username, password) {
-
-  if (!username ) throw 'You must provide a Username';
-  if (!password ) throw 'You must provide a Password';
+  if (!username) throw "You must provide a Username";
+  if (!password) throw "You must provide a Password";
 
   username = username.trim();
   password = password.trim();
@@ -199,7 +194,7 @@ async function checklogin(username, password) {
   if (username.trim().length < 4) {
     throw "username length must be greater than 4";
   }
-  if (!username.trim().match(/^[0-9a-z]+$/)) {
+  if (!username.trim().match(/^[0-9a-zA-Z]+$/)) {
     throw "username contains non alphanumeric ";
   }
   errorCheck(password);
@@ -207,7 +202,9 @@ async function checklogin(username, password) {
     throw "password length must be greater than 6";
   }
   const users_collection = await usersCollection();
-  const res = await users_collection.findOne({ username: username });
+  const res = await users_collection.findOne({
+    username: username.toLowerCase(),
+  });
   if (res === null) throw "Either the username or password is invalid";
   let compare = await bcrypt.compare(password, res.hashPassword);
   if (compare) {
