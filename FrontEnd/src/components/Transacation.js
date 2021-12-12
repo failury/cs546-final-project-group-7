@@ -82,7 +82,6 @@ if(count === 1){
     // window.location.reload(false);
   })
     .catch(err => {
-      console.log('hello')
       console.log(err)
     })
 }else{

@@ -15,11 +15,11 @@ async function main() {
   await wallet.create('mycard1','300','Credit',id);
   await wallet.create('mycard2','1500','Debit',id);
 
-  await transaction.create('expense','2021-12-11','Entertainment','mycard1','150','memo',id);
-  await transaction.create('expense','2021-12-10','Food and Beverage','mycard2','36','wine',id);
-  await transaction.create('expense','2021-12-11','Others','mycard1','200','buy',id);
-  await transaction.create('income','2021-12-10','Others','mycard1','90','no memo',id);
-  await transaction.create('income','2021-12-11','Loan','mycard1','1000','need to pay back',id);
+  await transaction.create('2021-12-11','expense','Entertainment','mycard1','150','memo',id);
+  await transaction.create('2021-12-10','expense','Food and Beverage','mycard2','36','wine',id);
+  await transaction.create('2021-12-11','expense','Others','mycard1','200','buy',id);
+  await transaction.create('2021-12-11','income','Others','mycard1','90','no memo',id);
+  await transaction.create('2021-12-10','income','Loan','mycard1','1000','need to pay back',id);
 
   await budgets.create(id,'wine','60','Food and Beverage','mycard1','Monthly');
   await budgets.create(id,'Gaming Monitor','600','Electronic Devices','mycard1','Yearly');
