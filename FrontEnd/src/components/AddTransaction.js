@@ -66,7 +66,7 @@ export default function AddTransaction() {
         window.location.reload(false);
       })
     .catch(err => {
-      seterror("Failed to create Transaction, plase check all the fields");
+      seterror("Failed to create Transaction, please check all the fields");
     })
     
   };
