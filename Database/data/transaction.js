@@ -6,7 +6,8 @@ const PDFDocument = require("pdfkit");
 var nodemailer = require("nodemailer");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
-
+const path = require('path');
+const ABSPATH = path.dirname(process.mainModule.filename); 
 const users = mongoCollections.users;
 
 async function create(
@@ -148,12 +149,8 @@ async function searchByDate(date, userid) {
     user: ObjectId(userid),
     date: date,
   });
-  //   console.log(transaction);
-  // <<<<<<< Updated upstream
+  return transaction;
 
-  // =======
-  //   return transaction;
-  // >>>>>>> Stashed changes
 }
 
 async function searchByCategory(date, userid) {
@@ -262,7 +259,7 @@ async function getAllTransactionToEmail(userid) {
   doc.text("\n\n\n");
   doc
     .image(
-      "/Users/shefalee/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif"
+      ABSPATH + "/spendthrift.jfif"
       // 210,
       // 15,
       // { fit: [200, 200] }
@@ -333,7 +330,7 @@ async function getAllTransactionToEmail(userid) {
       {
         filename: "statement.pdf",
         //path: doc,
-        path: "/cs546-final-project-group-7/Database/statement.pdf",
+        path: ABSPATH + "/statement.pdf",
       },
     ],
   };
