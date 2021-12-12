@@ -72,14 +72,14 @@ if(count === 1){
       }, 
     };
   
-    axios.post('http://localhost:2000/transaction/delete', {id:id},config).then(res => {
-      console.log(res.data);
-      window.location.reload(false);
-    })
-      .catch(err => {
-        console.log(err)
-      })
-    window.location.reload(false);
+    // axios.post('http://localhost:2000/transaction/delete', {id:id},config).then(res => {
+    //   console.log(res.data);
+    //   window.location.reload(false);
+    // })
+    //   .catch(err => {
+    //     console.log(err)
+    //   })
+    // window.location.reload(false);
   })
     .catch(err => {
       console.log('hello')

@@ -26,25 +26,25 @@ export default function ExpenseReports(props) {
   }
   
   let totalsum = 0;
-  let bussiness = 0;
+  let business = 0;
   let sal_sum = 0;
   let ins_sum = 0;
-  let loan_sum = 0;
+  let debt_sum = 0;
   let other_sum = 0;
   
   for(let i=0;i<incomes.length;i++){
       totalsum += parseFloat(incomes[i].amt);
-      if(incomes[i].category === "Loan"){
-        loan_sum += parseFloat(incomes[i].amt);
+      if(incomes[i].category === "Salary"){
+        sal_sum += parseFloat(incomes[i].amt);
       }
-      if(incomes[i].category === "Bussiness"){
-        bussiness += parseFloat(incomes[i].amt);
+      if(incomes[i].category === "Business"){
+        business += parseFloat(incomes[i].amt);
       }
       if(incomes[i].category === "Insurance"){
         ins_sum += parseFloat(incomes[i].amt);
       }
-      if(incomes[i].category === "Salary"){
-        sal_sum += parseFloat(incomes[i].amt);
+      if(incomes[i].category === "Debt"){
+        debt_sum += parseFloat(incomes[i].amt);
       }
       if(incomes[i].category === "Others"){
         other_sum += parseFloat(incomes[i].amt);
@@ -60,12 +60,12 @@ export default function ExpenseReports(props) {
           barThickness: 12,
           borderRadius: 4,
           categoryPercentage: 0.5,
-          data: [loan_sum,other_sum,sal_sum,ins_sum,bussiness],
+          data: [sal_sum,business,ins_sum,debt_sum,other_sum],
           label: totalsum.toFixed(2),
           maxBarThickness: 10
         }
       ],
-      labels: ['Loan','Others','Salary','Insurance','Bussiness']
+      labels: ['Salary','Business','Insurance','Debt','Others']
     };
   
     const options = {

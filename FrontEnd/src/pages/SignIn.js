@@ -43,10 +43,13 @@ export default function SignIn({ setToken }) {
     if( ! username|| !password){
       seterror("Please enter all require information");
       return;
-     }
-     username = username.toString().trim();
-     password = password.toString().trim();
-     if(username.trim().length < 4){seterror('username length must be greater than 4');return;};
+    }
+    username = username.toString().trim();
+    password = password.toString().trim();
+
+    if (!username.trim()){seterror('username cannot contain blank space');return;};
+    if (!password.trim()){seterror('password cannot contain blank space');return;};
+    if(username.trim().length < 4){seterror('username length must be greater than 4');return;};
     if (!username.trim().match(/^[0-9a-z]+$/)){seterror('username contains non alphanumeric');return; }
     if(password.trim().length < 6){seterror('password length must be greater than 6');return; };
     try {

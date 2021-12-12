@@ -31,7 +31,6 @@ let elec_sum = 0;
 let entertain = 0;
 let food_sum = 0;
 let gro_sum = 0;
-let debt_sum = 0;
 let loan_sum = 0;
 let other_sum = 0;
 
@@ -48,9 +47,6 @@ for(let i=0;i<expenses.length;i++){
     }
     if(expenses[i].category === "Groceries"){
       gro_sum += parseFloat(expenses[i].amt);
-    }
-    if(expenses[i].category === "Debt"){
-      debt_sum += parseFloat(expenses[i].amt);
     }
     if(expenses[i].category === "Loan"){
       loan_sum += parseFloat(expenses[i].amt);
@@ -69,12 +65,12 @@ for(let i=0;i<expenses.length;i++){
           barThickness: 12,
           borderRadius: 4,
           categoryPercentage: 0.5,
-          data: [food_sum, gro_sum,entertain,elec_sum,debt_sum,loan_sum,other_sum],
+          data: [food_sum, gro_sum,entertain,elec_sum,loan_sum,other_sum],
           label: totalsum.toFixed(2),
           maxBarThickness: 10
         }
       ],
-      labels: ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Debt','Loan','Others']
+      labels: ['Food and Beverage', 'Groceries','Entertainment','Electronic Devices','Loan','Others']
     };
   
     const options = {
