@@ -58,7 +58,13 @@ export default function CreditCard(props) {
     if( ! walletname|| !amount || !type){
       seterror("Please enter all require information");
       return;
-     }
+    }
+    if(amount === '0' || amount ==='00' || amount === '0.0'){
+      seterror("Wallet Amount cannot be zero");
+      return;
+    }
+
+
     // if(!walletname.trim().match(/^[0-9a-z]+$/)){
     //   seterror("Incorrect wallet name");
     //   return;

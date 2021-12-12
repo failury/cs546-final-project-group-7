@@ -66,7 +66,7 @@ router.post("/transaction/add", async (req, res) => {
     return;
   }
 
-  if(Amt === '00'){
+  if(Amt === '0' || Amt ==='00' || Amt ==='0.0'){
     res.status(400).json({ error: "Transaction amount cannot be zero" });
     return;
   }

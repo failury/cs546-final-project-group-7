@@ -13,6 +13,10 @@ async function create(name, amount, type, userid){
     if (typeof type !== 'string') throw 'Type is invalid'
     if (typeof userid !== 'string') throw 'User id is invalid'
 
+    if(amount === '0' || amount === '00' || amount === '0.0'){
+        throw 'Wallet Amount cannot be zero'
+    }
+
     if(!userid.trim()){
         throw "User id contains white spaces"
     }
