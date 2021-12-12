@@ -265,7 +265,7 @@ async function getAllTransactionToEmail(userid) {
   doc.fontSize(18);
   doc.text("\n\n\n");
   doc.image(ABSPATH + "/spendthrift.jfif").stroke();
-  // // C:/Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif
+
   //doc.lineBreak();
 
   // const list = doc.struct("List");
