@@ -262,10 +262,7 @@ async function getAllTransactionToEmail(userid) {
   doc.text("\n\n\n");
   doc
     .image(
-      "/Users/shefalee/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif"
-      // 210,
-      // 15,
-      // { fit: [200, 200] }
+      "D:\software\github\cs546-final-project-group-7\Database\spendthrift.jfif"
     )
     .stroke();
 // // C:/Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif
@@ -333,10 +330,11 @@ async function getAllTransactionToEmail(userid) {
       {
         filename: "statement.pdf",
         //path: doc,
-        path: "/cs546-final-project-group-7/Database/statement.pdf",
+        path: "D:\software\github\cs546-final-project-group-7\Database\statement.pdf",
       },
     ],
   };
+  //D:\software\github\cs546-final-project-group-7\Database\spendthrift.jfif
   // // // C://Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/statement.pdf
   // /// //Users/shefalee/Documents/GitHub/cs546-final-project-group-7/Database/statement.pdf
 
