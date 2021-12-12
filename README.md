@@ -20,7 +20,9 @@
 ## How to run the project
 
 1. Navigate to /Frontend and `npm install`
-2. `npm start` to start the react application
-3. Navigate to /Database and `npm install`
-4. `npm start` to start the backend server [the server will be running at localhost:2000]
+2. Set the path for Image in "/Database/data/transaction.js" in getAllTransactionToEmail function.
+3. Set the path for Statement in "/Database/data/transaction.js" in getAllTransactionToEmail function.
+4. `npm start` to start the react application
+5. Navigate to /Database and `npm install`
+6. `npm start` to start the backend server [the server will be running at localhost:2000]
 
