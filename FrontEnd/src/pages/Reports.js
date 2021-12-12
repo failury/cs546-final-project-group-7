@@ -29,7 +29,6 @@ export default function ReportPage() {
                 }
             });
             setdata(res.data);
-            console.log(res.data);
         } catch (error) {
             sessionStorage.removeItem('token');
             window.location.href = '/login';
