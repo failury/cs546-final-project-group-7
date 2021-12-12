@@ -6,6 +6,8 @@ const PDFDocument = require("pdfkit");
 var nodemailer = require("nodemailer");
 const fs = require("fs");
 const puppeteer = require("puppeteer");
+const path = require("path");
+const ABSPATH = path.dirname(process.mainModule.filename);
 
 const users = mongoCollections.users;
 
@@ -152,7 +154,7 @@ async function searchByDate(date, userid) {
   // <<<<<<< Updated upstream
 
   // =======
-  //   return transaction;
+  return transaction;
   // >>>>>>> Stashed changes
 }
 
@@ -260,12 +262,8 @@ async function getAllTransactionToEmail(userid) {
     .text("TRANSACTION STATEMENT", { lineBreak: true, align: "center" });
   doc.fontSize(18);
   doc.text("\n\n\n");
-  doc
-    .image(
-      "D:\software\github\cs546-final-project-group-7\Database\spendthrift.jfif"
-    )
-    .stroke();
-// // C:/Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif
+  doc.image(ABSPATH + "/spendthrift.jfif").stroke();
+  // // C:/Users/HP/OneDrive/Documents/GitHub/cs546-final-project-group-7/Database/spendthrift.jfif
   //doc.lineBreak();
 
   // const list = doc.struct("List");
@@ -330,7 +328,7 @@ async function getAllTransactionToEmail(userid) {
       {
         filename: "statement.pdf",
         //path: doc,
-        path: "D:\software\github\cs546-final-project-group-7\Database\statement.pdf",
+        path: ABSPATH + "/statement.pdf",
       },
     ],
   };
